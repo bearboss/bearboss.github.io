@@ -14,21 +14,21 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;bearboss.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Muse&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script>
-<meta name="description" content="1、下载jdk8 选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）  JDK下载 2、 登录Linux，切换到root用户 su root 获取root用户权限，当前工作目录不变(需要root密码)  sudo -i 不需要root密码直接切换成root（需要当前用户密码）  3、在usr目录下建立java安装目录 cd &#x2F;usr&#x2F;loca">
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;bearboss.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:true,&quot;preload&quot;:true}}</script>
+<meta name="description" content="1、下载 jdk8 选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）  JDK 下载">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux安装java">
+<meta property="og:title" content="linux 安装 java">
 <meta property="og:url" content="https://bearboss.github.io/2021/05/26/linux%E5%AE%89%E8%A3%85java/index.html">
 <meta property="og:site_name" content="MX-BLOG">
-<meta property="og:description" content="1、下载jdk8 选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）  JDK下载 2、 登录Linux，切换到root用户 su root 获取root用户权限，当前工作目录不变(需要root密码)  sudo -i 不需要root密码直接切换成root（需要当前用户密码）  3、在usr目录下建立java安装目录 cd &#x2F;usr&#x2F;loca">
+<meta property="og:description" content="1、下载 jdk8 选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）  JDK 下载">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-05-26T03:44:00.000Z">
-<meta property="article:modified_time" content="2021-05-26T03:45:00.439Z">
+<meta property="article:modified_time" content="2021-05-26T10:04:13.256Z">
 <meta property="article:author" content="MX">
 <meta property="article:tag" content="JAVA">
 <meta name="twitter:card" content="summary">
@@ -38,10 +38,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;bearboss.github.io&#x2F;2021&#x2F;05&#x2F;26&#x2F;linux%E5%AE%89%E8%A3%85java&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;26&#x2F;linux安装java&#x2F;&quot;,&quot;title&quot;:&quot;linux安装java&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;bearboss.github.io&#x2F;2021&#x2F;05&#x2F;26&#x2F;linux%E5%AE%89%E8%A3%85java&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;26&#x2F;linux安装java&#x2F;&quot;,&quot;title&quot;:&quot;linux 安装 java&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>linux安装java | MX-BLOG</title><script src="/js/config.js"></script>
+<title>linux 安装 java | MX-BLOG</title><script src="/js/config.js"></script>
   
 
 
@@ -60,6 +60,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -75,15 +78,51 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">1</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">3</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
         
@@ -114,27 +153,42 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="MX"
+      src="/images/logo.jpg">
   <p class="site-author-name" itemprop="name">MX</p>
   <div class="site-description" itemprop="description">你与时光皆薄凉~</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
         <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">分类</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bearboss" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bearboss" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:bearboss@qq.com" title="E-Mail → mailto:bearboss@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
@@ -152,6 +206,10 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/bearboss" class="github-corner" title="gitHub" aria-label="gitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -172,7 +230,7 @@
     <link itemprop="mainEntityOfPage" href="https://bearboss.github.io/2021/05/26/linux%E5%AE%89%E8%A3%85java/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/logo.jpg">
       <meta itemprop="name" content="MX">
       <meta itemprop="description" content="你与时光皆薄凉~">
     </span>
@@ -182,7 +240,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          linux安装java
+          linux 安装 java
         </h1>
 
         <div class="post-meta-container">
@@ -194,7 +252,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-05-26 11:44:00 / 修改时间：11:45:00" itemprop="dateCreated datePublished" datetime="2021-05-26T11:44:00+08:00">2021-05-26</time>
+      <time title="创建时间：2021-05-26 11:44:00 / 修改时间：18:04:13" itemprop="dateCreated datePublished" datetime="2021-05-26T11:44:00+08:00">2021-05-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -207,6 +265,29 @@
     </span>
 
   
+    <span id="/2021/05/26/linux%E5%AE%89%E8%A3%85java/" class="post-meta-item leancloud_visitors" data-flag-title="linux 安装 java" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>912</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
 </div>
 
         </div>
@@ -216,24 +297,25 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>1、下载jdk8</p>
+        <p>1、下载 jdk8</p>
 <pre><code>选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）
 </code></pre>
-<p><a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK下载</a></p>
-<p>2、 登录Linux，切换到root用户</p>
+<p><a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></p>
+<span id="more"></span>
+<p>2、 登录 Linux，切换到 root 用户</p>
 <pre><code>su root 获取root用户权限，当前工作目录不变(需要root密码)
 
 sudo -i 不需要root密码直接切换成root（需要当前用户密码）
 </code></pre>
-<p>3、在usr目录下建立java安装目录</p>
+<p>3、在 usr 目录下建立 java 安装目录</p>
 <pre><code>cd /usr/local
 
 mkdir java
 </code></pre>
-<p>4、将jdk-8u60-linux-x64.tar.gz拷贝到java目录下</p>
+<p>4、将 jdk-8u60-linux-x64.tar.gz 拷贝到 java 目录下</p>
 <pre><code>cp /mnt/hgfs/linux/jdk-8u60-linux-x64.tar.gz /usr/local/java/
 </code></pre>
-<p>5、解压jdk到当前目录,得到文件夹 jdk1.8.0_*　　(注意：下载不同版本的JDK目录名不同！)</p>
+<p>5、解压 jdk 到当前目录，得到文件夹 jdk1.8.0_*　　(注意：下载不同版本的 JDK 目录名不同！)</p>
 <pre><code>tar -zxvf jdk-8u60-linux-x64.tar.gz
 </code></pre>
 <p>6、安装完毕为他建立一个链接以节省目录长度</p>
@@ -256,11 +338,11 @@ sudo shutdown -r now
 <p>9、查看安装情况</p>
 <pre><code>java -version
 
-java version &quot;1.8.0_60&quot;
+java version "1.8.0_60"
 Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
 Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
 </code></pre>
-<p>10.可能出现的错误信息：</p>
+<p>10. 可能出现的错误信息：</p>
 <pre><code>bash: ./java: cannot execute binary file
 
 出现这个错误的原因可能是在32位的操作系统上安装了64位的jdk，
@@ -277,18 +359,21 @@ Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+              <a href="/tags/JAVA/" <i class="fa fa-tag"></i>JAVA</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/05/26/MAVEN%E7%9B%B8%E5%85%B3/" rel="prev" title="MAVEN相关">
-                  <i class="fa fa-chevron-left"></i> MAVEN相关
+                <a href="/2021/05/25/json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" rel="prev" title="JSON 使用规范">
+                  <i class="fa fa-chevron-left"></i> JSON 使用规范
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2021/05/26/MAVEN%E7%9B%B8%E5%85%B3/" rel="next" title="MAVEN 相关">
+                  MAVEN 相关 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -315,26 +400,42 @@ Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
   </span>
   <span class="author" itemprop="copyrightHolder">MX</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">6k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5 分钟</span>
+  </span>
+</div>
     </div>
   </footer>
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
 
   
 
 
-
-
-
-
-  
-
-
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{&quot;enable&quot;:true,&quot;app_id&quot;:null,&quot;app_key&quot;:null,&quot;server_url&quot;:null,&quot;security&quot;:true}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
 
 
 

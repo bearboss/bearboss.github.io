@@ -281,7 +281,6 @@ NexT.utils = {
       return target;
     });
   },
-
   activateNavByIndex: function(index) {
     const target = document.querySelectorAll('.post-toc li a.nav-link')[index];
     if (!target || target.classList.contains('active-current')) return;
