@@ -3138,3 +3138,12 @@ mark.search-keyword {
     padding: 10px 12px;
   }
 }
+body {
+  opacity: 1;
+}
+@media (max-width: 767px) {
+  body {
+    background-image: url("https://ziyuan.lruihao.cn/images/bg_cell.png");
+    background-size: cover;
+  }
+}
