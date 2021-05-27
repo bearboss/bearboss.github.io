@@ -152,6 +152,59 @@ new Gson().toJson(u)
       </tags>
   </entry>
   <entry>
+    <title>Maven 相关</title>
+    <url>/2021/05/26/Maven%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/3.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven 安装</h3><blockquote>
+<p>  <a href="https://archive.apache.org/dist/maven/maven-3/">maven 下载</a></p>
+<blockquote>
+<p> 解压到指定目录即可</p>
+</blockquote>
+</blockquote>
+<h3 id="修改仓库地址"><a href="#修改仓库地址" class="headerlink" title="修改仓库地址"></a>修改仓库地址</h3><pre><code>&lt;localRepository&gt;D:\JJDK\repository&lt;/localRepository&gt;
+</code></pre>
+<h3 id="修改阿里云镜像"><a href="#修改阿里云镜像" class="headerlink" title="修改阿里云镜像"></a>修改阿里云镜像</h3><pre><code>&lt;mirror&gt;
+    &lt;id&gt;central&lt;/id&gt;
+    &lt;name&gt;central&lt;/name&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+</code></pre>
+<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre><code>  mvn -v 
+</code></pre>
+<h3 id="配置windows环境变量"><a href="#配置windows环境变量" class="headerlink" title="配置windows环境变量"></a>配置 windows 环境变量</h3><pre><code>MAVEN_HOME D:\JJDK\maven
+</code></pre>
+<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>%MAVEN_HOME%\bin
+</code></pre>
+<h3 id="本地仓库强制更新"><a href="#本地仓库强制更新" class="headerlink" title="本地仓库强制更新"></a>本地仓库强制更新</h3><pre><code>mvn dependency:purge-local-repository
+mvn -Dmaven.test.skip=true clean install -U
+</code></pre>
+<h3 id="本地跳过test打包"><a href="#本地跳过test打包" class="headerlink" title="本地跳过test打包"></a>本地跳过 test 打包</h3><pre><code>mvn -Dmaven.test.skip=true clean install
+</code></pre>
+<h3 id="基于脚手架创建项目"><a href="#基于脚手架创建项目" class="headerlink" title="基于脚手架创建项目"></a>基于脚手架创建项目</h3><pre><code>---java项目的
+mvn archetype:generate -DgroupId=com.seckill -DartifactId=FirstApp or -DarchetypeArtifactId=maven -archetype-quickstart -DinteractiveMode=false
+
+在上述情况下，一个新的Java项目命名 FourApp 而整个项目的目录结构会自动创建。
+
+--java web项目
+mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+</code></pre>
+]]></content>
+      <categories>
+        <category>Maven</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 安装 Java</title>
     <url>/2021/05/26/Linux%E5%AE%89%E8%A3%85Java/</url>
     <content><![CDATA[<span id="delete">
@@ -210,59 +263,6 @@ Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
       <tags>
         <tag>Java</tag>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven 相关</title>
-    <url>/2021/05/26/Maven%E7%9B%B8%E5%85%B3/</url>
-    <content><![CDATA[<span id="delete">
-
-<p><img data-src="/banner/3.jpg"></p>
-</span>
-
-<span id="more"></span>
-
-<h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven 安装</h3><blockquote>
-<p>  <a href="https://archive.apache.org/dist/maven/maven-3/">maven 下载</a></p>
-<blockquote>
-<p> 解压到指定目录即可</p>
-</blockquote>
-</blockquote>
-<h3 id="修改仓库地址"><a href="#修改仓库地址" class="headerlink" title="修改仓库地址"></a>修改仓库地址</h3><pre><code>&lt;localRepository&gt;D:\JJDK\repository&lt;/localRepository&gt;
-</code></pre>
-<h3 id="修改阿里云镜像"><a href="#修改阿里云镜像" class="headerlink" title="修改阿里云镜像"></a>修改阿里云镜像</h3><pre><code>&lt;mirror&gt;
-    &lt;id&gt;central&lt;/id&gt;
-    &lt;name&gt;central&lt;/name&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
-    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
-&lt;/mirror&gt;
-</code></pre>
-<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre><code>  mvn -v 
-</code></pre>
-<h3 id="配置windows环境变量"><a href="#配置windows环境变量" class="headerlink" title="配置windows环境变量"></a>配置 windows 环境变量</h3><pre><code>MAVEN_HOME D:\JJDK\maven
-</code></pre>
-<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>%MAVEN_HOME%\bin
-</code></pre>
-<h3 id="本地仓库强制更新"><a href="#本地仓库强制更新" class="headerlink" title="本地仓库强制更新"></a>本地仓库强制更新</h3><pre><code>mvn dependency:purge-local-repository
-mvn -Dmaven.test.skip=true clean install -U
-</code></pre>
-<h3 id="本地跳过test打包"><a href="#本地跳过test打包" class="headerlink" title="本地跳过test打包"></a>本地跳过 test 打包</h3><pre><code>mvn -Dmaven.test.skip=true clean install
-</code></pre>
-<h3 id="基于脚手架创建项目"><a href="#基于脚手架创建项目" class="headerlink" title="基于脚手架创建项目"></a>基于脚手架创建项目</h3><pre><code>---java项目的
-mvn archetype:generate -DgroupId=com.seckill -DartifactId=FirstApp or -DarchetypeArtifactId=maven -archetype-quickstart -DinteractiveMode=false
-
-在上述情况下，一个新的Java项目命名 FourApp 而整个项目的目录结构会自动创建。
-
---java web项目
-mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
-</code></pre>
-]]></content>
-      <categories>
-        <category>Maven</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Maven</tag>
       </tags>
   </entry>
   <entry>
