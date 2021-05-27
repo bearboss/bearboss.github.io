@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Java 文件重命名</title>
+    <url>/2021/05/25/Java%E6%96%87%E4%BB%B6%E9%87%8D%E5%91%BD%E5%90%8D/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/5.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="文件目录"><a href="#文件目录" class="headerlink" title="文件目录"></a>文件目录</h1><h2 id="文件重命名"><a href="#文件重命名" class="headerlink" title="文件重命名"></a>文件重命名</h2><pre><code>public static void main(String[] args) {
+    String d = "E:/images";
+    File file = new File(d);
+    File[] files = file.listFiles();
+    int i = 1;
+    for (File file1 : files) {
+        reName(file1, i);
+        i++;
+    }
+}
+/**
+* 处理文件重命名
+*/
+private static boolean reName(File file, int i) {//文件重命名
+    if (file.exists()) {
+
+        File newFile = new File(file.getParent() + File.separator + i + ".jpg");
+        if (newFile.exists()) {
+            return false;
+        }
+        if (file.renameTo(newFile)) {
+            System.out.println("重命名成功！");
+            return true;
+        } else {
+            System.out.println("重命名失败！新文件名已存在");
+            return false;
+        }
+    } else {
+        System.out.println("重命名文件不存在！");
+        return false;
+    }
+
+}
+</code></pre>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Json 使用规范</title>
     <url>/2021/05/25/Json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<span id="delete">
@@ -147,8 +199,8 @@ new Gson().toJson(u)
         <category>Json</category>
       </categories>
       <tags>
-        <tag>Json</tag>
         <tag>Java</tag>
+        <tag>Json</tag>
       </tags>
   </entry>
   <entry>
