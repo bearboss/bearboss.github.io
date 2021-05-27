@@ -3334,6 +3334,7 @@ body .tag-cloud-tags a {
   border: 0px;
   border-radius: 8px;
   padding: 2px 8px;
+  margin: 8px;
   color: #fff;
 }
 body .tag-cloud-tags a:before {
