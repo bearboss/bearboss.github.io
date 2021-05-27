@@ -569,6 +569,26 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 }
 
 }
+.highlight:hover .copy-btn,
+pre:hover .copy-btn {
+  opacity: 1;
+}
+.copy-btn {
+  color: #333;
+  cursor: pointer;
+  line-height: 1.6;
+  opacity: 0;
+  padding: 2px 6px;
+  position: absolute;
+  transition: opacity 0.2s ease-in-out;
+  background-color: #eee;
+  background-image: linear-gradient(#fcfcfc, #eee);
+  border: 1px solid #d5d5d5;
+  border-radius: 3px;
+  font-size: 0.8125em;
+  right: 4px;
+  top: 8px;
+}
 code,
 kbd,
 figure.highlight,
@@ -978,6 +998,7 @@ pre code {
   border-top: 3px solid transparent;
   flex-grow: 1;
   list-style-type: none;
+  transition: all 0.2s ease-out;
 }
 @media (max-width: 413px) {
   .post-body .tabs ul.nav-tabs li.tab,
@@ -1053,8 +1074,9 @@ pre code {
   margin-bottom: 20px;
   padding: 1em;
   position: relative;
-  border: 1px solid #eee;
-  border-left-width: 5px;
+  background: #f9f9f9;
+  border: initial;
+  border-left: 3px solid #eee;
 }
 .post-body .note summary {
   cursor: pointer;
@@ -1091,7 +1113,13 @@ pre code {
   margin-bottom: 0;
 }
 .post-body .note.default {
+  background: #f7f7f7;
   border-left-color: #777;
+}
+@media (prefers-color-scheme: dark) {
+  .post-body .note.default {
+    background: #3c3c3c;
+  }
 }
 .post-body .note.default h2,
 .post-body .note.default h3,
@@ -1101,7 +1129,13 @@ pre code {
   color: #777;
 }
 .post-body .note.primary {
+  background: #f5f0fa;
   border-left-color: #6f42c1;
+}
+@media (prefers-color-scheme: dark) {
+  .post-body .note.primary {
+    background: #3c3b3c;
+  }
 }
 .post-body .note.primary h2,
 .post-body .note.primary h3,
@@ -1111,7 +1145,13 @@ pre code {
   color: #6f42c1;
 }
 .post-body .note.info {
+  background: #eef7fa;
   border-left-color: #428bca;
+}
+@media (prefers-color-scheme: dark) {
+  .post-body .note.info {
+    background: #3b3c3c;
+  }
 }
 .post-body .note.info h2,
 .post-body .note.info h3,
@@ -1121,7 +1161,13 @@ pre code {
   color: #428bca;
 }
 .post-body .note.success {
+  background: #eff8f0;
   border-left-color: #5cb85c;
+}
+@media (prefers-color-scheme: dark) {
+  .post-body .note.success {
+    background: #3b3c3b;
+  }
 }
 .post-body .note.success h2,
 .post-body .note.success h3,
@@ -1131,7 +1177,13 @@ pre code {
   color: #5cb85c;
 }
 .post-body .note.warning {
+  background: #fdf8ea;
   border-left-color: #f0ad4e;
+}
+@media (prefers-color-scheme: dark) {
+  .post-body .note.warning {
+    background: #3d3c3b;
+  }
 }
 .post-body .note.warning h2,
 .post-body .note.warning h3,
@@ -1141,7 +1193,13 @@ pre code {
   color: #f0ad4e;
 }
 .post-body .note.danger {
+  background: #fcf1f2;
   border-left-color: #d9534f;
+}
+@media (prefers-color-scheme: dark) {
+  .post-body .note.danger {
+    background: #3d3c3c;
+  }
 }
 .post-body .note.danger h2,
 .post-body .note.danger h3,
@@ -1149,6 +1207,11 @@ pre code {
 .post-body .note.danger h5,
 .post-body .note.danger h6 {
   color: #d9534f;
+}
+.pdfobject-container iframe,
+.pdfobject-container embed {
+  height: 500px;
+  width: 100%;
 }
 .pagination .prev,
 .pagination .next,
@@ -1836,6 +1899,13 @@ pre code {
   color: #ff0000;
   display: inline-block;
   margin: 0 5px;
+  animation: icon-animate 1.33s ease-in-out infinite;
+}
+.busuanzi-count #busuanzi_container_site_uv {
+  display: none;
+}
+.busuanzi-count #busuanzi_container_site_pv {
+  display: none;
 }
 @-moz-keyframes icon-animate {
   0%, 100% {
@@ -2215,6 +2285,16 @@ pre code {
   top: 0;
   width: 100%;
 }
+.post-body p a {
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1px solid #0593d3;
+}
+.post-body p a:hover {
+  color: #fc6423;
+  border-bottom: none;
+  border-bottom: 1px solid #fc6423;
+}
 .post-gallery {
   display: flex;
   min-height: 200px;
@@ -2312,6 +2392,9 @@ pre code {
     display: none;
   }
 }
+#busuanzi_container_page_pv {
+  display: none;
+}
 .post-nav {
   border-top: 1px solid #eee;
   display: flex;
@@ -2357,6 +2440,13 @@ pre code {
 }
 .post-block:last-of-type .post-eof {
   display: none;
+}
+.post-copyright ul {
+  list-style: none;
+  padding: 0.5em 1em;
+  background: var(--card-bg-color);
+  border-left: 3px solid #ff2a2a;
+  margin: 1em 0 0;
 }
 .post-tags {
   margin-top: 40px;
@@ -3140,10 +3230,147 @@ mark.search-keyword {
 }
 body {
   opacity: 1;
+/* 文字前添加相应的符号，content后的Unicode可以自定义*/
+/* 文字前添加相应的符号，content后的Unicode可以自定义*/
 }
-@media (max-width: 767px) {
-  body {
-    background-image: url("https://ziyuan.lruihao.cn/images/bg_cell.png");
-    background-size: cover;
-  }
+body .brand {
+  color: #4dfc23;
+}
+body .site-subtitle {
+  color: #4dfc23;
+}
+body #busuanzi_value_site_pv,
+body #busuanzi_value_site_uv {
+  color: #999;
+}
+body .post-toc.nav.nav-child {
+  display: block;
+}
+body .nav-level-3.nav-child {
+  display: none !important;
+}
+body .back-to-top:hover {
+  color: #88ff0d;
+  background-color: rgba(0,0,0,0.75);
+}
+body .highlight figcaption {
+  margin: 0em;
+  padding: 0.5em;
+  background: #eee;
+  border-bottom: 1px solid #e9e9e9;
+}
+body .highlight figcaption a {
+  color: #5073b8;
+}
+body .highlight {
+  position: relative;
+}
+body .btn-copy {
+  display: inline-block;
+  cursor: pointer;
+  background-color: #eee;
+  background-image: linear-gradient(#fcfcfc, #eee);
+  border: 1px solid #d5d5d5;
+  border-radius: 3px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #333;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  padding: 2px 6px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  opacity: 0;
+}
+body .btn-copy span {
+  margin-left: 5px;
+}
+body .highlight:hover .btn-copy {
+  opacity: 1;
+}
+body .post-button .btn:hover {
+  color: #88ff0d !important;
+  background-color: rgba(0,0,0,0.75);
+}
+body .pagination .page-number.current {
+  border-radius: 100%;
+  background-color: rgba(100,100,100,0.75);
+}
+body .pagination .prev,
+body .pagination .next,
+body .pagination .page-number {
+  margin-bottom: 10px;
+  border: none;
+  color: #010101;
+}
+body .page-number:hover,
+body .page-number:active {
+  color: #88ff0d;
+  border-radius: 100%;
+  background-color: rgba(0,0,0,0.75);
+}
+body .post {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding: 25px;
+  -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
+  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
+}
+body .tag-cloud-tags {
+  text-align: center;
+  counter-reset: tags;
+}
+body .tag-cloud-tags a {
+  background: #eb9ccb;
+  display: inline-block;
+  border: 0px;
+  border-radius: 8px;
+  padding: 2px 8px;
+  color: #fff;
+}
+body .tag-cloud-tags a:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f02b";
+  font-weight: 900;
+}
+body .tag-cloud-tags a:hover {
+  box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.4);
+  transform: scale(1.1);
+  transition-duration: 0.15s;
+}
+body .category-list-item {
+  background: #eb9ccb;
+  display: inline-block;
+  border: 0px;
+  border-radius: 8px;
+  padding: 10px 10px;
+  margin: 12px;
+  color: #fff;
+}
+body .category-list-item a {
+  color: #fff;
+  text-underline: none;
+  border-bottom: 0px;
+}
+body .category-list-item .category-list-count {
+  color: #fff;
+  text-underline: none;
+}
+body .category-list li:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f02b";
+  font-weight: 900;
+}
+body .category-list li:hover {
+  box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.4);
+  transform: scale(1.1);
+  transition-duration: 0.15s;
 }
