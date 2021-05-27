@@ -1,113 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
+<search>
+  <entry>
+    <title>Json 使用规范</title>
+    <url>/2021/05/25/Json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/1.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="json-lib-2.4-jdk15">json-lib-2.4-jdk15 使用</h1>
+
+<pre><code>import java.util.ArrayList;
+import java.util.HashMap;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+public class JsonCombine {
+    public static void main(String[] args) {
+        JSONObject jsonOne = new JSONObject();
+        jsonOne.put("name", "kewen");
+        jsonOne.put("age", "24");
+        JSONObject jsonTwo = new JSONObject();
+        jsonTwo.put("hobbit", "Doto");
+        jsonTwo.put("hobbit2", "wow");
+        JSONObject jsonThree = new JSONObject();
+        jsonThree.putAll(jsonOne);
+        jsonThree.putAll(jsonTwo);
+        System.out.println(jsonThree.toString());
     
-    <entry>
-      <title>Linux 安装 Java</title>
-      <link href="2021/05/26/Linux%E5%AE%89%E8%A3%85Java/"/>
-      <url>2021/05/26/Linux%E5%AE%89%E8%A3%85Java/</url>
-      
-        <content type="html"><![CDATA[<span id="delete"><p><img data-src="/banner/2.jpg"></p></span><span id="more"></span><h3 id="下载Jdk8"><a href="#下载Jdk8" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><pre><code>选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）</code></pre><p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></p><h3 id="登录Linux，切换到root用户"><a href="#登录Linux，切换到root用户" class="headerlink" title="登录Linux，切换到root用户"></a>登录 Linux，切换到 root 用户</h3><pre><code>su root 获取root用户权限，当前工作目录不变(需要root密码)sudo -i 不需要root密码直接切换成root（需要当前用户密码）</code></pre><h3 id="在usr目录下建立java安装目录"><a href="#在usr目录下建立java安装目录" class="headerlink" title="在usr目录下建立java安装目录"></a>在 usr 目录下建立 java 安装目录</h3><pre><code>cd /usr/localmkdir java</code></pre><h3 id="将jdk-8u60-linux-x64-tar-gz拷贝到java目录下"><a href="#将jdk-8u60-linux-x64-tar-gz拷贝到java目录下" class="headerlink" title="将jdk-8u60-linux-x64.tar.gz拷贝到java目录下"></a>将 jdk-8u60-linux-x64.tar.gz 拷贝到 java 目录下</h3><pre><code>cp /mnt/hgfs/linux/jdk-8u60-linux-x64.tar.gz /usr/local/java/</code></pre><h3 id="解压jdk到当前目录"><a href="#解压jdk到当前目录" class="headerlink" title="解压jdk到当前目录"></a>解压 jdk 到当前目录</h3><pre><code>得到文件夹 jdk1.8.0_*　　(注意：下载不同版本的JDK目录名不同！)tar -zxvf jdk-8u60-linux-x64.tar.gz</code></pre><h3 id="安装完毕为他建立一个链接以节省目录长度"><a href="#安装完毕为他建立一个链接以节省目录长度" class="headerlink" title="安装完毕为他建立一个链接以节省目录长度"></a>安装完毕为他建立一个链接以节省目录长度</h3><pre><code>ln -s /usr/local/java/jdk1.8.0_60/ /usr/local/jdk</code></pre><h3 id="编辑配置文件，配置环境变量"><a href="#编辑配置文件，配置环境变量" class="headerlink" title="编辑配置文件，配置环境变量"></a>编辑配置文件，配置环境变量</h3><pre><code>vim /etc/profile    JAVA_HOME=/usr/local/jdk    CLASSPATH=$JAVA_HOME/lib/    PATH=$PATH:$JAVA_HOME/bin    export PATH JAVA_HOME CLASSPATH</code></pre><h3 id="重启机器或执行命令"><a href="#重启机器或执行命令" class="headerlink" title="重启机器或执行命令"></a>重启机器或执行命令</h3><pre><code>source /etc/profilesudo shutdown -r now</code></pre><h3 id="查看安装情况"><a href="#查看安装情况" class="headerlink" title="查看安装情况"></a>查看安装情况</h3><pre><code>java -versionjava version "1.8.0_60"Java(TM) SE Runtime Environment (build 1.8.0_60-b27)Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)</code></pre><h3 id="可能出现的错误信息"><a href="#可能出现的错误信息" class="headerlink" title="可能出现的错误信息"></a>可能出现的错误信息</h3><pre><code>bash: ./java: cannot execute binary file出现这个错误的原因可能是在32位的操作系统上安装了64位的jdk，1、查看jdk版本和Linux版本位数是否一致。2、查看你安装的Ubuntu是32位还是64位系统</code></pre><p>   <a href="http://www.cnblogs.com/zeze/p/5902124.html" title="点击此处">来源博客</a></p>]]></content>
-      
-      
+        // JsonObject和JsonArray区别就是JsonObject是对象形式，JsonArray是数组形式
+        // 创建JsonObject第一种方法
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("UserName", "ZHULI");
+        jsonObject.put("age", "30");
+        jsonObject.put("workIn", "ALI");
+        System.out.println("jsonObject1：" + jsonObject);
+    
+        // 创建JsonObject第二种方法
+        HashMap&lt;String, String&gt; hashMap = new HashMap&lt;String, String&gt;();
+        hashMap.put("UserName", "ZHULI");
+        hashMap.put("age", "30");
+        hashMap.put("workIn", "ALI");
+        System.out.println("jsonObject2：" + JSONObject.fromObject(hashMap));
+    
+        // 创建一个JsonArray方法1
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(0, "ZHULI");
+        jsonArray.add(1, "30");
+        jsonArray.add(2, "ALI");
+        System.out.println("jsonArray1：" + jsonArray);
+    
+        // 创建JsonArray方法2
+        ArrayList&lt;String&gt; arrayList = new ArrayList&lt;String&gt;();
+        arrayList.add("ZHULI");
+        arrayList.add("30");
+        arrayList.add("ALI");
+        System.out.println("jsonArray2：" + JSONArray.fromObject(arrayList));
+        // 如果JSONArray解析一个HashMap
+        System.out.println("jsonArray FROM HASHMAP：" + JSONArray.fromObject(hashMap));
+        // 组装一个复杂的JSONArray
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("UserName", "ZHULI");
+        jsonObject2.put("age", "30");
+        jsonObject2.put("workIn", "ALI");
+        jsonObject2.element("Array", arrayList);
+        jsonObject2.element("Map", hashMap);
+        System.out.println("jsonObject2：" + jsonObject2);
+    
+        // 将Json字符串转为java对象
+        String jsonString = "{\"UserName\":\"ZHULI\",\"age\":\"30\",\"workIn\":\"ALI\",\"Array\":[\"ZHULI\",\"30\",\"ALI\"]}";
+        JSONObject obj = JSONObject.fromObject(jsonString);
+        if (obj.has("UserName")) {
+            System.out.println("UserName:" + obj.getString("UserName"));
+        }
+        if (obj.has("Array")) {
+            JSONArray transitListArray = obj.getJSONArray("Array");
+            for (int i = 0; i &lt; transitListArray.size(); i++) {
+                System.out.println("Array:" + transitListArray.getString(i) + " ");
+    
+            }
+        }
+    }
+}
+</code></pre>
+<h1 id="org.json">org.json 使用</h1>
+
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.json&lt;/groupId&gt;
+  &lt;artifactId&gt;json&lt;/artifactId&gt;
+  &lt;version&gt;20180130&lt;/version&gt;
+&lt;/dependency&gt;
+(1)使用普通设置
+JSONObject jsonObject = new JSONObject();
+jsonObject.put("name","张三");
+jsonObject.put("sex",false);
+jsonObject.put("sex",new String[]{"dsd","富士达","fdsfd"});
+String s = jsonObject.toString();
+System.out.println(s);
+（2）使用map或者实体
+Page u = new Page();
+new JSONObject(u).toString()
+#读json文件
+&lt;dependency&gt;
+   &lt;groupId&gt;commons-io&lt;/groupId&gt;
+   &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
+   &lt;version&gt; 2.6 &lt;/version&gt;
+   &lt;/dependency&gt;
+
+   File file = new File(xx.class.getResource("/json.json").getFile());
+   String s = fileUtil.readFileToString(file);
+   JSONObject jsonobject = new JSONObject(s);
+   System.out.println(jsonobject.getInt("id"));
+</code></pre>
+<h1 id="gson">gson 使用</h1>
+
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;
+  &lt;artifactId&gt;gson&lt;/artifactId&gt;
+  &lt;version&gt;2.8.5&lt;/version&gt;
+&lt;/dependency&gt;
+Page u = new Page();
+new Gson().toJson(u)
+#读json文件-对应java实体been
+&lt;dependency&gt;
+   &lt;groupId&gt;commons-io&lt;/groupId&gt;
+   &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
+   &lt;version&gt; 2.6 &lt;/version&gt;
+   &lt;/dependency&gt;
+   File file = new File(xx.class.getResource("/json.json").getFile());
+   String s = fileUtil.readFileToString(file);
+   Gson gson= new Gson();
+   Page page = gson.fromJson(s,Page.class);
+   System.out.println(page);
+</code></pre>
+<h1 id="fastJson">fastJson</h1>
+
+<pre><code>#JSON类型
+    JSON.toJavaObject((JSON) json.getResult(), clazz);
+#jSONObject
+    String jsonString = JSON.toJSONString(jsonObject);
+    MatterVO vo = JSON.parseObject(jsonString, MatterVO.class);
+</code></pre>
+]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>Json</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Java </tag>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Maven 相关</title>
-      <link href="2021/05/26/Maven%E7%9B%B8%E5%85%B3/"/>
-      <url>2021/05/26/Maven%E7%9B%B8%E5%85%B3/</url>
-      
-        <content type="html"><![CDATA[<span id="delete"><p><img data-src="/banner/3.jpg"></p></span><span id="more"></span><h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven 安装</h3><blockquote><p>  <a href="https://archive.apache.org/dist/maven/maven-3/">maven 下载</a></p><blockquote><p> 解压到指定目录即可</p></blockquote></blockquote><h3 id="修改仓库地址"><a href="#修改仓库地址" class="headerlink" title="修改仓库地址"></a>修改仓库地址</h3><pre><code>&lt;localRepository&gt;D:\JJDK\repository&lt;/localRepository&gt;</code></pre><h3 id="修改阿里云镜像"><a href="#修改阿里云镜像" class="headerlink" title="修改阿里云镜像"></a>修改阿里云镜像</h3><pre><code>&lt;mirror&gt;    &lt;id&gt;central&lt;/id&gt;    &lt;name&gt;central&lt;/name&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;&lt;/mirror&gt;</code></pre><h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre><code>  mvn -v </code></pre><h3 id="配置windows环境变量"><a href="#配置windows环境变量" class="headerlink" title="配置windows环境变量"></a>配置 windows 环境变量</h3><pre><code>MAVEN_HOME D:\JJDK\maven</code></pre><h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>%MAVEN_HOME%\bin</code></pre><h3 id="本地仓库强制更新"><a href="#本地仓库强制更新" class="headerlink" title="本地仓库强制更新"></a>本地仓库强制更新</h3><pre><code>mvn dependency:purge-local-repositorymvn -Dmaven.test.skip=true clean install -U</code></pre><h3 id="本地跳过test打包"><a href="#本地跳过test打包" class="headerlink" title="本地跳过test打包"></a>本地跳过 test 打包</h3><pre><code>mvn -Dmaven.test.skip=true clean install</code></pre><h3 id="基于脚手架创建项目"><a href="#基于脚手架创建项目" class="headerlink" title="基于脚手架创建项目"></a>基于脚手架创建项目</h3><pre><code>---java项目的mvn archetype:generate -DgroupId=com.seckill -DartifactId=FirstApp or -DarchetypeArtifactId=maven -archetype-quickstart -DinteractiveMode=false在上述情况下，一个新的Java项目命名 FourApp 而整个项目的目录结构会自动创建。--java web项目mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false</code></pre>]]></content>
-      
-      
+      <tags>
+        <tag>Json</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 安装 Java</title>
+    <url>/2021/05/26/Linux%E5%AE%89%E8%A3%85Java/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/2.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h3 id="下载Jdk8"><a href="#下载Jdk8" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><pre><code>选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）
+</code></pre>
+<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></p>
+<h3 id="登录Linux，切换到root用户"><a href="#登录Linux，切换到root用户" class="headerlink" title="登录Linux，切换到root用户"></a>登录 Linux，切换到 root 用户</h3><pre><code>su root 获取root用户权限，当前工作目录不变(需要root密码)
+
+sudo -i 不需要root密码直接切换成root（需要当前用户密码）
+</code></pre>
+<h3 id="在usr目录下建立java安装目录"><a href="#在usr目录下建立java安装目录" class="headerlink" title="在usr目录下建立java安装目录"></a>在 usr 目录下建立 java 安装目录</h3><pre><code>cd /usr/local
+
+mkdir java
+</code></pre>
+<h3 id="将jdk-8u60-linux-x64-tar-gz拷贝到java目录下"><a href="#将jdk-8u60-linux-x64-tar-gz拷贝到java目录下" class="headerlink" title="将jdk-8u60-linux-x64.tar.gz拷贝到java目录下"></a>将 jdk-8u60-linux-x64.tar.gz 拷贝到 java 目录下</h3><pre><code>cp /mnt/hgfs/linux/jdk-8u60-linux-x64.tar.gz /usr/local/java/
+</code></pre>
+<h3 id="解压jdk到当前目录"><a href="#解压jdk到当前目录" class="headerlink" title="解压jdk到当前目录"></a>解压 jdk 到当前目录</h3><pre><code>得到文件夹 jdk1.8.0_*　　(注意：下载不同版本的JDK目录名不同！)
+tar -zxvf jdk-8u60-linux-x64.tar.gz
+</code></pre>
+<h3 id="安装完毕为他建立一个链接以节省目录长度"><a href="#安装完毕为他建立一个链接以节省目录长度" class="headerlink" title="安装完毕为他建立一个链接以节省目录长度"></a>安装完毕为他建立一个链接以节省目录长度</h3><pre><code>ln -s /usr/local/java/jdk1.8.0_60/ /usr/local/jdk
+</code></pre>
+<h3 id="编辑配置文件，配置环境变量"><a href="#编辑配置文件，配置环境变量" class="headerlink" title="编辑配置文件，配置环境变量"></a>编辑配置文件，配置环境变量</h3><pre><code>vim /etc/profile
+
+    JAVA_HOME=/usr/local/jdk
+    CLASSPATH=$JAVA_HOME/lib/
+    PATH=$PATH:$JAVA_HOME/bin
+    export PATH JAVA_HOME CLASSPATH
+</code></pre>
+<h3 id="重启机器或执行命令"><a href="#重启机器或执行命令" class="headerlink" title="重启机器或执行命令"></a>重启机器或执行命令</h3><pre><code>source /etc/profile
+
+sudo shutdown -r now
+</code></pre>
+<h3 id="查看安装情况"><a href="#查看安装情况" class="headerlink" title="查看安装情况"></a>查看安装情况</h3><pre><code>java -version
+
+java version "1.8.0_60"
+Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
+Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
+</code></pre>
+<h3 id="可能出现的错误信息"><a href="#可能出现的错误信息" class="headerlink" title="可能出现的错误信息"></a>可能出现的错误信息</h3><pre><code>bash: ./java: cannot execute binary file
+
+出现这个错误的原因可能是在32位的操作系统上安装了64位的jdk，
+1、查看jdk版本和Linux版本位数是否一致。
+2、查看你安装的Ubuntu是32位还是64位系统
+</code></pre>
+<p>   <a href="http://www.cnblogs.com/zeze/p/5902124.html" title="点击此处">来源博客</a></p>
+]]></content>
       <categories>
-          
-          <category> Maven </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Java </tag>
-            
-            <tag> Maven </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Json 使用规范</title>
-      <link href="2021/05/25/Json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/"/>
-      <url>2021/05/25/Json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<span id="delete"><p><img data-src="/banner/1.jpg"></p></span><span id="more"></span><h1 id="json-lib-2.4-jdk15">json-lib-2.4-jdk15 使用</h1><pre><code>import java.util.ArrayList;import java.util.HashMap;import net.sf.json.JSONArray;import net.sf.json.JSONObject;public class JsonCombine {    public static void main(String[] args) {        JSONObject jsonOne = new JSONObject();        jsonOne.put("name", "kewen");        jsonOne.put("age", "24");        JSONObject jsonTwo = new JSONObject();        jsonTwo.put("hobbit", "Doto");        jsonTwo.put("hobbit2", "wow");        JSONObject jsonThree = new JSONObject();        jsonThree.putAll(jsonOne);        jsonThree.putAll(jsonTwo);        System.out.println(jsonThree.toString());            // JsonObject和JsonArray区别就是JsonObject是对象形式，JsonArray是数组形式        // 创建JsonObject第一种方法        JSONObject jsonObject = new JSONObject();        jsonObject.put("UserName", "ZHULI");        jsonObject.put("age", "30");        jsonObject.put("workIn", "ALI");        System.out.println("jsonObject1：" + jsonObject);            // 创建JsonObject第二种方法        HashMap&lt;String, String&gt; hashMap = new HashMap&lt;String, String&gt;();        hashMap.put("UserName", "ZHULI");        hashMap.put("age", "30");        hashMap.put("workIn", "ALI");        System.out.println("jsonObject2：" + JSONObject.fromObject(hashMap));            // 创建一个JsonArray方法1        JSONArray jsonArray = new JSONArray();        jsonArray.add(0, "ZHULI");        jsonArray.add(1, "30");        jsonArray.add(2, "ALI");        System.out.println("jsonArray1：" + jsonArray);            // 创建JsonArray方法2        ArrayList&lt;String&gt; arrayList = new ArrayList&lt;String&gt;();        arrayList.add("ZHULI");        arrayList.add("30");        arrayList.add("ALI");        System.out.println("jsonArray2：" + JSONArray.fromObject(arrayList));        // 如果JSONArray解析一个HashMap        System.out.println("jsonArray FROM HASHMAP：" + JSONArray.fromObject(hashMap));        // 组装一个复杂的JSONArray        JSONObject jsonObject2 = new JSONObject();        jsonObject2.put("UserName", "ZHULI");        jsonObject2.put("age", "30");        jsonObject2.put("workIn", "ALI");        jsonObject2.element("Array", arrayList);        jsonObject2.element("Map", hashMap);        System.out.println("jsonObject2：" + jsonObject2);            // 将Json字符串转为java对象        String jsonString = "{\"UserName\":\"ZHULI\",\"age\":\"30\",\"workIn\":\"ALI\",\"Array\":[\"ZHULI\",\"30\",\"ALI\"]}";        JSONObject obj = JSONObject.fromObject(jsonString);        if (obj.has("UserName")) {            System.out.println("UserName:" + obj.getString("UserName"));        }        if (obj.has("Array")) {            JSONArray transitListArray = obj.getJSONArray("Array");            for (int i = 0; i &lt; transitListArray.size(); i++) {                System.out.println("Array:" + transitListArray.getString(i) + " ");                }        }    }}</code></pre><h1 id="org.json">org.json 使用</h1><pre><code>&lt;dependency&gt;  &lt;groupId&gt;org.json&lt;/groupId&gt;  &lt;artifactId&gt;json&lt;/artifactId&gt;  &lt;version&gt;20180130&lt;/version&gt;&lt;/dependency&gt;(1)使用普通设置JSONObject jsonObject = new JSONObject();jsonObject.put("name","张三");jsonObject.put("sex",false);jsonObject.put("sex",new String[]{"dsd","富士达","fdsfd"});String s = jsonObject.toString();System.out.println(s);（2）使用map或者实体Page u = new Page();new JSONObject(u).toString()#读json文件&lt;dependency&gt;   &lt;groupId&gt;commons-io&lt;/groupId&gt;   &lt;artifactId&gt;commons-io&lt;/artifactId&gt;   &lt;version&gt; 2.6 &lt;/version&gt;   &lt;/dependency&gt;   File file = new File(xx.class.getResource("/json.json").getFile());   String s = fileUtil.readFileToString(file);   JSONObject jsonobject = new JSONObject(s);   System.out.println(jsonobject.getInt("id"));</code></pre><h1 id="gson">gson 使用</h1><pre><code>&lt;dependency&gt;  &lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;  &lt;artifactId&gt;gson&lt;/artifactId&gt;  &lt;version&gt;2.8.5&lt;/version&gt;&lt;/dependency&gt;Page u = new Page();new Gson().toJson(u)#读json文件-对应java实体been&lt;dependency&gt;   &lt;groupId&gt;commons-io&lt;/groupId&gt;   &lt;artifactId&gt;commons-io&lt;/artifactId&gt;   &lt;version&gt; 2.6 &lt;/version&gt;   &lt;/dependency&gt;   File file = new File(xx.class.getResource("/json.json").getFile());   String s = fileUtil.readFileToString(file);   Gson gson= new Gson();   Page page = gson.fromJson(s,Page.class);   System.out.println(page);</code></pre><h1 id="fastJson">fastJson</h1><pre><code>#JSON类型    JSON.toJavaObject((JSON) json.getResult(), clazz);#jSONObject    String jsonString = JSON.toJSONString(jsonObject);    MatterVO vo = JSON.parseObject(jsonString, MatterVO.class);</code></pre>]]></content>
-      
-      
+      <tags>
+        <tag>Java</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 相关</title>
+    <url>/2021/05/26/Maven%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/3.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven 安装</h3><blockquote>
+<p>  <a href="https://archive.apache.org/dist/maven/maven-3/">maven 下载</a></p>
+<blockquote>
+<p> 解压到指定目录即可</p>
+</blockquote>
+</blockquote>
+<h3 id="修改仓库地址"><a href="#修改仓库地址" class="headerlink" title="修改仓库地址"></a>修改仓库地址</h3><pre><code>&lt;localRepository&gt;D:\JJDK\repository&lt;/localRepository&gt;
+</code></pre>
+<h3 id="修改阿里云镜像"><a href="#修改阿里云镜像" class="headerlink" title="修改阿里云镜像"></a>修改阿里云镜像</h3><pre><code>&lt;mirror&gt;
+    &lt;id&gt;central&lt;/id&gt;
+    &lt;name&gt;central&lt;/name&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+</code></pre>
+<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre><code>  mvn -v 
+</code></pre>
+<h3 id="配置windows环境变量"><a href="#配置windows环境变量" class="headerlink" title="配置windows环境变量"></a>配置 windows 环境变量</h3><pre><code>MAVEN_HOME D:\JJDK\maven
+</code></pre>
+<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>%MAVEN_HOME%\bin
+</code></pre>
+<h3 id="本地仓库强制更新"><a href="#本地仓库强制更新" class="headerlink" title="本地仓库强制更新"></a>本地仓库强制更新</h3><pre><code>mvn dependency:purge-local-repository
+mvn -Dmaven.test.skip=true clean install -U
+</code></pre>
+<h3 id="本地跳过test打包"><a href="#本地跳过test打包" class="headerlink" title="本地跳过test打包"></a>本地跳过 test 打包</h3><pre><code>mvn -Dmaven.test.skip=true clean install
+</code></pre>
+<h3 id="基于脚手架创建项目"><a href="#基于脚手架创建项目" class="headerlink" title="基于脚手架创建项目"></a>基于脚手架创建项目</h3><pre><code>---java项目的
+mvn archetype:generate -DgroupId=com.seckill -DartifactId=FirstApp or -DarchetypeArtifactId=maven -archetype-quickstart -DinteractiveMode=false
+
+在上述情况下，一个新的Java项目命名 FourApp 而整个项目的目录结构会自动创建。
+
+--java web项目
+mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+</code></pre>
+]]></content>
       <categories>
-          
-          <category> Json </category>
-          
+        <category>Maven</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Json </tag>
-            
-            <tag> Java </tag>
-            
-        </tags>
-      
-    </entry>
+      <tags>
+        <tag>Java</tag>
+        <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows-Bat 脚本</title>
+    <url>/2021/05/25/Windows-Bat%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/4.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="Kill端口"><a href="#Kill端口" class="headerlink" title="Kill端口"></a>Kill 端口</h1><pre><code>@echo off
+setlocal enabledelayedexpansion
+set /p port=write port:
+for /f "tokens=1-5" %%a in ('netstat -ano ^| find ":%port%"') do (
+    if "%%e%" == "" (
+        set pid=%%d
+    ) else (
+        set pid=%%e
+    )
+    echo !pid!
+    taskkill /f /pid !pid!
+)
+#pause
+exit
+</code></pre>
+<h1 id="Hexo批处理"><a href="#Hexo批处理" class="headerlink" title="Hexo批处理"></a>Hexo 批处理</h1><pre><code>@echo off
+E:
+cd E:\Jgit-project\hexo-site
+call hexo clean
+call hexo g
+call hexo s
+eg: call命令 可以调用另外一个bat脚本
+</code></pre>
+<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><pre><code>tasklist|findstr /i "nginx.exe"
+d:
+cd JJDK/nginx
+nginx.exe -c D:\JJDK\nginx\conf\nginx.conf
+pause
+exit
+/b
+</code></pre>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><pre><code>d:
+cd JJDK/redis
+eg:脚本启动
+    #redis-server.exe ./redis.windows.conf
+eg：安装服务
+    redis-server --service-install redis.windows-service.conf --loglevel verbose
+    #sc delete Redis
     
-    
-    
-    <entry>
-      <title>Windows-Bat 脚本</title>
-      <link href="2021/05/25/Windows-Bat%E8%84%9A%E6%9C%AC/"/>
-      <url>2021/05/25/Windows-Bat%E8%84%9A%E6%9C%AC/</url>
-      
-        <content type="html"><![CDATA[<span id="delete"><p><img data-src="/banner/4.jpg"></p></span><span id="more"></span><h1 id="Kill端口"><a href="#Kill端口" class="headerlink" title="Kill端口"></a>Kill 端口</h1><pre><code>@echo offsetlocal enabledelayedexpansionset /p port=write port:for /f "tokens=1-5" %%a in ('netstat -ano ^| find ":%port%"') do (    if "%%e%" == "" (        set pid=%%d    ) else (        set pid=%%e    )    echo !pid!    taskkill /f /pid !pid!)#pauseexit</code></pre><h1 id="Hexo批处理"><a href="#Hexo批处理" class="headerlink" title="Hexo批处理"></a>Hexo 批处理</h1><pre><code>@echo offE:cd E:\Jgit-project\hexo-sitecall hexo cleancall hexo gcall hexo seg: call命令 可以调用另外一个bat脚本</code></pre><h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><pre><code>tasklist|findstr /i "nginx.exe"d:cd JJDK/nginxnginx.exe -c D:\JJDK\nginx\conf\nginx.confpauseexit/b</code></pre><h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><pre><code>d:cd JJDK/rediseg:脚本启动    #redis-server.exe ./redis.windows.confeg：安装服务    redis-server --service-install redis.windows-service.conf --loglevel verbose    #sc delete Redis    </code></pre><h1 id="Mongo"><a href="#Mongo" class="headerlink" title="Mongo"></a>Mongo</h1><pre><code>稍后补充...</code></pre>]]></content>
-      
-      
+</code></pre>
+<h1 id="Mongo"><a href="#Mongo" class="headerlink" title="Mongo"></a>Mongo</h1><pre><code>稍后补充...
+</code></pre>
+]]></content>
       <categories>
-          
-          <category> Windows </category>
-          
+        <category>Windows</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> bat </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>bat</tag>
+      </tags>
+  </entry>
 </search>
