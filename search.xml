@@ -1,144 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>安装 Mysql</title>
-    <url>/2021/05/26/11-%E5%AE%89%E8%A3%85Mysql/</url>
-    <content><![CDATA[<span id="delete">
-
-<p><img data-src="/banner/11.jpg"></p>
-</span>
-
-<span id="more"></span>
-
-<h2 id="Windows下安装Mysql"><a href="#Windows下安装Mysql" class="headerlink" title="Windows下安装Mysql"></a>Windows 下安装 Mysql</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><ul>
-<li><p>  选择对应 mysql 版本下载 <a href="http://mirrors.sohu.com/mysql/">Mysql</a></p>
-</li>
-<li><p>  搜索 zip 64 位的版本进行下载      </p>
-</li>
-</ul>
-<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><pre><code>MYSQL_HOME D:\JJDK\mysql
-</code></pre>
-<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>PATH %MYSQL_HOME%\bin
-</code></pre>
-<h3 id="初始化data"><a href="#初始化data" class="headerlink" title="初始化data"></a>初始化 data</h3><ul>
-<li><p>  以管理员身份运行 cmd 进入 D:\JJDK\mysql\bin 下</p>
-</li>
-<li><p>执行命令</p>
-  <figure class="highlight brainfuck"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">mysqld</span> --<span class="comment">initialize</span><span class="literal">-</span><span class="comment">insecure</span> --<span class="comment">user=mysql</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li><p>  在 D:\JJDK\mysql 的 bin 同级目录生成 data 目录</p>
-</li>
-</ul>
-<h3 id="启动MySQL"><a href="#启动MySQL" class="headerlink" title="启动MySQL"></a>启动 MySQL</h3><pre><code>mysqld
-</code></pre>
-<h3 id="登录MySQL"><a href="#登录MySQL" class="headerlink" title="登录MySQL"></a>登录 MySQL</h3><pre><code>mysql -u root -p
-</code></pre>
-<h3 id="查询密码"><a href="#查询密码" class="headerlink" title="查询密码"></a>查询密码</h3><pre><code>use mysql;
-select host,user,authentication_string from mysql.user;
-</code></pre>
-<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h3><pre><code>alter user 'root'@'localhost' identified by 'root'; #5.6
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; #8.0
-flush privileges; 
-</code></pre>
-<h3 id="配置权限允许访问"><a href="#配置权限允许访问" class="headerlink" title="配置权限允许访问"></a>配置权限允许访问</h3><pre><code>grant all privileges on *.* to root@'%'  identified by '123456' 任意ip访问数据库 
-</code></pre>
-<h3 id="增加my-ini配置文件"><a href="#增加my-ini配置文件" class="headerlink" title="增加my.ini配置文件"></a>增加 my.ini 配置文件</h3><blockquote>
-<p> 放在 mysql 安装目录下</p>
-</blockquote>
-<pre><code>[mysqld] 
-# 设置mysql的安装目录，也就是刚才我们解压的目录
-basedir=D:/JJDK/mysql
-# 设置mysql数据库的数据的存放目录
-# datadir=D:/JJDK/mysql/data
-# 设置默认使用的端口
-port=3306
-# 允许最大连接数
-max_connections=200
-# 允许连接失败的次数。这是为了防止有人试图攻击数据库
-max_connect_errors=10
-# 服务端使用的字符集
-character-set-server=utf8mb4
-# 数据库字符集对应一些排序等规则使用的字符集
-collation-server=utf8mb4_general_ci
-# 创建新表时将使用的默认存储引擎
-default-storage-engine=INNODB
-# 默认使用“mysql_native_password”插件作为认证加密方式
-# MySQL8.0默认认证加密方式为caching_sha2_password
-default_authentication_plugin=mysql_native_password
-
-[mysql]
-# 设置mysql客户端默认字符集
-default-character-set=utf8mb4
-
-[client]
-default-character-set=utf8mb4
-port=3306
-</code></pre>
-<h3 id="后台进程启动"><a href="#后台进程启动" class="headerlink" title="后台进程启动"></a>后台进程启动</h3><pre><code>D:/JJDK/mysql/bin/mysqld.exe --install Mysql --defaults-file=D:/JJDK/mysql/my.ini #新增进程
-sc delete Mysql #删除进程
-</code></pre>
-<h2 id="Linux下安装Mysql"><a href="#Linux下安装Mysql" class="headerlink" title="Linux下安装Mysql"></a>Linux 下安装 Mysql</h2><h3 id="下载-1"><a href="#下载-1" class="headerlink" title="下载"></a>下载</h3><ul>
-<li>  选择对应 mysql 版本下载 <a href="https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-i686.tar">Mysql</a></li>
-</ul>
-<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><pre><code>yum -y search libaio
-yum -y install libaio
-yum -y install numactl
-yum -y install libnuma
-yum -y install ld-linux.so.2
-yum -y install libaio.so.1
-yum -y install libnuma.so.1
-yum -y install libstdc++.so.6
-yum -y install libtinfo.so.5
-</code></pre>
-<h3 id="创建mysql用户"><a href="#创建mysql用户" class="headerlink" title="创建mysql用户"></a>创建 mysql 用户</h3><pre><code>groupadd mysql
-useradd -r -g mysql -s /usr/local/mysql mysql
-</code></pre>
-<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><pre><code>tar zxvf /root/mysql/mysql-8.0.15-linux-glibc2.12-i686.tar.gz
-或者
-tar -xvf /root/mysql/mysql-8.0.15-linux-glibc2.12-i686.tar
-或者
-tar -xvJf /root/mysql/mysql-8.0.15-linux-glibc2.12-i686.tar.xz
-</code></pre>
-<h3 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h3><pre><code>mv mysql-8.0.15-linux-glibc2.12-i686 mysql 
-cp mysql-8.0.15-linux-glibc2.12-i686.tar.xz /usr/local/
-</code></pre>
-<h3 id="修改目录用户"><a href="#修改目录用户" class="headerlink" title="修改目录用户"></a>修改目录用户</h3><pre><code>cd /usr/local/mysql #进入/usr/local/mysql 目录
-chown -R mysql:mysql ./
-</code></pre>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><blockquote>
-<p>  记住初始化密码，后面用于修改</p>
-</blockquote>
-<pre><code>./bin/mysqld  --initialize  --user=mysql  --basedir=/usr/local/mysql  --datadir=/usr/local/mysql/data --defaults-file=/etc/my.cnf
-</code></pre>
-<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><pre><code>cd support-files
-./mysql.server start
-</code></pre>
-<h3 id="配置mysql环境"><a href="#配置mysql环境" class="headerlink" title="配置mysql环境"></a>配置 mysql 环境</h3><pre><code>vi /etc/profile
-    export MYSQL_HOME=/usr/local/mysql
-    export MYSQL_PATH=${MYSQL_HOME}/bin:${MYSQL_HOME}/lib
-    export PATH=$PATH:/usr/local/mysql/bin
-shutdown -r now 重启下服务器或者 source /etc/profile 均可使环境变量生效
-</code></pre>
-<h3 id="配置开机自启动"><a href="#配置开机自启动" class="headerlink" title="配置开机自启动"></a>配置开机自启动</h3><pre><code>cp /usr/local/mysql/support-files/mysql.server  /etc/init.d/mysql       #拷贝mysql.server 
-chmod +x  /etc/init.d/mysql                                             #添加可执行权限。
-chkconfig  --add mysql                                                  #注册启动服务
-chkconfig  --list                                                       #查看是否添加成功
-</code></pre>
-<h3 id="修改密码-1"><a href="#修改密码-1" class="headerlink" title="修改密码"></a>修改密码</h3><pre><code>按照上面windows操作就行
-</code></pre>
-<h3 id="配置-etc-my-cnf"><a href="#配置-etc-my-cnf" class="headerlink" title="配置/etc/my.cnf"></a>配置 /etc/my.cnf</h3><pre><code>类似 my.ini
-启动 ./bin/mysqld --user=mysql  --basedir=/usr/local/mysql  --datadir=/usr/local/mysql/data --defaults-file=/etc/my.cnf
-</code></pre>
-]]></content>
-      <categories>
-        <category>Windows</category>
-      </categories>
-      <tags>
-        <tag>Mysql</tag>
-        <tag>Windows</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Json 使用规范</title>
     <url>/2021/05/25/1-Json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<span id="delete">
@@ -290,32 +152,200 @@ new Gson().toJson(u)
       </tags>
   </entry>
   <entry>
-    <title>内网穿透之 Ngrok</title>
-    <url>/2021/05/28/13-Ngrok/</url>
+    <title>ActiveMQ</title>
+    <url>/2021/05/28/10-ActiveMQ/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/13.jpg"></p>
+<p><img data-src="/banner/10.jpg"></p>
 </span>
 
 <span id="more"></span>
 
-<h1 id="ngrok简介"><a href="#ngrok简介" class="headerlink" title="ngrok简介"></a>ngrok 简介</h1><pre><code>ngrok 服务可以分配给你一个域名让你本地的web项目提供给外网访问，
-特别适合向别人展示你本机的web demo 以及调试一些远程的API (比如微信公众号，企业号的开发)
-说白了，就是可以把本地项目映射到公网上
-</code></pre>
-<h2 id="ngrok介绍"><a href="#ngrok介绍" class="headerlink" title="ngrok介绍"></a>ngrok 介绍</h2><ul>
-<li><a href="http://ngrok.cc/">ngrok.cc</a></li>
-<li><a href="https://hsk.oray.com/">花生壳</a> - 正在使用的 </li>
-<li><a href="https://ngrok.com/">ngrox</a></li>
-<li><a href="http://ngrok.ciqiuwl.cn/">小米球 ngrok</a> - 推荐</li>
-<li><a href="http://ngrok.ciqiuwl.cn/">小米球 ngrok</a> - 推荐</li>
-</ul>
+<h1 id="ActiveMQ介绍"><a href="#ActiveMQ介绍" class="headerlink" title="ActiveMQ介绍"></a>ActiveMQ 介绍</h1><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><figure class="highlight arduino"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> url = <span class="string">"tcp://127.0.0.1:61616"</span>; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> topicName = <span class="string">"topic-list"</span>; </span><br></pre></td></tr></tbody></table></figure>
+
+<p>## 主题模式生产者</p>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//1.创建连接工程</span></span><br><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建生产者</span></span><br><span class="line">MessageProducer mp = session.create<span class="constructor">Producer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>;i&lt;<span class="number">100</span>;i++){</span><br><span class="line">    <span class="comment">//7.创建消息</span></span><br><span class="line">    TextMessage textMessage = session.create<span class="constructor">TextMessage(<span class="string">"TOPIC"</span>+<span class="params">i</span>)</span>;</span><br><span class="line">    <span class="comment">//8.发送消息</span></span><br><span class="line">    mp.send(textMessage);</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"消息发送成功:"</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">}</span><br><span class="line"><span class="comment">//关闭连接</span></span><br><span class="line">connection.close<span class="literal">()</span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="主题模式的消费者"><a href="#主题模式的消费者" class="headerlink" title="主题模式的消费者"></a>主题模式的消费者</h2><blockquote>
+<p>  主题模式下，消费者无法接收到订阅之前生产者发布的消息，只有先开消费者，再开生产者才能接受消息。</p>
+</blockquote>
+<blockquote>
+<p>  队列模式不论先后 queue (将 createTopic 改成 createQueue 即为队列模式)</p>
+</blockquote>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建消费者</span></span><br><span class="line">MessageConsumer mp = session.create<span class="constructor">Consumer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="comment">//7.创建一个监听器</span></span><br><span class="line">mp.set<span class="constructor">MessageListener(<span class="params">new</span> MessageListener()</span> {</span><br><span class="line">    public void on<span class="constructor">Message(Message <span class="params">message</span>)</span> {</span><br><span class="line">        TextMessage textMessage =(TextMessage)message;</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"接收消息："</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">        } catch (JMSException e) {</span><br><span class="line">            e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">});	</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h2 id="Spring集成JMS连接ActiveMQ"><a href="#Spring集成JMS连接ActiveMQ" class="headerlink" title="Spring集成JMS连接ActiveMQ"></a>Spring 集成 JMS 连接 ActiveMQ</h2><blockquote>
+<p>ConnectionFactory 用于管理连接的连接工厂</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> 一个 Spring 为我们提供的连接池，Spring 中提供了 SingleConnectionFactory 和 CachingConnectionFactory</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>JmsTemplate 用于发送和接受消息的模板类</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> 注入即可使用，线程安全，JmsTemplate 每次发送消息都会重新创建连接，会话和 productor</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MessageListerner 消息监听器</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> 实现一个 onMessage 方法，该方法只接受一个 Message 参数</p>
+</blockquote>
+</blockquote>
+<h3 id="common-xml"><a href="#common-xml" class="headerlink" title="common.xml"></a>common.xml</h3><figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--使用注解--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置activeMQ连接工厂--&gt;</span>	</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"activeMQConnectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.ActiveMQConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerURL"</span> <span class="attr">value</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置spring连接工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.connection.SingleConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetConnectionFactory"</span> <span class="attr">ref</span>=<span class="string">"activeMQConnectionFactory"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用队列--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"queueDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQQueue"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"queue"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用主题模式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"topicDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQTopic"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"topic"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="consumer-xml"><a href="#consumer-xml" class="headerlink" title="consumer.xml"></a>consumer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"consumerContainerListener"</span> <span class="built_in">class</span>=<span class="string">"com.imooc.jms.consumer.ConsumerContainerListener"</span>/&gt;	</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsContainer"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"destination"</span> <span class="keyword">ref</span>=<span class="string">"queueDestination"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"messageListener"</span> <span class="keyword">ref</span>=<span class="string">"consumerContainerListener"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="producer-xml"><a href="#producer-xml" class="headerlink" title="producer.xml"></a>producer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsTemplate"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.core.JmsTemplate"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">&lt;bean <span class="built_in">class</span>=<span class="string">"com.imooc.jms.producer.impl.ProducerServiceImpl"</span>/&gt;</span><br></pre></td></tr></tbody></table></figure>
 ]]></content>
       <categories>
-        <category>Mysql</category>
+        <category>MQ</category>
+      </categories>
+      <tags>
+        <tag>MQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装 Mysql</title>
+    <url>/2021/05/26/11-%E5%AE%89%E8%A3%85Mysql/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/11.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h2 id="Windows下安装Mysql"><a href="#Windows下安装Mysql" class="headerlink" title="Windows下安装Mysql"></a>Windows 下安装 Mysql</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><ul>
+<li><p>  选择对应 mysql 版本下载 <a href="http://mirrors.sohu.com/mysql/">Mysql</a></p>
+</li>
+<li><p>  搜索 zip 64 位的版本进行下载      </p>
+</li>
+</ul>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><pre><code>MYSQL_HOME D:\JJDK\mysql
+</code></pre>
+<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>PATH %MYSQL_HOME%\bin
+</code></pre>
+<h3 id="初始化data"><a href="#初始化data" class="headerlink" title="初始化data"></a>初始化 data</h3><ul>
+<li><p>  以管理员身份运行 cmd 进入 D:\JJDK\mysql\bin 下</p>
+</li>
+<li><p>执行命令</p>
+  <figure class="highlight brainfuck"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">mysqld</span> --<span class="comment">initialize</span><span class="literal">-</span><span class="comment">insecure</span> --<span class="comment">user=mysql</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>  在 D:\JJDK\mysql 的 bin 同级目录生成 data 目录</p>
+</li>
+</ul>
+<h3 id="启动MySQL"><a href="#启动MySQL" class="headerlink" title="启动MySQL"></a>启动 MySQL</h3><pre><code>mysqld
+</code></pre>
+<h3 id="登录MySQL"><a href="#登录MySQL" class="headerlink" title="登录MySQL"></a>登录 MySQL</h3><pre><code>mysql -u root -p
+</code></pre>
+<h3 id="查询密码"><a href="#查询密码" class="headerlink" title="查询密码"></a>查询密码</h3><pre><code>use mysql;
+select host,user,authentication_string from mysql.user;
+</code></pre>
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h3><pre><code>alter user 'root'@'localhost' identified by 'root'; #5.6
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; #8.0
+flush privileges; 
+</code></pre>
+<h3 id="配置权限允许访问"><a href="#配置权限允许访问" class="headerlink" title="配置权限允许访问"></a>配置权限允许访问</h3><pre><code>grant all privileges on *.* to root@'%'  identified by '123456' 任意ip访问数据库 
+</code></pre>
+<h3 id="增加my-ini配置文件"><a href="#增加my-ini配置文件" class="headerlink" title="增加my.ini配置文件"></a>增加 my.ini 配置文件</h3><blockquote>
+<p> 放在 mysql 安装目录下</p>
+</blockquote>
+<pre><code>[mysqld] 
+# 设置mysql的安装目录，也就是刚才我们解压的目录
+basedir=D:/JJDK/mysql
+# 设置mysql数据库的数据的存放目录
+# datadir=D:/JJDK/mysql/data
+# 设置默认使用的端口
+port=3306
+# 允许最大连接数
+max_connections=200
+# 允许连接失败的次数。这是为了防止有人试图攻击数据库
+max_connect_errors=10
+# 服务端使用的字符集
+character-set-server=utf8mb4
+# 数据库字符集对应一些排序等规则使用的字符集
+collation-server=utf8mb4_general_ci
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB
+# 默认使用“mysql_native_password”插件作为认证加密方式
+# MySQL8.0默认认证加密方式为caching_sha2_password
+default_authentication_plugin=mysql_native_password
+
+[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8mb4
+
+[client]
+default-character-set=utf8mb4
+port=3306
+</code></pre>
+<h3 id="后台进程启动"><a href="#后台进程启动" class="headerlink" title="后台进程启动"></a>后台进程启动</h3><pre><code>D:/JJDK/mysql/bin/mysqld.exe --install Mysql --defaults-file=D:/JJDK/mysql/my.ini #新增进程
+sc delete Mysql #删除进程
+</code></pre>
+<h2 id="Linux下安装Mysql"><a href="#Linux下安装Mysql" class="headerlink" title="Linux下安装Mysql"></a>Linux 下安装 Mysql</h2><h3 id="下载-1"><a href="#下载-1" class="headerlink" title="下载"></a>下载</h3><ul>
+<li>  选择对应 mysql 版本下载 <a href="https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-i686.tar">Mysql</a></li>
+</ul>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><pre><code>yum -y search libaio
+yum -y install libaio
+yum -y install numactl
+yum -y install libnuma
+yum -y install ld-linux.so.2
+yum -y install libaio.so.1
+yum -y install libnuma.so.1
+yum -y install libstdc++.so.6
+yum -y install libtinfo.so.5
+</code></pre>
+<h3 id="创建mysql用户"><a href="#创建mysql用户" class="headerlink" title="创建mysql用户"></a>创建 mysql 用户</h3><pre><code>groupadd mysql
+useradd -r -g mysql -s /usr/local/mysql mysql
+</code></pre>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><pre><code>tar zxvf /root/mysql/mysql-8.0.15-linux-glibc2.12-i686.tar.gz
+或者
+tar -xvf /root/mysql/mysql-8.0.15-linux-glibc2.12-i686.tar
+或者
+tar -xvJf /root/mysql/mysql-8.0.15-linux-glibc2.12-i686.tar.xz
+</code></pre>
+<h3 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h3><pre><code>mv mysql-8.0.15-linux-glibc2.12-i686 mysql 
+cp mysql-8.0.15-linux-glibc2.12-i686.tar.xz /usr/local/
+</code></pre>
+<h3 id="修改目录用户"><a href="#修改目录用户" class="headerlink" title="修改目录用户"></a>修改目录用户</h3><pre><code>cd /usr/local/mysql #进入/usr/local/mysql 目录
+chown -R mysql:mysql ./
+</code></pre>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><blockquote>
+<p>  记住初始化密码，后面用于修改</p>
+</blockquote>
+<pre><code>./bin/mysqld  --initialize  --user=mysql  --basedir=/usr/local/mysql  --datadir=/usr/local/mysql/data --defaults-file=/etc/my.cnf
+</code></pre>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><pre><code>cd support-files
+./mysql.server start
+</code></pre>
+<h3 id="配置mysql环境"><a href="#配置mysql环境" class="headerlink" title="配置mysql环境"></a>配置 mysql 环境</h3><pre><code>vi /etc/profile
+    export MYSQL_HOME=/usr/local/mysql
+    export MYSQL_PATH=${MYSQL_HOME}/bin:${MYSQL_HOME}/lib
+    export PATH=$PATH:/usr/local/mysql/bin
+shutdown -r now 重启下服务器或者 source /etc/profile 均可使环境变量生效
+</code></pre>
+<h3 id="配置开机自启动"><a href="#配置开机自启动" class="headerlink" title="配置开机自启动"></a>配置开机自启动</h3><pre><code>cp /usr/local/mysql/support-files/mysql.server  /etc/init.d/mysql       #拷贝mysql.server 
+chmod +x  /etc/init.d/mysql                                             #添加可执行权限。
+chkconfig  --add mysql                                                  #注册启动服务
+chkconfig  --list                                                       #查看是否添加成功
+</code></pre>
+<h3 id="修改密码-1"><a href="#修改密码-1" class="headerlink" title="修改密码"></a>修改密码</h3><pre><code>按照上面windows操作就行
+</code></pre>
+<h3 id="配置-etc-my-cnf"><a href="#配置-etc-my-cnf" class="headerlink" title="配置/etc/my.cnf"></a>配置 /etc/my.cnf</h3><pre><code>类似 my.ini
+启动 ./bin/mysqld --user=mysql  --basedir=/usr/local/mysql  --datadir=/usr/local/mysql/data --defaults-file=/etc/my.cnf
+</code></pre>
+]]></content>
+      <categories>
+        <category>Windows</category>
       </categories>
       <tags>
         <tag>Mysql</tag>
+        <tag>Windows</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -455,123 +485,701 @@ select @r_result;
       </tags>
   </entry>
   <entry>
-    <title>Linux 安装 Java</title>
-    <url>/2021/05/26/2-Linux%E5%AE%89%E8%A3%85Java/</url>
+    <title>内网穿透之 Ngrok</title>
+    <url>/2021/05/28/13-Ngrok/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/2.jpg"></p>
+<p><img data-src="/banner/13.jpg"></p>
 </span>
 
 <span id="more"></span>
 
-<h3 id="下载Jdk8"><a href="#下载Jdk8" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><pre><code>选择对应jdk版本下载（Tips：可在Windows下载完成后，通过FTP或者SSH到发送到Linux上）
+<h1 id="ngrok简介"><a href="#ngrok简介" class="headerlink" title="ngrok简介"></a>ngrok 简介</h1><pre><code>ngrok 服务可以分配给你一个域名让你本地的web项目提供给外网访问，
+特别适合向别人展示你本机的web demo 以及调试一些远程的API (比如微信公众号，企业号的开发)
+说白了，就是可以把本地项目映射到公网上
 </code></pre>
-<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></p>
-<h3 id="登录Linux，切换到root用户"><a href="#登录Linux，切换到root用户" class="headerlink" title="登录Linux，切换到root用户"></a>登录 Linux，切换到 root 用户</h3><pre><code>su root 获取root用户权限，当前工作目录不变(需要root密码)
-
-sudo -i 不需要root密码直接切换成root（需要当前用户密码）
-</code></pre>
-<h3 id="在usr目录下建立java安装目录"><a href="#在usr目录下建立java安装目录" class="headerlink" title="在usr目录下建立java安装目录"></a>在 usr 目录下建立 java 安装目录</h3><pre><code>cd /usr/local
-
-mkdir java
-</code></pre>
-<h3 id="将jdk-8u60-linux-x64-tar-gz拷贝到java目录下"><a href="#将jdk-8u60-linux-x64-tar-gz拷贝到java目录下" class="headerlink" title="将jdk-8u60-linux-x64.tar.gz拷贝到java目录下"></a>将 jdk-8u60-linux-x64.tar.gz 拷贝到 java 目录下</h3><pre><code>cp /mnt/hgfs/linux/jdk-8u60-linux-x64.tar.gz /usr/local/java/
-</code></pre>
-<h3 id="解压jdk到当前目录"><a href="#解压jdk到当前目录" class="headerlink" title="解压jdk到当前目录"></a>解压 jdk 到当前目录</h3><pre><code>得到文件夹 jdk1.8.0_*　　(注意：下载不同版本的JDK目录名不同！)
-tar -zxvf jdk-8u60-linux-x64.tar.gz
-</code></pre>
-<h3 id="安装完毕为他建立一个链接以节省目录长度"><a href="#安装完毕为他建立一个链接以节省目录长度" class="headerlink" title="安装完毕为他建立一个链接以节省目录长度"></a>安装完毕为他建立一个链接以节省目录长度</h3><pre><code>ln -s /usr/local/java/jdk1.8.0_60/ /usr/local/jdk
-</code></pre>
-<h3 id="编辑配置文件，配置环境变量"><a href="#编辑配置文件，配置环境变量" class="headerlink" title="编辑配置文件，配置环境变量"></a>编辑配置文件，配置环境变量</h3><pre><code>vim /etc/profile
-
-    JAVA_HOME=/usr/local/jdk
-    CLASSPATH=$JAVA_HOME/lib/
-    PATH=$PATH:$JAVA_HOME/bin
-    export PATH JAVA_HOME CLASSPATH
-</code></pre>
-<h3 id="重启机器或执行命令"><a href="#重启机器或执行命令" class="headerlink" title="重启机器或执行命令"></a>重启机器或执行命令</h3><pre><code>source /etc/profile
-
-sudo shutdown -r now
-</code></pre>
-<h3 id="查看安装情况"><a href="#查看安装情况" class="headerlink" title="查看安装情况"></a>查看安装情况</h3><pre><code>java -version
-
-java version "1.8.0_60"
-Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
-Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
-</code></pre>
-<h3 id="可能出现的错误信息"><a href="#可能出现的错误信息" class="headerlink" title="可能出现的错误信息"></a>可能出现的错误信息</h3><pre><code>bash: ./java: cannot execute binary file
-
-出现这个错误的原因可能是在32位的操作系统上安装了64位的jdk，
-1、查看jdk版本和Linux版本位数是否一致。
-2、查看你安装的Ubuntu是32位还是64位系统
-</code></pre>
-<p>   <a href="http://www.cnblogs.com/zeze/p/5902124.html" title="点击此处">来源博客</a></p>
+<h2 id="ngrok介绍"><a href="#ngrok介绍" class="headerlink" title="ngrok介绍"></a>ngrok 介绍</h2><ul>
+<li><a href="https://hsk.oray.com/">花生壳</a> - 正在使用的</li>
+<li><a href="http://ngrok.ciqiuwl.cn/">小米球 ngrok</a> - 推荐 </li>
+<li><a href="http://ngrok.cc/">ngrok.cc</a></li>
+<li><a href="https://ngrok.com/">ngrox</a></li>
+<li><a href="https://www.zhexi.tech/price/?sdclkid=A52D152z152GArDib5o">泽西信科</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Ngrok</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>Java</tag>
+        <tag>Ngrok</tag>
       </tags>
   </entry>
   <entry>
-    <title>ActiveMQ</title>
-    <url>/2021/05/28/10-ActiveMQ/</url>
+    <title>Mongo 相关</title>
+    <url>/2021/05/28/14-Mongo%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/10.jpg"></p>
+<p><img data-src="/banner/14.jpg"></p>
 </span>
 
 <span id="more"></span>
 
-<h1 id="ActiveMQ介绍"><a href="#ActiveMQ介绍" class="headerlink" title="ActiveMQ介绍"></a>ActiveMQ 介绍</h1><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><figure class="highlight arduino"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> url = <span class="string">"tcp://127.0.0.1:61616"</span>; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> topicName = <span class="string">"topic-list"</span>; </span><br></pre></td></tr></tbody></table></figure>
+<h1 id="Windows-安装"><a href="#Windows-安装" class="headerlink" title="Windows 安装"></a>Windows 安装</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ul>
+<li><p>  选择对应 mysql 版本下载 <a href="https://www.mongodb.com/">Mysql</a></p>
+</li>
+<li><p>  搜索 64 位的版本进行下载      </p>
+</li>
+</ul>
+<h2 id="解压与创建"><a href="#解压与创建" class="headerlink" title="解压与创建"></a>解压与创建</h2><ul>
+<li><p>随意创建自己喜欢的路径，D:\JJDK\mongo</p>
+</li>
+<li><p>在 D:\JJDK\mongo 下解压下载的 zip 文件</p>
+</li>
+<li><p>然后分别建立 db,log 两个文件夹，log 下创建 log.log</p>
+</li>
+</ul>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><ul>
+<li><p>cd D:\JJDK\mongo\bin</p>
+</li>
+<li><p>mongod –dbpath D:\JJDK\mongodb\data –logpath D:\JJDK\mongodb\log\log.log –logappend</p>
+</li>
+</ul>
+<h2 id="客户端连接"><a href="#客户端连接" class="headerlink" title="客户端连接"></a>客户端连接</h2><ul>
+<li>mongo   <figure class="highlight stata"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> admin </span><br><span class="line"><span class="keyword">db</span>.createUser({ user: <span class="string">"root"</span>, <span class="keyword">pwd</span>: <span class="string">"root"</span>, roles: [</span><br><span class="line">    { role:<span class="string">"userAdminAnyDatabase"</span>, <span class="keyword">db</span>: <span class="string">"admin"</span> },</span><br><span class="line">    { role:<span class="string">"dbAdminAnyDatabase"</span>, <span class="keyword">db</span>: <span class="string">"admin"</span> },</span><br><span class="line">    { role:<span class="string">"readWriteAnyDatabase"</span>, <span class="keyword">db</span>: <span class="string">"admin"</span> }</span><br><span class="line">] </span><br><span class="line">})</span><br><span class="line"><span class="keyword">use</span> juooo</span><br><span class="line"><span class="keyword">db</span>.auth(<span class="string">"root"</span>,<span class="string">"root"</span>);</span><br><span class="line"><span class="keyword">db</span>.createUser({ user: <span class="string">"root"</span>, <span class="keyword">pwd</span>: <span class="string">"root"</span>, roles: [{ role: <span class="string">"dbOwner"</span>, <span class="keyword">db</span>: <span class="string">"juooo"</span> }] })</span><br></pre></td></tr></tbody></table></figure></li>
+<li>  创建用户密码，创建 admin 和 juooo 库</li>
+</ul>
+<h2 id="以auth启动"><a href="#以auth启动" class="headerlink" title="以auth启动"></a>以 auth 启动</h2><pre><code>D:\JJDK\mongo\bin\mongod.exe --dbpath D:\JJDK\mongo\data --logpath D:\JJDK\mongo\log\log.log --logappend --auth --service
+</code></pre>
+<h2 id="后台进程启动"><a href="#后台进程启动" class="headerlink" title="后台进程启动"></a>后台进程启动</h2><pre><code>sc create MongoDB binPath= "D:\JJDK\mongo\bin\mongod.exe --dbpath D:\JJDK\mongo\data --logpath D:\JJDK\mongo\log\log.log --logappend --auth --service"
+sc delete MongoDB
+</code></pre>
+<h2 id="修改端口"><a href="#修改端口" class="headerlink" title="修改端口"></a>修改端口</h2><pre><code>--port=27017 --fork
+</code></pre>
+<h1 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux 安装</h1><h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><pre><code>wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-4.2.5.tgz
+tar -zxvf mongodb-linux-x86_64-rhel70-4.2.5.tgz
+mv mongodb-linux-x86_64-rhel70-4.2.5/ /usr/local/mongodb
 
-<p>## 主题模式生产者</p>
-<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//1.创建连接工程</span></span><br><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建生产者</span></span><br><span class="line">MessageProducer mp = session.create<span class="constructor">Producer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>;i&lt;<span class="number">100</span>;i++){</span><br><span class="line">    <span class="comment">//7.创建消息</span></span><br><span class="line">    TextMessage textMessage = session.create<span class="constructor">TextMessage(<span class="string">"TOPIC"</span>+<span class="params">i</span>)</span>;</span><br><span class="line">    <span class="comment">//8.发送消息</span></span><br><span class="line">    mp.send(textMessage);</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"消息发送成功:"</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">}</span><br><span class="line"><span class="comment">//关闭连接</span></span><br><span class="line">connection.close<span class="literal">()</span>;</span><br></pre></td></tr></tbody></table></figure>
+mkdir  -p  /usr/local/mongodb/data
+mkdir  -p  /usr/local/mongodb/logs
 
-<h2 id="主题模式的消费者"><a href="#主题模式的消费者" class="headerlink" title="主题模式的消费者"></a>主题模式的消费者</h2><blockquote>
-<p>  主题模式下，消费者无法接收到订阅之前生产者发布的消息，只有先开消费者，再开生产者才能接受消息。</p>
+ln -s /usr/local/mongodb/bin/mongod mongod
+ln -s /usr/local/mongodb/bin/mongo 
+</code></pre>
+<h2 id="启动并创建数据库"><a href="#启动并创建数据库" class="headerlink" title="启动并创建数据库"></a>启动并创建数据库</h2><blockquote>
+<p>  参照 windows 创建数据库命令</p>
 </blockquote>
+<pre><code>usr/local/mongodb/bin/mongod --dbpath=/usr/local/mongodb/data --logpath=/usr/local/mongodb/logs/log.log
+</code></pre>
+<h2 id="权限启动"><a href="#权限启动" class="headerlink" title="权限启动"></a>权限启动</h2><pre><code>nohup /usr/local/mongodb/bin/mongod --dbpath=/usr/local/mongodb/data --logpath=/usr/local/mongodb/logs/log.log --auth --port=27017 --fork
+</code></pre>
+<h2 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h2><blockquote>
+<p>  新增 sh 脚本放在根目录的 shell 下面 mongod_start.sh</p>
+</blockquote>
+<pre><code>#!/bin/bash
+# pkill -9 mongod;
+/usr/local/mongodb/bin/mongod --shutdown --dbpath /usr/local/mongodb/data/;
+nohup /usr/local/mongodb/bin/mongod --dbpath=/usr/local/mongodb/data --logpath=/usr/local/mongodb/logs/log.log --auth --port=27017 --fork &gt;  /tmp/mongod.log 2&gt;&amp;1 &amp; 
+</code></pre>
 <blockquote>
-<p>  队列模式不论先后 queue (将 createTopic 改成 createQueue 即为队列模式)</p>
+<p>  设置权限</p>
 </blockquote>
-<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建消费者</span></span><br><span class="line">MessageConsumer mp = session.create<span class="constructor">Consumer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="comment">//7.创建一个监听器</span></span><br><span class="line">mp.set<span class="constructor">MessageListener(<span class="params">new</span> MessageListener()</span> {</span><br><span class="line">    public void on<span class="constructor">Message(Message <span class="params">message</span>)</span> {</span><br><span class="line">        TextMessage textMessage =(TextMessage)message;</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"接收消息："</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">        } catch (JMSException e) {</span><br><span class="line">            e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">});	</span><br></pre></td></tr></tbody></table></figure>
-
-
-<h2 id="Spring集成JMS连接ActiveMQ"><a href="#Spring集成JMS连接ActiveMQ" class="headerlink" title="Spring集成JMS连接ActiveMQ"></a>Spring 集成 JMS 连接 ActiveMQ</h2><blockquote>
-<p>ConnectionFactory 用于管理连接的连接工厂</p>
+<pre><code>chmod 777 mongod_start.sh
+vim /etc/rc.d/rc.local
+    文件后面追加 sh /shell/mongod_start.sh
+chmod +x /etc/rc.d/rc.local        
+    
+</code></pre>
+<h1 id="权限介绍"><a href="#权限介绍" class="headerlink" title="权限介绍"></a>权限介绍</h1><ul>
+<li><p>数据库用户角色（Database User Roles）</p>
+</li>
+<li><ul>
+<li>read：授予 User 只读数据的权限</li>
+</ul>
+</li>
+<li><ul>
+<li> readWrite：授予 User 读写数据的权限</li>
+</ul>
+</li>
+<li><p>数据库管理角色（Database Administration Roles）：</p>
+</li>
+<li><ul>
+<li>dbAdmin：在当前 dB 中执行管理操作</li>
+</ul>
+</li>
+<li><ul>
+<li> dbOwner：在当前 DB 中执行任意操作</li>
+</ul>
+</li>
+<li><ul>
+<li> userAdmin：在当前 DB 中管理 User</li>
+</ul>
+</li>
+<li><p> 备份和还原角色（Backup and Restoration Roles）：</p>
+</li>
+<li><ul>
+<li>backup</li>
+</ul>
+</li>
+<li><ul>
+<li>restore</li>
+</ul>
+</li>
+<li><p> 跨库角色（All-Database Roles）：</p>
+</li>
+<li><ul>
+<li>readAnyDatabase：授予在所有数据库上读取数据的权限</li>
+</ul>
+</li>
+<li><ul>
+<li> readWriteAnyDatabase：授予在所有数据库上读写数据的权限</li>
+</ul>
+</li>
+<li><ul>
+<li> userAdminAnyDatabase：授予在所有数据库上管理 User 的权限</li>
+</ul>
+</li>
+<li><ul>
+<li> dbAdminAnyDatabase：授予管理所有数据库的权限</li>
+</ul>
+</li>
+<li><p>集群管理角色（Cluster Administration Roles）：</p>
+</li>
+<li><ul>
+<li>clusterAdmin：授予管理集群的最高权限</li>
+</ul>
+</li>
+<li><ul>
+<li> clusterManager：授予管理和监控集群的权限，A user with this role can access the config and local databases, which are used in     sharding and replication, respectively.</li>
+</ul>
+</li>
+<li><ul>
+<li>clusterMonitor：授予监控集群的权限，对监控工具具有 readonly 的权限</li>
+</ul>
+</li>
+<li><ul>
+<li> hostManager：管理 Server</li>
+</ul>
+</li>
+</ul>
+<h1 id="SpringBoot整合Mongo"><a href="#SpringBoot整合Mongo" class="headerlink" title="SpringBoot整合Mongo"></a>SpringBoot 整合 Mongo</h1><blockquote>
+<p>  pom.xml</p>
 </blockquote>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <blockquote>
+<p>application.yml</p>
+</blockquote>
+<pre><code>spring.data.mongodb.uri: mongodb://root:root@localhost:27017/juooo
+</code></pre>
 <blockquote>
-<p> 一个 Spring 为我们提供的连接池，Spring 中提供了 SingleConnectionFactory 和 CachingConnectionFactory</p>
+<p>查询操作见日志</p>
 </blockquote>
-</blockquote>
-<blockquote>
-<p>JmsTemplate 用于发送和接受消息的模板类</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p> 注入即可使用，线程安全，JmsTemplate 每次发送消息都会重新创建连接，会话和 productor</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MessageListerner 消息监听器</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p> 实现一个 onMessage 方法，该方法只接受一个 Message 参数</p>
-</blockquote>
-</blockquote>
-<h3 id="common-xml"><a href="#common-xml" class="headerlink" title="common.xml"></a>common.xml</h3><figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--使用注解--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置activeMQ连接工厂--&gt;</span>	</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"activeMQConnectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.ActiveMQConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerURL"</span> <span class="attr">value</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置spring连接工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.connection.SingleConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetConnectionFactory"</span> <span class="attr">ref</span>=<span class="string">"activeMQConnectionFactory"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用队列--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"queueDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQQueue"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"queue"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用主题模式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"topicDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQTopic"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"topic"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="consumer-xml"><a href="#consumer-xml" class="headerlink" title="consumer.xml"></a>consumer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"consumerContainerListener"</span> <span class="built_in">class</span>=<span class="string">"com.imooc.jms.consumer.ConsumerContainerListener"</span>/&gt;	</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsContainer"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"destination"</span> <span class="keyword">ref</span>=<span class="string">"queueDestination"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"messageListener"</span> <span class="keyword">ref</span>=<span class="string">"consumerContainerListener"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="producer-xml"><a href="#producer-xml" class="headerlink" title="producer.xml"></a>producer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsTemplate"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.core.JmsTemplate"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">&lt;bean <span class="built_in">class</span>=<span class="string">"com.imooc.jms.producer.impl.ProducerServiceImpl"</span>/&gt;</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><a href="https://blog.csdn.net/u011161786/article/details/71512952">springboot 使用 mongo 查询</a></li>
+</ul>
+<h1 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h1><ul>
+<li>如果启动改不了就删除 log 文件</li>
+<li>看看权限问题</li>
+</ul>
 ]]></content>
       <categories>
-        <category>MQ</category>
+        <category>Mongo</category>
       </categories>
       <tags>
-        <tag>MQ</tag>
+        <tag>Mongo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shiro 相关</title>
+    <url>/2021/05/28/15-Shiro%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/15.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><ul>
+<li>Shiro 是一款权限校验框架，可自定义配置角色权限</li>
+</ul>
+<h1 id="初体验"><a href="#初体验" class="headerlink" title="初体验"></a>初体验</h1><ul>
+<li>  SimpleAccountRealm  普通数组形式</li>
+<li>  IniRealm            文件配置形式</li>
+<li>  JdbcRealm           数据库配置</li>
+<li>  自定义 extends AuthorizingRealm </li>
+</ul>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">public void test<span class="constructor">Acthentication()</span>{</span><br><span class="line">    <span class="comment">//创建SecurityManager shiro环境</span></span><br><span class="line">    DefaultSecurityManager defaultSecurityManager = <span class="keyword">new</span> <span class="constructor">DefaultSecurityManager()</span>;</span><br><span class="line">    defaultSecurityManager.set<span class="constructor">Realm(<span class="params">simpleAccountRealm</span>)</span>; #上方的四个Realm</span><br><span class="line">    <span class="comment">//主体认证请求</span></span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">SecurityUtils</span>.</span></span>set<span class="constructor">SecurityManager(<span class="params">defaultSecurityManager</span>)</span>;</span><br><span class="line">    Subject subject = <span class="module-access"><span class="module"><span class="identifier">SecurityUtils</span>.</span></span>get<span class="constructor">Subject()</span>;</span><br><span class="line">    UsernamePasswordToken token = <span class="keyword">new</span> <span class="constructor">UsernamePasswordToken(<span class="string">"mask"</span>,<span class="string">"123456"</span>)</span>;</span><br><span class="line">    subject.login(token);</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"isfalse:"</span>+subject.is<span class="constructor">Authenticated()</span>);</span><br><span class="line">    subject.check<span class="constructor">Role(<span class="string">"admin"</span>)</span>;</span><br><span class="line">    <span class="comment">//subject.logout();</span></span><br><span class="line">    <span class="comment">//System.out.println("isfalse:"+subject.isAuthenticated());</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="整合spring"><a href="#整合spring" class="headerlink" title="整合spring"></a>整合 spring</h1><h2 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h2><pre><code> &lt;filter&gt;
+    &lt;filter-name&gt;shiroFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;shiroFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre>
+<h2 id="spring-xml"><a href="#spring-xml" class="headerlink" title="spring.xml"></a>spring.xml</h2><pre><code>&lt;!--定义ShiroFilterFactoryBean--&gt; 
+&lt;bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"&gt;
+    &lt;property name="securityManager" ref="securityManager"&gt;&lt;/property&gt;
+    &lt;property name="loginUrl" value="login.html"&gt;&lt;/property&gt;
+    &lt;property name="unauthorizedUrl" value="403.html"&gt;&lt;/property&gt;
+    &lt;property name="filterChainDefinitions"&gt;
+        &lt;value&gt;
+            /login.html = anon
+            /test = anon
+            /test.do = anon
+            /testRoles = roles["admin","admin1"]
+            /testRoles1 = rolesOr["admin","admin1"]
+            /subLogin = anon
+            /* = authc
+        &lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property name="filters"&gt;
+        &lt;map&gt;
+            &lt;entry key="rolesOr" value-ref="rolesOrFilter" /&gt;
+        &lt;/map&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+&lt;!--定义securityManager--&gt;
+&lt;bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"&gt;
+    &lt;property name="realm" ref="realm"&gt;&lt;/property&gt;
+&lt;/bean&gt;
+&lt;!--自定义realm--&gt;
+&lt;bean id="realm" class="natapp.liujinliang.realm.CustomRealm"&gt;
+    &lt;property name="credentialsMatcher" ref="credentialsMatcher" &gt;&lt;/property&gt;
+&lt;/bean&gt;
+&lt;!--设置加密--&gt;
+&lt;bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher"&gt;
+    &lt;property name="hashAlgorithmName" value="md5" /&gt;
+    &lt;property name="hashIterations" value="1" /&gt;
+&lt;/bean&gt;
+
+&lt;!-- 自定义filter  继承extends AuthorizationFilter --&gt;
+&lt;bean id="rolesOrFilter" class="natapp.liujinliang.filter.RolesOrFilter" /&gt;
+</code></pre>
+<h2 id="RolesOrFilter类"><a href="#RolesOrFilter类" class="headerlink" title="RolesOrFilter类"></a>RolesOrFilter 类</h2><pre><code>public class RolesOrFilter extends AuthorizationFilter {
+    @Override
+    protected boolean isAccessAllowed(ServletRequest req,ServletResponse resp, Object object) throws Exception {
+        Subject subject = getSubject(req, resp);
+        String[] roles = (String[]) object;
+        if (roles == null || roles.length == 0) {
+            return true;
+        }
+        for (String role : roles) {
+            if (subject.hasRole(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+</code></pre>
+<h2 id="判断登录"><a href="#判断登录" class="headerlink" title="判断登录"></a>判断登录</h2><pre><code>public String subLogin(User user) {
+    Subject subject = SecurityUtils.getSubject();
+    UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+    try {
+        subject.login(token);
+    } catch (Exception e) {
+        return e.getMessage();
+    }    
+    // 编码方式判断是否具有管理员身份
+    if (subject.hasRole("admin")) {
+        return "有admin权限";
+    }
+    return "无admin权限";
+}
+</code></pre>
+<h2 id="使用注解"><a href="#使用注解" class="headerlink" title="使用注解"></a>使用注解</h2><pre><code>@RequiresPermissions("xxxx")#要求权限
+@RequiresRoles("admin")；#要求admin的角色
+</code></pre>
+<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+            &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+            &lt;version&gt;1.8.9&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<h3 id="spring-mvc-xml"><a href="#spring-mvc-xml" class="headerlink" title="spring-mvc.xml"></a>spring-mvc.xml</h3><pre><code>&lt;!-- 开启AoP --&gt;
+&lt;aop:config proxy-target-class="true"/&gt;
+&lt;!-- 保证 Shiro内部生命周期 --&gt;
+&lt;bean class="org.apache.shiro.spring.LifecycleBeanPostProcessor"&gt;&lt;/bean&gt;
+&lt;!-- 开启Shiro授权生效 --&gt;
+&lt;bean id="" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"&gt;&lt;/bean&gt;    
+</code></pre>
+<h2 id="shiro-过滤器"><a href="#shiro-过滤器" class="headerlink" title="shiro-过滤器"></a>shiro - 过滤器</h2><pre><code>    anno （不需要认证）, authBasic,authc（需要认证）, user（存在用户）,logout
+    perms（具备权限）,roles（具备角色）,ssl,port
+</code></pre>
+<h2 id="redis实现session共享"><a href="#redis实现session共享" class="headerlink" title="redis实现session共享"></a>redis 实现 session 共享</h2><blockquote>
+<p>序列化和反序列化</p>
+</blockquote>
+<pre><code>SerializationUtils.serialize();//序列化
+SerializationUtils.deserialize();//反序列化
+        
+</code></pre>
+<blockquote>
+<p>集合工具类</p>
+</blockquote>
+<pre><code>CollectionUtils.isEmpty();    
+        
+</code></pre>
+<blockquote>
+<p>创建类 重写 extend AbstractSessionDao    (com.imooc.session.SessionDao)</p>
+</blockquote>
+<pre><code>#doCreate的时候记得要捆绑sessionId
+    assignSessionId(sessionId,session);
+#spring.xml
+    &lt;bean class="org.apache.shiro.session.mgt.DefaultWebSessionManager" id="sessionManager"&gt;
+        &lt;property name="sessionDao" ref="sessionDao"&gt;
+    &lt;/bean&gt;
+    &lt;bean class="com.imooc.session.SessionDao" id="sessionDao"/&gt;
+
+    &lt;bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"&gt;
+        &lt;property name="realm" ref="realm"/&gt;
+        &lt;property name="sessionManager" ref="sessionManager"/&gt;
+    &lt;/bean&gt;    
+    
+</code></pre>
+<h3 id="换成自定义sessionManager"><a href="#换成自定义sessionManager" class="headerlink" title="换成自定义sessionManager"></a>换成自定义 sessionManager</h3><blockquote>
+<p>spring.xml</p>
+</blockquote>
+<pre><code>&lt;bean class="com.imooc.session.CustomSessionManager" id="sessionManager"&gt;
+    &lt;property name="sessionDao" ref="sessionDao"&gt;
+&lt;/bean&gt;
+</code></pre>
+<h3 id="访问多次redis改造"><a href="#访问多次redis改造" class="headerlink" title="访问多次redis改造"></a>访问多次 redis 改造</h3><blockquote>
+<p>继承 DefaultWebSessionManager | 重写 retrieveSession | 存在 request 中</p>
+</blockquote>
+<pre><code>    ServlertRequest request =null;
+    if(sessionKey instanceof WebSessionKey){
+        request = ((WebsessionKKey)sessionKey).getServletRequest();     
+    }
+                    
+</code></pre>
+<h2 id="shiro缓存管理"><a href="#shiro缓存管理" class="headerlink" title="shiro缓存管理"></a>shiro 缓存管理</h2><blockquote>
+<p>角色什么的存在 redis</p>
+</blockquote>
+<pre><code>CacheManager Cache
+//返回cache实例
+class RedisCacheManager implements CacheManager        
+{
+    return RedisCache();
+}
+
+//重写cahce实例
+class RedisCache implement Cache&lt;K,V&gt;    {
+    get
+    put
+    remove
+    ....
+}
+</code></pre>
+<h3 id="spring-xml-1"><a href="#spring-xml-1" class="headerlink" title="spring.xml"></a>spring.xml</h3><pre><code>&lt;bean class="com.imooc.cache.RedisCacheManager" id="cacheManager"/&gt;
+        
+&lt;bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"&gt;
+    &lt;property name="realm" ref="realm"/&gt;
+    &lt;property name="sessionManager" ref="sessionManager"/&gt;
+    &lt;property name="cacheManager" ref="cacheManager"/&gt;
+&lt;/bean&gt;
+        
+</code></pre>
+<h2 id="shiro记住我"><a href="#shiro记住我" class="headerlink" title="shiro记住我"></a>shiro 记住我</h2><blockquote>
+<p>cookie | Spring.xml</p>
+</blockquote>
+<pre><code>&lt;bean class="org.apache.shiro.web.mgt.CooikeRememberManager" id="CooikeRememberManager"&gt;
+    &lt;property name="cooike" ref="cooike"/&gt;
+&lt;/bean&gt;
+&lt;bean class="org.apache.shiro.web.servlet.SimpleCooike" id="cooike"&gt;
+    &lt;constructor-arg value="rememberMe"/&gt;&lt;!--构造前台传的参数--&gt;
+    &lt;property name="maxAge" value="30000S"/&gt;
+&lt;/bean&gt;
+&lt;!--注入到securityManager--&gt;
+&lt;bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"&gt;
+    &lt;property name="realm" ref="realm"/&gt;
+    &lt;property name="sessionManager" ref="sessionManager"/&gt;
+    &lt;property name="cacheManager" ref="cacheManager"/&gt;
+    &lt;property name="rememberManager" ref="CooikeRememberManager"/&gt;
+&lt;/bean&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Shiro</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot 启动方式</title>
+    <url>/2021/05/28/16-SpringBoot%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/16.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="手动打包"><a href="#手动打包" class="headerlink" title="手动打包"></a>手动打包</h1><blockquote>
+<p>jar 包默认</p>
+</blockquote>
+<pre><code>mvn clean package -Dmaven.test.skip=true
+</code></pre>
+<blockquote>
+<p>运行 war 包</p>
+</blockquote>
+<ul>
+<li>运行命令 </li>
+<li><ul>
+<li>mvn clean package -Dmaven.test.skip=true</li>
+</ul>
+</li>
+<li> 拷贝 war 包至 web 服务器 tomcat 的 webapps 中</li>
+<li>将 war 包名称修改为 ROOT.war</li>
+<li> 启动 tomcat </li>
+<li><ul>
+<li>%TOMCAT_HOME%/bin/startup.bat</li>
+</ul>
+</li>
+</ul>
+<h1 id="idea-启动"><a href="#idea-启动" class="headerlink" title="idea 启动"></a>idea 启动</h1><ul>
+<li><p>idea 直接启动入口文件</p>
+</li>
+<li><p>进入目录，输出 mvn spring-boot:run</p>
+</li>
+<li><p>进入目录:mvn -install </p>
+</li>
+<li><ul>
+<li>进入 target 执行 java -jar xxx.jar -spring.profiles.active=dev;</li>
+</ul>
+</li>
+</ul>
+<h1 id="LINUX上tomcat启动"><a href="#LINUX上tomcat启动" class="headerlink" title="LINUX上tomcat启动"></a>LINUX 上 tomcat 启动</h1><h2 id="jar"><a href="#jar" class="headerlink" title="jar"></a>jar</h2><ul>
+<li><p><a href="https://www.cnblogs.com/ysocean/p/6893446.html">以正常项目启动</a></p>
+</li>
+<li><p> java -jar XXX.jar</p>
+</li>
+<li><ul>
+<li>这是最基本的 jar 包执行方式，但是当我们用 ctrl+c 中断或者关闭窗口时，程序也会中断执行。</li>
+</ul>
+</li>
+</ul>
+<h2 id="amp"><a href="#amp" class="headerlink" title="&amp;"></a>&amp;</h2><ul>
+<li><p>java -jar XXX.jar &amp;</p>
+</li>
+<li><p>&amp; 代表在后台运行，使用 ctrl+c 不会中断程序的运行，但是关闭窗口会中断程序的运行。</p>
+</li>
+</ul>
+<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><ul>
+<li><p>nohup java -jar XXX.jar &amp;</p>
+</li>
+<li><p>使用这种方式运行的程序日志会输出到当前目录下的 nohup.out 文件，使用 ctrl+c 中断或者关闭窗口都不会中断程序的执行。</p>
+</li>
+</ul>
+<h2 id="gt"><a href="#gt" class="headerlink" title=">"></a>&gt;</h2><ul>
+<li><p>nohup java -jar XXX.jar &gt;temp.out &amp;</p>
+</li>
+<li><p>temp.out 的意思是将日志输出重定向到 temp.out 文件，使用 ctrl+c 中断或者关闭窗口都不会中断程序的执行。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springMvc 参数绑定</title>
+    <url>/2021/05/28/18-SpringMVC%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/18.jpg"></p>
+</span>
+
+<span id="more"></span>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="多实体含有同属性"><a href="#多实体含有同属性" class="headerlink" title="多实体含有同属性"></a>多实体含有同属性</h2><blockquote>
+<p> 比如都含有 name</p>
+</blockquote>
+<pre><code>http://localhost:8080/springmvc/object.do?user.name=Tom&amp;admin.name=Lucy&amp;age=10 
+@InitBinder("user")
+public void initUser(WebDataBinder binder){
+    binder.setFieldDefaultPrefix("user.");
+}
+@InitBinder("admin")
+public void initAdmin(WebDataBinder binder){
+    binder.setFieldDefaultPrefix("admin.");
+}
+</code></pre>
+<h2 id="List绑定"><a href="#List绑定" class="headerlink" title="List绑定"></a>List 绑定</h2><pre><code>不能直接使用
+public void xx(List&lt;User&gt; user){
+
+}
+应该建一个数据收集类
+public class UserListFrom(){
+    private List&lt;User&gt; users
+    get set 方法
+}
+#mvc绑定list
+public void xx(UserListFrom user){
+
+}
+</code></pre>
+<h2 id="Set-绑定"><a href="#Set-绑定" class="headerlink" title="Set 绑定"></a>Set 绑定</h2><pre><code>类需要定义Set的大小        
+public class UserSetForm(){
+    private Set&lt;User&gt; users
+    private UserSetForm(){ //有几个就定义几个Set
+        users = new LinkedHashSet();
+        users.add(new User);
+        users.add(new User);
+    }
+    get set 方法
+}
+
+#mvc绑定Set
+public void xx(UserSetForm user){
+
+}
+</code></pre>
+<h2 id="Map-绑定"><a href="#Map-绑定" class="headerlink" title="Map 绑定"></a>Map 绑定</h2><ul>
+<li>同上</li>
+</ul>
+<h2 id="json绑定"><a href="#json绑定" class="headerlink" title="json绑定"></a>json 绑定</h2><ul>
+<li>@RequestBody</li>
+</ul>
+<h2 id="xml绑定"><a href="#xml绑定" class="headerlink" title="xml绑定"></a>xml 绑定</h2><ul>
+<li>需要 spring-oxm 依赖</li>
+<li>控制器 @RequestBody   </li>
+<li>实体类   </li>
+<li><ul>
+<li>根节点 @XmlRootElement (name=”user”)</li>
+</ul>
+</li>
+<li><ul>
+<li> 子节点 @XmlElement (name=”name”)    </li>
+</ul>
+</li>
+<li><ul>
+<li>子节点 @XmlElement (name=”age”)    </li>
+</ul>
+</li>
+</ul>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><ul>
+<li>resf 风格 @ - /hello/100/say </li>
+</ul>
+<figure class="highlight less"><table><tbody><tr><td class="code"><pre><span class="line"><span class="variable">@RequestMapping</span>(value = <span class="string">"/{id}/say"</span>,method = RequestMethod.GET)</span><br><span class="line">public String say(<span class="variable">@PathVariable</span>(<span class="string">"id"</span>) int id ){</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">String</span><span class="selector-class">.valueOf</span>(id);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>普通传参 -    /hello/say?id=100</li>
+</ul>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">@<span class="constructor">RequestMapping(<span class="params">value</span> = <span class="string">"/say"</span>,<span class="params">method</span> = RequestMethod.GET)</span></span><br><span class="line">public String say(@<span class="constructor">RequestParam(<span class="params">value</span> = <span class="string">"id"</span>,<span class="params">required</span> = <span class="params">false</span> ,<span class="params">defaultValue</span> = <span class="string">"0"</span>)</span> <span class="built_in">int</span> id ){</span><br><span class="line">    return <span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">id</span>)</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+<ul>
+<li>请求 body</li>
+</ul>
+<figure class="highlight less"><table><tbody><tr><td class="code"><pre><span class="line"><span class="variable">@PostMapping</span>(<span class="string">"/create"</span>)</span><br><span class="line">public ResultJson create(<span class="variable">@RequestBody</span> <span class="variable">@Validated</span> dto dto) {</span><br><span class="line">   </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>请求 RequestPart</li>
+</ul>
+<figure class="highlight less"><table><tbody><tr><td class="code"><pre><span class="line"><span class="variable">@PostMapping</span>(<span class="string">"/create"</span>)</span><br><span class="line">public ResultJson create(<span class="variable">@RequestPart</span> <span class="variable">@Validated</span> dto dto) {</span><br><span class="line">   </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="返回参数绑定"><a href="#返回参数绑定" class="headerlink" title="返回参数绑定"></a>返回参数绑定</h1><h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><blockquote>
+<p>只实例化一个 bean 对象（即每次请求都使用同一个 bean 对象），默认是 singleton</p>
+</blockquote>
+<pre><code>@Scope(value="singleton") 
+</code></pre>
+<h2 id="通过ModelAndView返回用户信息数据到页面"><a href="#通过ModelAndView返回用户信息数据到页面" class="headerlink" title="通过ModelAndView返回用户信息数据到页面"></a>通过 ModelAndView 返回用户信息数据到页面</h2><pre><code>/**
+ * 方式一，通过ModelAndView返回用户信息数据到页面
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/ModelAndView", method=RequestMethod.GET)
+private ModelAndView getUserInfo(@PathVariable("userId") Integer userId){
+    User user = userService.getUserById(userId);
+    return new ModelAndView("userinfo", "user", user);
+}
+/**
+ * 方式二，通过Model返回用户信息数据到页面
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/Model", method=RequestMethod.GET)
+private String getUserInfo(@PathVariable("userId") Integer userId, Model model){
+    User user = userService.getUserById(userId);
+    model.addAttribute("user", user);
+    return "userinfo";
+}
+/**
+ * 方式三，通过ModelMap返回用户信息数据到页面
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/ModelMap", method=RequestMethod.GET)
+private String getUserInfo(@PathVariable("userId") Integer userId, ModelMap model){
+    User user = userService.getUserById(userId);
+    model.addAttribute("user", user);
+    return "userinfo";
+}
+
+/**
+ * 方式四，通过Map返回用户信息数据到页面
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/Map", method=RequestMethod.GET)
+private String getUserInfo(@PathVariable("userId") Integer userId, Map&lt;String,Object&gt; model){
+    User user = userService.getUserById(userId);
+    model.put("user", user);
+    return "userinfo";
+}
+/**
+ * 方式五，通过@SessionAttributes将指定key的模型数据存到HttpSession，让页面可以获取
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/SessionAttributes", method=RequestMethod.GET)
+private ModelAndView getUserInfo(@PathVariable("userId") Integer userId){
+    User user = userService.getUserById(userId);
+    return new ModelAndView("userinfo", "user", user);
+}
+/**
+ * 方式六，通过@SessionAttributes将指定key的模型数据存到HttpSession，让页面可以获取
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/ModelAttribute", method=RequestMethod.GET)
+private String getUserInfo(@PathVariable("userId") Integer userId){
+    return "userinfo";
+}
+/**
+ * 方式七，直接将数据存到HttpSession，让页面可以获取
+ * @param userId
+ * @param session
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/HttpSession", method=RequestMethod.GET)
+private String getUserInfo(@PathVariable("userId") Integer userId, HttpSession session){
+    User user = userService.getUserById(userId);
+    session.setAttribute("user", user);
+    return "userinfo";
+}
+/**
+ * 方式八，直接将数据存到HttpServletRequest，让页面可以获取
+ * @param userId
+ * @param session
+ * @return
+ */
+@RequestMapping(value="/view/{userId}/use/HttpServletRequest", method=RequestMethod.GET)
+private String getUserInfo(@PathVariable("userId") Integer userId, HttpServletRequest request){
+    User user = userService.getUserById(userId);
+    request.setAttribute("user", user);
+    return "userinfo";
+}
+</code></pre>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
@@ -625,6 +1233,82 @@ mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -Darchetype
       <tags>
         <tag>Java</tag>
         <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装 Java</title>
+    <url>/2021/05/26/2-%E5%AE%89%E8%A3%85Java/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/2.jpg"></p>
+</span>
+
+<span id="more"></span>
+<h2 id="Windows安装"><a href="#Windows安装" class="headerlink" title="Windows安装"></a>Windows 安装</h2><h3 id="下载Jdk8"><a href="#下载Jdk8" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><ul>
+<li>  选择对应 jdk 版本下载（Tips：可在 Windows 下载完成后，通过 FTP 或者 SSH 到发送到 Linux 上）</li>
+<li>  <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></li>
+</ul>
+<h3 id="指定目录"><a href="#指定目录" class="headerlink" title="指定目录"></a>指定目录</h3><pre><code>D:\JJDK\java\
+</code></pre>
+<h3 id="安装jre"><a href="#安装jre" class="headerlink" title="安装jre"></a>安装 jre</h3><pre><code>创建目录安装：D:\JJDK\java\jre1.8.0_281  
+</code></pre>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><pre><code>JAVA_HOME： D:\JJDK\java 
+PATH:  %JAVA_HOME%\bin
+CLASSPATH: .;%JAVA_HOME%\bin;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar
+</code></pre>
+<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><pre><code>java -version
+    
+</code></pre>
+<h2 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux 安装</h2><h3 id="下载Jdk8-1"><a href="#下载Jdk8-1" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><ul>
+<li>选择对应 jdk 版本下载（Tips：可在 Windows 下载完成后，通过 FTP 或者 SSH 到发送到 Linux 上）</li>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></li>
+</ul>
+<h3 id="登录Linux，切换到root用户"><a href="#登录Linux，切换到root用户" class="headerlink" title="登录Linux，切换到root用户"></a>登录 Linux，切换到 root 用户</h3><pre><code>su root 获取root用户权限，当前工作目录不变(需要root密码)
+
+sudo -i 不需要root密码直接切换成root（需要当前用户密码）
+</code></pre>
+<h3 id="在usr目录下建立java安装目录"><a href="#在usr目录下建立java安装目录" class="headerlink" title="在usr目录下建立java安装目录"></a>在 usr 目录下建立 java 安装目录</h3><pre><code>cd /usr/local
+
+mkdir java
+</code></pre>
+<h3 id="将jdk-8u60-linux-x64-tar-gz拷贝到java目录下"><a href="#将jdk-8u60-linux-x64-tar-gz拷贝到java目录下" class="headerlink" title="将jdk-8u60-linux-x64.tar.gz拷贝到java目录下"></a>将 jdk-8u60-linux-x64.tar.gz 拷贝到 java 目录下</h3><pre><code>cp /mnt/hgfs/linux/jdk-8u60-linux-x64.tar.gz /usr/local/java/
+</code></pre>
+<h3 id="解压jdk到当前目录"><a href="#解压jdk到当前目录" class="headerlink" title="解压jdk到当前目录"></a>解压 jdk 到当前目录</h3><pre><code>得到文件夹 jdk1.8.0_*　　(注意：下载不同版本的JDK目录名不同！)
+tar -zxvf jdk-8u60-linux-x64.tar.gz
+</code></pre>
+<h3 id="安装完毕为他建立一个链接以节省目录长度"><a href="#安装完毕为他建立一个链接以节省目录长度" class="headerlink" title="安装完毕为他建立一个链接以节省目录长度"></a>安装完毕为他建立一个链接以节省目录长度</h3><pre><code>ln -s /usr/local/java/jdk1.8.0_60/ /usr/local/jdk
+</code></pre>
+<h3 id="编辑配置文件，配置环境变量"><a href="#编辑配置文件，配置环境变量" class="headerlink" title="编辑配置文件，配置环境变量"></a>编辑配置文件，配置环境变量</h3><pre><code>vim /etc/profile
+
+    JAVA_HOME=/usr/local/jdk
+    CLASSPATH=$JAVA_HOME/lib/
+    PATH=$PATH:$JAVA_HOME/bin
+    export PATH JAVA_HOME CLASSPATH
+</code></pre>
+<h3 id="重启机器或执行命令"><a href="#重启机器或执行命令" class="headerlink" title="重启机器或执行命令"></a>重启机器或执行命令</h3><pre><code>source /etc/profile
+
+sudo shutdown -r now
+</code></pre>
+<h3 id="查看安装情况"><a href="#查看安装情况" class="headerlink" title="查看安装情况"></a>查看安装情况</h3><pre><code>java -version
+
+java version "1.8.0_60"
+Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
+Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
+</code></pre>
+<h3 id="可能出现的错误信息"><a href="#可能出现的错误信息" class="headerlink" title="可能出现的错误信息"></a>可能出现的错误信息</h3><pre><code>bash: ./java: cannot execute binary file
+
+出现这个错误的原因可能是在32位的操作系统上安装了64位的jdk，
+1、查看jdk版本和Linux版本位数是否一致。
+2、查看你安装的Ubuntu是32位还是64位系统
+</code></pre>
+<p>   <a href="http://www.cnblogs.com/zeze/p/5902124.html" title="点击此处">来源博客</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1316,6 +2000,557 @@ discard         #回滚
       </categories>
       <tags>
         <tag>Aop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot 整合整理</title>
+    <url>/2021/05/28/17-SpringBoot%E6%95%B4%E5%90%88%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/banner/17.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="静态文件配置项"><a href="#静态文件配置项" class="headerlink" title="静态文件配置项"></a>静态文件配置项</h1><pre><code>spring.mvc.static-path-pattern=/static/**
+</code></pre>
+<h1 id="jackson使用"><a href="#jackson使用" class="headerlink" title="jackson使用"></a>jackson 使用</h1><pre><code>实体类里面：
+@JsonIgnore -字段忽略
+@JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a",locale="zh",timezone="GMT+8")//格式化时间
+@JsonInclude(Include.NON_NULL)//有值的时候显示，没有值不显示
+</code></pre>
+<h1 id="spring-boot-热部署"><a href="#spring-boot-热部署" class="headerlink" title="spring-boot 热部署"></a>spring-boot 热部署</h1><ul>
+<li>devtools 可以实现页面热部署</li>
+<li><ul>
+<li>即页面修改后会立即生效，这个可以直接在 application.properties 文件中配置 spring.thymeleaf.cache=false 来实现</li>
+</ul>
+</li>
+<li>实现类文件热部署（类文件修改后不会立即生效），实现对属性文件的热部署。</li>
+<li><ul>
+<li>即 devtools 会监听 classpath 下的文件变动，并且会立即重启应用（发生在保存时机）</li>
+</ul>
+</li>
+<li><ul>
+<li>注意：因为其采用的虚拟机机制，该项重启是很快的</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>（1）base classloader （Base 类加载器）：加载不改变的 Class，例如：第三方提供的 jar 包</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>（2）restart classloader（Restart 类加载器）：加载正在开发的 Class</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li> 为什么重启很快，因为重启的时候只是加载了在开发的 Class，没有重新加载第三方的 jar 包。</li>
+</ul>
+</li>
+</ul>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+    &lt;!-- optional=true, 依赖不会传递, 该项目依赖devtools; 
+        之后依赖boot项目的项目如果想要使用devtools, 需要重新引入 --&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="模板开启热部署"><a href="#模板开启热部署" class="headerlink" title="模板开启热部署"></a>模板开启热部署</h2><pre><code>spring.freemarker.cache=false
+spring.thymeleaf.cache=true
+</code></pre>
+<h2 id="开启监听"><a href="#开启监听" class="headerlink" title="开启监听"></a>开启监听</h2><pre><code>spring.devtools.restart.enabled=true
+</code></pre>
+<h2 id="监听源"><a href="#监听源" class="headerlink" title="监听源"></a>监听源</h2><pre><code>spring.devtools.restart.additional-paths=src/main/java
+</code></pre>
+<h2 id="监听mybatis"><a href="#监听mybatis" class="headerlink" title="监听mybatis"></a>监听 mybatis</h2><pre><code>restart.include.mapper=/mapper-[\\w-\\.]+jar
+restart.include.pagehelper=/pagehelper-[\\w-\\.]+jar
+</code></pre>
+<h2 id="排除某些文件"><a href="#排除某些文件" class="headerlink" title="排除某些文件"></a>排除某些文件</h2><pre><code>spring.devtools.restart.exclude=static/**,public/**
+spring.devtools.restart.exclude=WEB-INF/**
+</code></pre>
+<h1 id="加载-properties文件"><a href="#加载-properties文件" class="headerlink" title="加载.properties文件"></a>加载.properties 文件</h1><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+
+jdbc.properties
+    mysql.jdbc.driver = "com.mysql.jdbc.driver"
+    mysql.jdbc.url = "com.mysql.jdbc.driver"
+    mysql.jdbc.user = "com.mysql.jdbc.driver"
+    mysql.jdbc.password = "com.mysql.jdbc.driver"
+
+@Configuration
+@ConfigurationProperties(prefix="cmysql.jdbc")
+@PropertySource(value="classpath:jdbc.properties")
+public class Resource{
+    private string driver
+    private string url
+    private string user
+    private string password
+}
+</code></pre>
+<h1 id="tomcat修改"><a href="#tomcat修改" class="headerlink" title="tomcat修改"></a>tomcat 修改</h1><pre><code>server.session-timeout=60
+server.port=8088
+server.error.path=/error
+server.context-path=/IMooc
+server.address=192.168.1.2
+server.tomcat.uri-encoding=UTF-8
+</code></pre>
+<h1 id="加载freemarker模板引擎"><a href="#加载freemarker模板引擎" class="headerlink" title="加载freemarker模板引擎"></a>加载 freemarker 模板引擎</h1><pre><code>#加入依赖
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-freemarker&lt;/artifactId&gt;
+&lt;/dependency&gt;
+#开启指定根目录
+spring.freemarker.template-loader-path=classpath:/templates
+# 关闭缓存
+spring.freemarker.cache=false
+spring.freemarker.charset=UTF-8
+spring.freemarker.check-template-location=true
+spring.freemarker.content-type=text/html
+spring.freemarker.expose-request-attributes=true
+spring.freemarker.expose-session-attributes=true
+spring.freemarker.request-context-attribute=request
+spring.freemarker.suffix=.ftl
+</code></pre>
+<h1 id="加载-thymeleaf-模板"><a href="#加载-thymeleaf-模板" class="headerlink" title="加载 thymeleaf 模板"></a>加载 thymeleaf 模板</h1><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+&lt;/dependency&gt;
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML5
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.servlet.content-type=text/html
+#开启/关闭缓存
+spring.thymeleaf.cache=false
+</code></pre>
+<h1 id="thymeleaf-常用标签使用方法"><a href="#thymeleaf-常用标签使用方法" class="headerlink" title="thymeleaf 常用标签使用方法"></a>thymeleaf 常用标签使用方法</h1><pre><code>条件判断:th:if    th:unless 
+循环：th:each     th:switch
+
+#text与utext text 是原封不动显示，utext可以解析成html
+#th:href = "@{http://www.baidu.com}"  
+    th:href="@{/Controller/behavior(parentId=${menuBean.id},type=${type})}" 多参数以？的形式
+    th:href="@{/menu/{type}/{parentId}/menusEdit.do(parentId=${menuBean.id},type=${type})}" 多参数以/xx/2/3/xx的形式
+#th:src = "@{/static/js/test.js}"#需要指定静态文件位置
+#form表单
+    th:object和*{name} 等同于   ${user.name}
+    th:adtion="@{/th/postfrom}" th:object="${user}" th:method="post"
+    input  th:field="*{name}" #value
+#if判断    
+th:if="${user.age} == 18"等于
+th:if="${user.age} gt 18"大于
+th:if="${user.age} lt 18"小于
+th:if="${user.age} ge 18"大等于
+th:if="${user.age} le 18"小等于
+#选择下拉框框
+th:selected ="${user.age} eq 18" 
+#th:each
+    th:each="person:${userList}"
+        th:text="${person.name}"
+        th:text="${person.age}"
+        th:text="${#data.format(user.birthday,"yyyy-MM-dd hh:mm:ss")}"
+#th:switch
+        th:switch="${user.name}"
+            th:case="Lee"
+            th:case="Lee"
+            th:case="*"
+#页面读取i18n配置文件数据
+    #application.properties
+        spring.messages.basename=i18n/messages
+        spring.messages.cache-seconds=3600
+        spring.messages.encoding=UTF-8
+    /resources/i18n/messages.properties
+        roles.manager=manager
+        roles.superadmin=superadmin
+    页面引用
+        th:case="#{roles.manager}"
+</code></pre>
+<h1 id="springBoot配置全局异常捕获"><a href="#springBoot配置全局异常捕获" class="headerlink" title="springBoot配置全局异常捕获"></a>springBoot 配置全局异常捕获</h1><pre><code>1.加一个异常类
+    @ControllerAdvice
+2异常方法接收异常并且传入异常    
+    @ExceptionHandler(value = Exception.class)
+3.判断是不是ajax
+    public static boolean isAjax(HttpServletRequest httpRequest){
+        return  (httpRequest.getHeader("X-Requested-With") != null  
+                    &amp;&amp; "XMLHttpRequest"
+                        .equals( httpRequest.getHeader("X-Requested-With").toString()) );
+    }    
+    
+</code></pre>
+<h1 id="SpringBoot-整合mybatis"><a href="#SpringBoot-整合mybatis" class="headerlink" title="SpringBoot 整合mybatis"></a>SpringBoot 整合 mybatis</h1><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;druid&lt;/artifactId&gt;
+    &lt;version&gt;1.1.10&lt;/version&gt;
+&lt;/dependency&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;5.1.44&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;tk.mybatis&lt;/groupId&gt;
+    &lt;artifactId&gt;mapper-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;2.0.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;
+    &lt;artifactId&gt;pagehelper-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt; 1.2.5&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.1.10&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-generator-core&lt;/artifactId&gt;
+    &lt;version&gt;1.3.6&lt;/version&gt;
+&lt;/dependency&gt;
+############################################################
+#
+# 配置阿里数据源
+#
+############################################################
+spring.datasource.url=jdbc:mysql://localhost:3306/leecx
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.druid.initial-size=1
+spring.datasource.druid.min-idle=1
+spring.datasource.druid.max-active=20
+spring.datasource.druid.test-on-borrow=true
+spring.datasource.druid.stat-view-servlet.allow=true
+############################################################
+#
+# mybatis 配置
+#
+############################################################
+# mybatis 配置
+mybatis.type-aliases-package=com.imooc.pojo
+mybatis.mapper-locations=classpath:mapper/*.xml
+#通用mapper配置
+mapper.mappers=com.imooc.utils.MyMapper
+mapper.not-empty=false
+mapper.identity=MYSQL
+# 分页插件配置
+pagehelper.helperDialect=mysql
+pagehelper.reasonable=true
+pagehelper.supportMethodsArguments=true
+pagehelper.params=count=countSql
+</code></pre>
+<h1 id="使用gen自动生成代码"><a href="#使用gen自动生成代码" class="headerlink" title="使用gen自动生成代码"></a>使用 gen 自动生成代码</h1><pre><code>（1）创建generatorConfig.xml
+    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    &lt;!DOCTYPE generatorConfiguration
+            PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+            "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"&gt;
+    &lt;generatorConfiguration&gt;
+        &lt;context id="MysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat"&gt;
+            &lt;property name="beginningDelimiter" value="`"/&gt;
+            &lt;property name="endingDelimiter" value="`"/&gt;
+
+            &lt;plugin type="tk.mybatis.mapper.generator.MapperPlugin"&gt;
+                &lt;property name="mappers" value="com.imooc.utils.MyMapper"/&gt;
+            &lt;/plugin&gt;
+
+            &lt;jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                            connectionURL="jdbc:mysql://localhost:3306/leecx"
+                            userId="root"
+                            password="root"&gt;
+            &lt;/jdbcConnection&gt;
+
+            &lt;!-- 对于生成的pojo所在包 --&gt;
+            &lt;javaModelGenerator targetPackage="com.imooc.pojo" targetProject="src/main/java"/&gt;
+
+            &lt;!-- 对于生成的mapper所在目录 --&gt;
+            &lt;sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/&gt;
+
+            &lt;!-- 配置mapper对应的java映射 --&gt;
+            &lt;javaClientGenerator targetPackage="com.imooc.mapper" targetProject="src/main/java"
+                                 type="XMLMAPPER"/&gt;
+
+            &lt;table tableName="sys_user"&gt;&lt;/table&gt;
+             
+        &lt;/context&gt;
+    &lt;/generatorConfiguration&gt;
+（2） 使用mvn创建 创建插件-然后双击运行-
+      使用代码：
+        public void generator() throws Exception{
+            List&lt;String&gt; warnings = new ArrayList&lt;String&gt;();
+            boolean overwrite = true;
+            //指定 逆向工程配置文件
+            File configFile = new File("generatorConfig.xml"); 
+            ConfigurationParser cp = new ConfigurationParser(warnings);
+            Configuration config = cp.parseConfiguration(configFile);
+            DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+            MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config,
+                    callback, warnings);
+            myBatisGenerator.generate(null);
+        } 
+        public static void main(String[] args) throws Exception {
+            try {
+                GeneratorDisplay generatorSqlmap = new GeneratorDisplay();
+                generatorSqlmap.generator();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+</code></pre>
+<h1 id="pageHelper-使用方法"><a href="#pageHelper-使用方法" class="headerlink" title="pageHelper 使用方法"></a>pageHelper 使用方法</h1><pre><code>// 开始分页
+PageHelper.startPage(page, pageSize);自动拦截并分页    
+            
+</code></pre>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><pre><code>1、增删改
+@Transactional(propagation=Propagation.REQUIRED 
+2、查
+@Transactional(propagation=Propagation.SUPPORTS      
+</code></pre>
+<h1 id="引入redis"><a href="#引入redis" class="headerlink" title="引入redis"></a>引入 redis</h1><h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><pre><code># Redis\数据库索引，默认0
+spring.redis.database=1
+# Redis服务器地址
+spring.redis.host=192.168.1.191
+# Redis端口
+spring.redis.port=6379
+# Redis密码
+spring.redis.password=
+# 连接池最大连接数，-1表示无限制
+spring.redis.pool.max-active=1000
+# 连接池阻塞最大等待时间
+spring.redis.pool.max-wait=-1
+#最大空闲连接数
+spring.redis.pool.max-idle=10
+# 最小空闲连接数
+spring.redis.pool.min-idle=2
+# 连接超时时间（毫秒）
+spring.redis.timeout=0
+</code></pre>
+<h2 id="引入类"><a href="#引入类" class="headerlink" title="引入类"></a>引入类</h2><pre><code>@Autowired
+private StringRedisTemplate stringRedisTemplate;
+#直接存字符串
+stringRedisTemplate.opsForValue().set("imooc","范德萨范德萨");
+#存json字符串
+Map&lt;String,Object&gt; map = new HashMap&lt;String, Object&gt;();
+map.put("id","1");
+map.put("name","小明");
+JSONObject s = JSONObject.fromObject(map);
+stringRedisTemplate.opsForValue().set("json:user",s.toString());
+String m = stringRedisTemplate.opsForValue().get("json:user");
+JSONObject obj =JSONObject.fromObject(m);
+System.out.println(obj.getInt("id"));
+</code></pre>
+<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><pre><code>@Component
+public class RedisOperator {
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    // Key（键），简单的key-value操作
+    /**
+     * 实现命令：TTL key，以秒为单位，返回给定 key的剩余生存时间(TTL, time to live)。
+     * 
+     * @param key
+     * @return
+     */
+    public long ttl(String key) {
+        return redisTemplate.getExpire(key);
+    }
+    /**
+     * 实现命令：expire 设置过期时间，单位秒
+     * 
+     * @param key
+     * @return
+     */
+    public void expire(String key, long timeout) {
+        redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
+    }
+    /**
+     * 实现命令：INCR key，增加key一次
+     * 
+     * @param key
+     * @return
+     */
+    public long incr(String key, long delta) {
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+    /**
+     * 实现命令：KEYS pattern，查找所有符合给定模式 pattern的 key
+     */
+    public Set&lt;String&gt; keys(String pattern) {
+        return redisTemplate.keys(pattern);
+    }
+    /**
+     * 实现命令：DEL key，删除一个key
+     * 
+     * @param key
+     */
+    public void del(String key) {
+        redisTemplate.delete(key);
+    }
+    // String（字符串）
+    /**
+     * 实现命令：SET key value，设置一个key-value（将字符串值 value关联到 key）
+     * 
+     * @param key
+     * @param value
+     */
+    public void set(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+    /**
+     * 实现命令：SET key value EX seconds，设置key-value和超时时间（秒）
+     * 
+     * @param key
+     * @param value
+     * @param timeout
+     *            （以秒为单位）
+     */
+    public void set(String key, String value, long timeout) {
+        redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
+    }
+    /**
+     * 实现命令：GET key，返回 key所关联的字符串值。
+     * 
+     * @param key
+     * @return value
+     */
+    public String get(String key) {
+        return (String)redisTemplate.opsForValue().get(key);
+    }
+    // Hash（哈希表）
+    /**
+     * 实现命令：HSET key field value，将哈希表 key中的域 field的值设为 value
+     * 
+     * @param key
+     * @param field
+     * @param value
+     */
+    public void hset(String key, String field, Object value) {
+        redisTemplate.opsForHash().put(key, field, value);
+    }
+    /**
+     * 实现命令：HGET key field，返回哈希表 key中给定域 field的值
+     * 
+     * @param key
+     * @param field
+     * @return
+     */
+    public String hget(String key, String field) {
+        return (String) redisTemplate.opsForHash().get(key, field);
+    }
+    /**
+     * 实现命令：HDEL key field [field ...]，删除哈希表 key 中的一个或多个指定域，不存在的域将被忽略。
+     * 
+     * @param key
+     * @param fields
+     */
+    public void hdel(String key, Object... fields) {
+        redisTemplate.opsForHash().delete(key, fields);
+    }
+    /**
+     * 实现命令：HGETALL key，返回哈希表 key中，所有的域和值。
+     * 
+     * @param key
+     * @return
+     */
+    public Map&lt;Object, Object&gt; hgetall(String key) {
+        return redisTemplate.opsForHash().entries(key);
+    }
+    // List（列表）
+    /**
+     * 实现命令：LPUSH key value，将一个值 value插入到列表 key的表头
+     * 
+     * @param key
+     * @param value
+     * @return 执行 LPUSH命令后，列表的长度。
+     */
+    public long lpush(String key, String value) {
+        return redisTemplate.opsForList().leftPush(key, value);
+    }
+    /**
+     * 实现命令：LPOP key，移除并返回列表 key的头元素。
+     * 
+     * @param key
+     * @return 列表key的头元素。
+     */
+    public String lpop(String key) {
+        return (String)redisTemplate.opsForList().leftPop(key);
+    }
+    /**
+     * 实现命令：RPUSH key value，将一个值 value插入到列表 key的表尾(最右边)。
+     * 
+     * @param key
+     * @param value
+     * @return 执行 LPUSH命令后，列表的长度。
+     */
+    public long rpush(String key, String value) {
+        return redisTemplate.opsForList().rightPush(key, value);
+    }
+}
+</code></pre>
+<h1 id="任务TASK"><a href="#任务TASK" class="headerlink" title="任务TASK"></a>任务 TASK</h1><pre><code>使用注解@EnableScheduling开启定时任务
+    #放在springboot启动文件上面
+
+定义@Component作为组件被容器扫描
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    
+    @Scheduled(fixedRate = 3000)#定义每过3秒执行任务
+    @Scheduled(cron = "4-40 * * * * ?")#corn表达式
+    public void task(){
+        System.out.println("现在的时间"+dataformat.format(new Date()));
+    }
+    
+</code></pre>
+<h1 id="spring执行异步任务"><a href="#spring执行异步任务" class="headerlink" title="spring执行异步任务"></a>spring 执行异步任务</h1><pre><code>使用注解@EnableAsync开启异步任务
+    #放在springboot启动文件上面
+@Async 注解在方法上。不注解就是同步任务
+示例------
+@Async
+public Future&lt;Boolean&gt; doTask11() throws Exception {
+    long start = System.currentTimeMillis();
+    Thread.sleep(1000);
+    long end = System.currentTimeMillis();
+    System.out.println("任务1耗时:" + (end - start) + "毫秒");
+    return new AsyncResult&lt;&gt;(true);
+}    
+</code></pre>
+<h1 id="spring-boot-拦截器"><a href="#spring-boot-拦截器" class="headerlink" title="spring-boot 拦截器"></a>spring-boot 拦截器</h1><pre><code>使用注解@Configuration配置拦截器
+继承WebMvcConfigurerAdapter
+重写addInterceptors添加需要的拦截器地址
+
+@Configuration
+public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        /**
+         * 拦截器按照顺序执行
+         */
+        registry.addInterceptor(new TwoInterceptor()).addPathPatterns("/two/**")
+                                                     .addPathPatterns("/one/**");
+        registry.addInterceptor(new OneInterceptor()).addPathPatterns("/one/**");
+        
+        super.addInterceptors(registry);
+    }
+}
+OneInterceptor，TwoInterceptor 是实现 HandlerInterceptor 接口的里面的方法，实现具体的代码
+</code></pre>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
 </search>
