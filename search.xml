@@ -5,7 +5,7 @@
     <url>/2021/05/25/1-Json%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/1.jpg"></p>
+<p><img data-src="/images/banner/1.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -152,70 +152,11 @@ new Gson().toJson(u)
       </tags>
   </entry>
   <entry>
-    <title>ActiveMQ</title>
-    <url>/2021/05/28/10-ActiveMQ/</url>
-    <content><![CDATA[<span id="delete">
-
-<p><img data-src="/banner/10.jpg"></p>
-</span>
-
-<span id="more"></span>
-
-<h1 id="ActiveMQ介绍"><a href="#ActiveMQ介绍" class="headerlink" title="ActiveMQ介绍"></a>ActiveMQ 介绍</h1><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><figure class="highlight arduino"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> url = <span class="string">"tcp://127.0.0.1:61616"</span>; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> topicName = <span class="string">"topic-list"</span>; </span><br></pre></td></tr></tbody></table></figure>
-
-<p>## 主题模式生产者</p>
-<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//1.创建连接工程</span></span><br><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建生产者</span></span><br><span class="line">MessageProducer mp = session.create<span class="constructor">Producer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>;i&lt;<span class="number">100</span>;i++){</span><br><span class="line">    <span class="comment">//7.创建消息</span></span><br><span class="line">    TextMessage textMessage = session.create<span class="constructor">TextMessage(<span class="string">"TOPIC"</span>+<span class="params">i</span>)</span>;</span><br><span class="line">    <span class="comment">//8.发送消息</span></span><br><span class="line">    mp.send(textMessage);</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"消息发送成功:"</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">}</span><br><span class="line"><span class="comment">//关闭连接</span></span><br><span class="line">connection.close<span class="literal">()</span>;</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="主题模式的消费者"><a href="#主题模式的消费者" class="headerlink" title="主题模式的消费者"></a>主题模式的消费者</h2><blockquote>
-<p>  主题模式下，消费者无法接收到订阅之前生产者发布的消息，只有先开消费者，再开生产者才能接受消息。</p>
-</blockquote>
-<blockquote>
-<p>  队列模式不论先后 queue (将 createTopic 改成 createQueue 即为队列模式)</p>
-</blockquote>
-<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建消费者</span></span><br><span class="line">MessageConsumer mp = session.create<span class="constructor">Consumer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="comment">//7.创建一个监听器</span></span><br><span class="line">mp.set<span class="constructor">MessageListener(<span class="params">new</span> MessageListener()</span> {</span><br><span class="line">    public void on<span class="constructor">Message(Message <span class="params">message</span>)</span> {</span><br><span class="line">        TextMessage textMessage =(TextMessage)message;</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"接收消息："</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">        } catch (JMSException e) {</span><br><span class="line">            e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">});	</span><br></pre></td></tr></tbody></table></figure>
-
-
-<h2 id="Spring集成JMS连接ActiveMQ"><a href="#Spring集成JMS连接ActiveMQ" class="headerlink" title="Spring集成JMS连接ActiveMQ"></a>Spring 集成 JMS 连接 ActiveMQ</h2><blockquote>
-<p>ConnectionFactory 用于管理连接的连接工厂</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p> 一个 Spring 为我们提供的连接池，Spring 中提供了 SingleConnectionFactory 和 CachingConnectionFactory</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>JmsTemplate 用于发送和接受消息的模板类</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p> 注入即可使用，线程安全，JmsTemplate 每次发送消息都会重新创建连接，会话和 productor</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>MessageListerner 消息监听器</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<p> 实现一个 onMessage 方法，该方法只接受一个 Message 参数</p>
-</blockquote>
-</blockquote>
-<h3 id="common-xml"><a href="#common-xml" class="headerlink" title="common.xml"></a>common.xml</h3><figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--使用注解--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置activeMQ连接工厂--&gt;</span>	</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"activeMQConnectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.ActiveMQConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerURL"</span> <span class="attr">value</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置spring连接工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.connection.SingleConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetConnectionFactory"</span> <span class="attr">ref</span>=<span class="string">"activeMQConnectionFactory"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用队列--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"queueDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQQueue"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"queue"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用主题模式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"topicDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQTopic"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"topic"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="consumer-xml"><a href="#consumer-xml" class="headerlink" title="consumer.xml"></a>consumer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"consumerContainerListener"</span> <span class="built_in">class</span>=<span class="string">"com.imooc.jms.consumer.ConsumerContainerListener"</span>/&gt;	</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsContainer"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"destination"</span> <span class="keyword">ref</span>=<span class="string">"queueDestination"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"messageListener"</span> <span class="keyword">ref</span>=<span class="string">"consumerContainerListener"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="producer-xml"><a href="#producer-xml" class="headerlink" title="producer.xml"></a>producer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsTemplate"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.core.JmsTemplate"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">&lt;bean <span class="built_in">class</span>=<span class="string">"com.imooc.jms.producer.impl.ProducerServiceImpl"</span>/&gt;</span><br></pre></td></tr></tbody></table></figure>
-]]></content>
-      <categories>
-        <category>MQ</category>
-      </categories>
-      <tags>
-        <tag>MQ</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>安装 Mysql</title>
     <url>/2021/05/26/11-%E5%AE%89%E8%A3%85Mysql/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/11.jpg"></p>
+<p><img data-src="/images/banner/11.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -249,7 +190,8 @@ select host,user,authentication_string from mysql.user;
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; #8.0
 flush privileges; 
 </code></pre>
-<h3 id="配置权限允许访问"><a href="#配置权限允许访问" class="headerlink" title="配置权限允许访问"></a>配置权限允许访问</h3><pre><code>grant all privileges on *.* to root@'%'  identified by '123456' 任意ip访问数据库 
+<h3 id="配置权限允许访问"><a href="#配置权限允许访问" class="headerlink" title="配置权限允许访问"></a>配置权限允许访问</h3><pre><code>1. update user set user.Host='%' where user.User='root';
+2. grant all privileges on *.* to root@'%'  identified by '123456' 任意ip访问数据库 
 </code></pre>
 <h3 id="增加my-ini配置文件"><a href="#增加my-ini配置文件" class="headerlink" title="增加my.ini配置文件"></a>增加 my.ini 配置文件</h3><blockquote>
 <p> 放在 mysql 安装目录下</p>
@@ -274,6 +216,8 @@ default-storage-engine=INNODB
 # 默认使用“mysql_native_password”插件作为认证加密方式
 # MySQL8.0默认认证加密方式为caching_sha2_password
 default_authentication_plugin=mysql_native_password
+#大小写不敏感
+lower_case_table_names = 1
 
 [mysql]
 # 设置mysql客户端默认字符集
@@ -338,6 +282,10 @@ chkconfig  --list                                                       #查看�
 <h3 id="配置-etc-my-cnf"><a href="#配置-etc-my-cnf" class="headerlink" title="配置/etc/my.cnf"></a>配置 /etc/my.cnf</h3><pre><code>类似 my.ini
 启动 ./bin/mysqld --user=mysql  --basedir=/usr/local/mysql  --datadir=/usr/local/mysql/data --defaults-file=/etc/my.cnf
 </code></pre>
+<p>#Docker 启动</p>
+<pre><code>docker run --name mysql1 --env MYSQL_ROOT_HOST=172.17.%.% 
+--env MYSQL_ROOT_PASSWORD=root -v $PWD/mysql_data:/var/lib/mysql -p 3333:3306 -d mysql/mysql-server:5.7
+</code></pre>
 ]]></content>
       <categories>
         <category>Windows</category>
@@ -349,11 +297,99 @@ chkconfig  --list                                                       #查看�
       </tags>
   </entry>
   <entry>
+    <title>ActiveMQ</title>
+    <url>/2021/05/28/10-ActiveMQ/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/10.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="ActiveMQ介绍"><a href="#ActiveMQ介绍" class="headerlink" title="ActiveMQ介绍"></a>ActiveMQ 介绍</h1><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><figure class="highlight arduino"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> url = <span class="string">"tcp://127.0.0.1:61616"</span>; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> topicName = <span class="string">"topic-list"</span>; </span><br></pre></td></tr></tbody></table></figure>
+
+<p>## 主题模式生产者</p>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">//1.创建连接工程</span></span><br><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建生产者</span></span><br><span class="line">MessageProducer mp = session.create<span class="constructor">Producer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>;i&lt;<span class="number">100</span>;i++){</span><br><span class="line">    <span class="comment">//7.创建消息</span></span><br><span class="line">    TextMessage textMessage = session.create<span class="constructor">TextMessage(<span class="string">"TOPIC"</span>+<span class="params">i</span>)</span>;</span><br><span class="line">    <span class="comment">//8.发送消息</span></span><br><span class="line">    mp.send(textMessage);</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"消息发送成功:"</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">}</span><br><span class="line"><span class="comment">//关闭连接</span></span><br><span class="line">connection.close<span class="literal">()</span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="主题模式的消费者"><a href="#主题模式的消费者" class="headerlink" title="主题模式的消费者"></a>主题模式的消费者</h2><blockquote>
+<p>  主题模式下，消费者无法接收到订阅之前生产者发布的消息，只有先开消费者，再开生产者才能接受消息。</p>
+</blockquote>
+<blockquote>
+<p>  队列模式不论先后 queue (将 createTopic 改成 createQueue 即为队列模式)</p>
+</blockquote>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">ConnectionFactory connectionFactory = <span class="keyword">new</span> <span class="constructor">ActiveMQConnectionFactory(<span class="params">url</span>)</span>;</span><br><span class="line"><span class="comment">//2.创建Connenction</span></span><br><span class="line">Connection connection = connectionFactory.create<span class="constructor">Connection()</span>;</span><br><span class="line"><span class="comment">//3.启动连接</span></span><br><span class="line">connection.start<span class="literal">()</span>;</span><br><span class="line"><span class="comment">//4.创建会话</span></span><br><span class="line">Session session = connection.create<span class="constructor">Session(<span class="params">false</span>,Session.AUTO_ACKNOWLEDGE)</span>;</span><br><span class="line"><span class="comment">//5.创建一个目标</span></span><br><span class="line">Destination destination = session.create<span class="constructor">Topic(<span class="params">topicName</span>)</span>;</span><br><span class="line"><span class="comment">//6,。创建消费者</span></span><br><span class="line">MessageConsumer mp = session.create<span class="constructor">Consumer(<span class="params">destination</span>)</span>;</span><br><span class="line"><span class="comment">//7.创建一个监听器</span></span><br><span class="line">mp.set<span class="constructor">MessageListener(<span class="params">new</span> MessageListener()</span> {</span><br><span class="line">    public void on<span class="constructor">Message(Message <span class="params">message</span>)</span> {</span><br><span class="line">        TextMessage textMessage =(TextMessage)message;</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"接收消息："</span>+textMessage.get<span class="constructor">Text()</span>);</span><br><span class="line">        } catch (JMSException e) {</span><br><span class="line">            e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">});	</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h2 id="Spring集成JMS连接ActiveMQ"><a href="#Spring集成JMS连接ActiveMQ" class="headerlink" title="Spring集成JMS连接ActiveMQ"></a>Spring 集成 JMS 连接 ActiveMQ</h2><blockquote>
+<p>ConnectionFactory 用于管理连接的连接工厂</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> 一个 Spring 为我们提供的连接池，Spring 中提供了 SingleConnectionFactory 和 CachingConnectionFactory</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>JmsTemplate 用于发送和接受消息的模板类</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> 注入即可使用，线程安全，JmsTemplate 每次发送消息都会重新创建连接，会话和 productor</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>MessageListerner 消息监听器</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> 实现一个 onMessage 方法，该方法只接受一个 Message 参数</p>
+</blockquote>
+</blockquote>
+<h3 id="common-xml"><a href="#common-xml" class="headerlink" title="common.xml"></a>common.xml</h3><figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--使用注解--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置activeMQ连接工厂--&gt;</span>	</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"activeMQConnectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.ActiveMQConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerURL"</span> <span class="attr">value</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置spring连接工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.connection.SingleConnectionFactory"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetConnectionFactory"</span> <span class="attr">ref</span>=<span class="string">"activeMQConnectionFactory"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用队列--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"queueDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQQueue"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"queue"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br><span class="line"><span class="comment">&lt;!--配置目标地址：使用主题模式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"topicDestination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQTopic"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"topic"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>	</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="consumer-xml"><a href="#consumer-xml" class="headerlink" title="consumer.xml"></a>consumer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"consumerContainerListener"</span> <span class="built_in">class</span>=<span class="string">"com.imooc.jms.consumer.ConsumerContainerListener"</span>/&gt;	</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsContainer"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"destination"</span> <span class="keyword">ref</span>=<span class="string">"queueDestination"</span>/&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"messageListener"</span> <span class="keyword">ref</span>=<span class="string">"consumerContainerListener"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="producer-xml"><a href="#producer-xml" class="headerlink" title="producer.xml"></a>producer.xml</h3><figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">&lt;import resource=<span class="string">"common.xml"</span>/&gt;</span><br><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"jmsTemplate"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.jms.core.JmsTemplate"</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"connectionFactory"</span> <span class="keyword">ref</span>=<span class="string">"connectionFactory"</span>/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">&lt;bean <span class="built_in">class</span>=<span class="string">"com.imooc.jms.producer.impl.ProducerServiceImpl"</span>/&gt;</span><br></pre></td></tr></tbody></table></figure>
+]]></content>
+      <categories>
+        <category>MQ</category>
+      </categories>
+      <tags>
+        <tag>MQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内网穿透之 Ngrok</title>
+    <url>/2021/05/28/13-Ngrok/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/13.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="ngrok简介"><a href="#ngrok简介" class="headerlink" title="ngrok简介"></a>ngrok 简介</h1><pre><code>ngrok 服务可以分配给你一个域名让你本地的web项目提供给外网访问，
+特别适合向别人展示你本机的web demo 以及调试一些远程的API (比如微信公众号，企业号的开发)
+说白了，就是可以把本地项目映射到公网上
+</code></pre>
+<h2 id="ngrok介绍"><a href="#ngrok介绍" class="headerlink" title="ngrok介绍"></a>ngrok 介绍</h2><ul>
+<li><a href="https://hsk.oray.com/">花生壳</a> - 正在使用的</li>
+<li><a href="http://ngrok.ciqiuwl.cn/">小米球 ngrok</a> - 推荐 </li>
+<li><a href="http://ngrok.cc/">ngrok.cc</a></li>
+<li><a href="https://ngrok.com/">ngrox</a></li>
+<li><a href="https://www.zhexi.tech/price/?sdclkid=A52D152z152GArDib5o">泽西信科</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Ngrok</category>
+      </categories>
+      <tags>
+        <tag>Ngrok</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mysql 续集</title>
     <url>/2021/05/28/12-Mysql%E7%BB%AD%E9%9B%86/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/12.jpg"></p>
+<p><img data-src="/images/banner/12.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -485,40 +521,11 @@ select @r_result;
       </tags>
   </entry>
   <entry>
-    <title>内网穿透之 Ngrok</title>
-    <url>/2021/05/28/13-Ngrok/</url>
-    <content><![CDATA[<span id="delete">
-
-<p><img data-src="/banner/13.jpg"></p>
-</span>
-
-<span id="more"></span>
-
-<h1 id="ngrok简介"><a href="#ngrok简介" class="headerlink" title="ngrok简介"></a>ngrok 简介</h1><pre><code>ngrok 服务可以分配给你一个域名让你本地的web项目提供给外网访问，
-特别适合向别人展示你本机的web demo 以及调试一些远程的API (比如微信公众号，企业号的开发)
-说白了，就是可以把本地项目映射到公网上
-</code></pre>
-<h2 id="ngrok介绍"><a href="#ngrok介绍" class="headerlink" title="ngrok介绍"></a>ngrok 介绍</h2><ul>
-<li><a href="https://hsk.oray.com/">花生壳</a> - 正在使用的</li>
-<li><a href="http://ngrok.ciqiuwl.cn/">小米球 ngrok</a> - 推荐 </li>
-<li><a href="http://ngrok.cc/">ngrok.cc</a></li>
-<li><a href="https://ngrok.com/">ngrox</a></li>
-<li><a href="https://www.zhexi.tech/price/?sdclkid=A52D152z152GArDib5o">泽西信科</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Ngrok</category>
-      </categories>
-      <tags>
-        <tag>Ngrok</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mongo 相关</title>
     <url>/2021/05/28/14-Mongo%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/14.jpg"></p>
+<p><img data-src="/images/banner/14.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -696,7 +703,7 @@ chmod +x /etc/rc.d/rc.local
     <url>/2021/05/28/15-Shiro%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/15.jpg"></p>
+<p><img data-src="/images/banner/15.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -916,7 +923,7 @@ class RedisCache implement Cache&lt;K,V&gt;    {
     <url>/2021/05/28/16-SpringBoot%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/16.jpg"></p>
+<p><img data-src="/images/banner/16.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -992,11 +999,62 @@ class RedisCache implement Cache&lt;K,V&gt;    {
       </tags>
   </entry>
   <entry>
+    <title>抽象类和接口的区别</title>
+    <url>/2021/05/29/19-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/19.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="抽象类：（a-是-b的儿子-）"><a href="#抽象类：（a-是-b的儿子-）" class="headerlink" title="抽象类：（a 是 b的儿子 ）"></a>抽象类：（a 是 b 的儿子 ）</h1><pre><code>// 定义一个抽象类
+abstract class People{
+    private String name;  // 实例变量
+    // 共有的 setter 和 getter 方法
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return this.name;
+    }
+    // 抽象方法
+    public abstract void work();
+}
+</code></pre>
+<ul>
+<li>（1）抽象类不能用 new 直接实例化； </li>
+<li>（2）类中如果有一个或多个 abstract 方法，则该类必须声明为 abstract；</li>
+<li>（3）抽象类中的方法不一定都是 abstract 方法，还可以定义其他方法，相当于父类直接直接使用； </li>
+<li>（4）一个类中不含抽象方法，它也可以声明为抽象类</li>
+<li>（5）抽象类中的抽象方法要被使用，必须由子类复写起所有的抽象方法后，对象调用子类对象。 </li>
+<li>（6）如果子类只覆盖了部分抽象方法，那么该子类还是一个抽象类。</li>
+</ul>
+<h1 id="接口：（a-像-b的某个部分-）"><a href="#接口：（a-像-b的某个部分-）" class="headerlink" title="接口：（a 像 b的某个部分 ）"></a>接口：（a 像 b 的某个部分 ）</h1><pre><code>public interface CalInterface   {  
+    final float PI=3.14159f;//定义用于表示圆周率的常量PI  
+    float getArea(float r);//定义一个用于计算面积的方法getArea()  
+    float getCircumference(float r);//定义一个用于计算周长的方法getCircumference()  
+}
+</code></pre>
+<ul>
+<li>（1）只声明方法和常量不定义具体实现内容</li>
+<li>（2）具体方法由子接口实现</li>
+<li>（3）子接口可以继承多个父接口</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>springMvc 参数绑定</title>
     <url>/2021/05/28/18-SpringMVC%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/18.jpg"></p>
+<p><img data-src="/images/banner/18.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -1183,56 +1241,222 @@ private String getUserInfo(@PathVariable("userId") Integer userId, HttpServletRe
       </tags>
   </entry>
   <entry>
-    <title>Maven 相关</title>
-    <url>/2021/05/26/3-Maven%E7%9B%B8%E5%85%B3/</url>
+    <title>Timer 和 Quartz 定时任务</title>
+    <url>/2021/05/29/20-Timer%E5%92%8CQuartz%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/3.jpg"></p>
+<p><img data-src="/images/banner/20.jpg"></p>
 </span>
 
 <span id="more"></span>
 
-<h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven 安装</h3><blockquote>
-<p>  <a href="https://archive.apache.org/dist/maven/maven-3/">maven 下载</a></p>
+<h1 id="Timer"><a href="#Timer" class="headerlink" title="Timer"></a>Timer</h1><h2 id="TimerTask"><a href="#TimerTask" class="headerlink" title="TimerTask"></a>TimerTask</h2><ul>
+<li><p>1. 创建 myTimerTask 类 继承 TimerTask</p>
+</li>
+<li><ul>
+<li>实现 run 方法（具体要实现的逻辑类）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>2. 新建文件 - 创建主函数 实现定时定频率调用 myTimerTask  <figure class="highlight haxe"><table><tbody><tr><td class="code"><pre><span class="line">main{</span><br><span class="line">    Timer timer = <span class="keyword">new</span> <span class="type">Timer</span>();</span><br><span class="line">    myTimerTask tak = <span class="keyword">new</span> <span class="type">myTimerTask</span>();</span><br><span class="line">    <span class="comment">//第一次执行时在2s后，之后每秒过一次</span></span><br><span class="line">    timer.schedule(tak ,<span class="number">2000</span>L,<span class="number">1000</span>L);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>取消定时任务 (放在 myTimerTask 类里面取消，比如执行 2 次就取消，针对单体)</li>
+<li><ul>
+<li>Timer.cancel()</li>
+</ul>
+</li>
+<li> 方法用于删除计时器中已取消的任务；返回移除的任务数</li>
+<li><ul>
+<li>   Timer.purge() </li>
+</ul>
+</li>
+<li>方法用于返回任务最近实际已安排执行时间，返回值 long</li>
+<li><ul>
+<li><ul>
+<li> TimerTask 中的 scheduledExecutionTime ()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="schedule"><a href="#schedule" class="headerlink" title="schedule"></a>schedule</h2><ul>
+<li>schedule 的四种用法</li>
+<li><ul>
+<li>时间等于或者超过时执行仅执行一次</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li> schedule(task ,time);</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li> 时间等于或者超过时执行一次，然后每过 period 再重复执行</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li> schedule(task ,time，period);</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li> 等待 delay 毫秒之后执行仅执行一次</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li> schedule(task ,delay);</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li> 等待 delay 毫秒之后执行一次，然后每过 period 再重复执行</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li> schedule(task ,delay，period);</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="scheduleAtFixedRate-的两种用法"><a href="#scheduleAtFixedRate-的两种用法" class="headerlink" title="scheduleAtFixedRate 的两种用法"></a>scheduleAtFixedRate 的两种用法</h2><ul>
+<li>* 时间等于或者超过时执行一次，然后每过 period 再重复执行</li>
+<li><ul>
+<li><ul>
+<li> scheduleAtFixedRate(task ,time，period);</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>* 等待 delay 毫秒之后执行一次，然后每过 period 再重复执行</li>
+<li><ul>
+<li><ul>
+<li> scheduleAtFixedRate(task ,delay，period);</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="schedule-和-scheduleAtFixedRate的区别"><a href="#schedule-和-scheduleAtFixedRate的区别" class="headerlink" title="schedule 和 scheduleAtFixedRate的区别"></a>schedule 和 scheduleAtFixedRate 的区别</h2><ul>
+<li>执行时间早于任务时间</li>
+<li><ul>
+<li> scheduleAtFixedRate 会执行多次追赶任务进度</li>
+</ul>
+</li>
+<li><ul>
+<li> schedule 到点执行</li>
+</ul>
+</li>
+<li>执行时间超过任务时间</li>
+<li><ul>
+<li> schedule 要执行完了才去执行</li>
+</ul>
+</li>
+<li><ul>
+<li> scheduleAtFixedRate 按照时间执行，会存在并发</li>
+</ul>
+</li>
+</ul>
+<h2 id="Timer缺陷"><a href="#Timer缺陷" class="headerlink" title="Timer缺陷"></a>Timer 缺陷</h2><ul>
+<li>管理并发任务不行（只有一个进程，不能并发）</li>
+<li>抛异常时缺陷（终止所有任务）</li>
+</ul>
+<h1 id="Quartz"><a href="#Quartz" class="headerlink" title="Quartz"></a>Quartz</h1><blockquote>
+<p>   Job 实现业务逻辑的接口类 就是定时的任务逻辑</p>
+</blockquote>
 <blockquote>
-<p> 解压到指定目录即可</p>
+<p>   属性：name group jobClass jobDataMap </p>
 </blockquote>
-</blockquote>
-<h3 id="修改仓库地址"><a href="#修改仓库地址" class="headerlink" title="修改仓库地址"></a>修改仓库地址</h3><pre><code>&lt;localRepository&gt;D:\JJDK\repository&lt;/localRepository&gt;
+<h2 id="HelloJob-java-implements-Job"><a href="#HelloJob-java-implements-Job" class="headerlink" title="HelloJob.java - implements Job"></a>HelloJob.java - implements Job</h2><pre><code>public class HelloJob implements Job {
+    public void execute(JobExecutionContext context)
+            throws JobExecutionException {
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Exec Time Is : " + sf.format(date));
+        System.out.println("Hello World");
+    }
+}
 </code></pre>
-<h3 id="修改阿里云镜像"><a href="#修改阿里云镜像" class="headerlink" title="修改阿里云镜像"></a>修改阿里云镜像</h3><pre><code>&lt;mirror&gt;
-    &lt;id&gt;central&lt;/id&gt;
-    &lt;name&gt;central&lt;/name&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
-    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
-&lt;/mirror&gt;
+<h2 id="HelloScheduler-java"><a href="#HelloScheduler-java" class="headerlink" title="HelloScheduler.java"></a>HelloScheduler.java</h2><pre><code>public class HelloScheduler {
+    public static void main(String[] args) throws SchedulerException, InterruptedException {
+        // 打印当前的时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Time Is : " + sf.format(date));
+        // 创建一个JobDetail实例，将该实例与HelloJob Class绑定
+        JobDetail jobDetail = JobBuilder.newJob(HelloJob.class)
+                .withIdentity("myJob", "group1").build();
+        //创建触发器
+        （1）Trigger trigger =  TriggerBuilder
+                .newTrigger()
+                .withIdentity("myTrigger", "group1")
+                .startNow()
+                .withSchedule(
+                        SimpleScheduleBuilder.simpleSchedule().
+                                withIntervalInSeconds(2).repeatForever()
+                )
+                .build();
+    
+        （2）CronTrigger trigger = CronTriggerBuilder
+                .newTrigger()
+                .withIdentity("myTrigger", "group1")
+                .withSchedule(
+                        //每秒执行一次
+                        CronScheduleBuilder.cronSchedule("* * * * * ? *")        
+                )
+                .build();        
+        // 创建Scheduler实例
+        SchedulerFactory sfact = new StdSchedulerFactory();
+        Scheduler scheduler = sfact.getScheduler();
+        scheduler.start();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
+}
 </code></pre>
-<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre><code>mvn -v 
+<h2 id="通过JobExecutionContext获取传参"><a href="#通过JobExecutionContext获取传参" class="headerlink" title="通过JobExecutionContext获取传参"></a>通过 JobExecutionContext 获取传参</h2><ul>
+<li><p>jobdetail 和 trigger 传参 .usingJobData (“key”,”value”);</p>
+</li>
+<li><p>在 helleoJob 里面获取参数</p>
+</li>
+<li><ul>
+<li><p>通过手动去获取</p>
+<figure class="highlight mipsasm"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#获取JobDetail名字，分组和自定义参数</span></span><br><span class="line"><span class="keyword">JobKey </span>key = <span class="built_in">context</span>.getJobDetail().getKey();</span><br><span class="line">key.getName()<span class="comment">;key.getGroup();</span></span><br><span class="line"><span class="keyword">JobDataMap </span>datamap = <span class="built_in">context</span>.getJobDetail().getJobDataMap();</span><br><span class="line">String <span class="keyword">jobMsg </span>= dataMap.getString(<span class="string">"key"</span>);</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><ul>
+<li>获取 Triiger 名字，分组和自定义参数 <figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">TriggerKey tkey = context.getTrigger.get<span class="constructor">Key()</span>;</span><br><span class="line">tkey.get<span class="constructor">Name()</span>,tkey.get<span class="constructor">Group()</span>;</span><br><span class="line">JobDataMap tdatamap = context.get<span class="constructor">Trigger()</span>.get<span class="constructor">JobDataMap()</span>;</span><br><span class="line">String tjobMsg = tdataMap.get<span class="constructor">String(<span class="string">"key"</span>)</span>;</span><br><span class="line"><span class="number">2.</span>#通过设置同名成员变量</span><br><span class="line">    设置set方法，直接就能获取传入的变量</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h2></li>
+</ul>
+</li>
+</ul>
+<h3 id="Trigger"><a href="#Trigger" class="headerlink" title="Trigger"></a>Trigger</h3><pre><code>.startAt
+.endAt
+在指定时间内执行一次作业任务
+或者指定时间间隔执行多次任务
 </code></pre>
-<h3 id="配置windows环境变量"><a href="#配置windows环境变量" class="headerlink" title="配置windows环境变量"></a>配置 windows 环境变量</h3><pre><code>MAVEN_HOME D:\JJDK\maven
-</code></pre>
-<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>%MAVEN_HOME%\bin
-</code></pre>
-<h3 id="本地仓库强制更新"><a href="#本地仓库强制更新" class="headerlink" title="本地仓库强制更新"></a>本地仓库强制更新</h3><pre><code>mvn dependency:purge-local-repository
-mvn -Dmaven.test.skip=true clean install -U
-</code></pre>
-<h3 id="本地跳过test打包"><a href="#本地跳过test打包" class="headerlink" title="本地跳过test打包"></a>本地跳过 test 打包</h3><pre><code>mvn -Dmaven.test.skip=true clean install
-</code></pre>
-<h3 id="基于脚手架创建项目"><a href="#基于脚手架创建项目" class="headerlink" title="基于脚手架创建项目"></a>基于脚手架创建项目</h3><pre><code>---java项目的
-mvn archetype:generate -DgroupId=com.seckill -DartifactId=FirstApp or -DarchetypeArtifactId=maven -archetype-quickstart -DinteractiveMode=false
-
-在上述情况下，一个新的Java项目命名 FourApp 而整个项目的目录结构会自动创建。
-
---java web项目
-mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+<h3 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h3><pre><code>standby 任务挂起                
+start 开启任务
+shutdown(true|false) 关闭任务-true 等待关闭在置为shutdown false先置为关闭
+isShutdown 是否被关闭
+--删除任务
+sched.pauseTrigger();// 停止触发器
+sched.unscheduleJob();// 移除触发器
+sched.deleteJob();// 删除任务
 </code></pre>
 ]]></content>
       <categories>
-        <category>Maven</category>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>Java</tag>
-        <tag>Maven</tag>
+        <tag>Quartz</tag>
       </tags>
   </entry>
   <entry>
@@ -1240,13 +1464,13 @@ mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -Darchetype
     <url>/2021/05/26/2-%E5%AE%89%E8%A3%85Java/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/2.jpg"></p>
+<p><img data-src="/images/banner/2.jpg"></p>
 </span>
 
 <span id="more"></span>
 <h2 id="Windows安装"><a href="#Windows安装" class="headerlink" title="Windows安装"></a>Windows 安装</h2><h3 id="下载Jdk8"><a href="#下载Jdk8" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><ul>
 <li>  选择对应 jdk 版本下载（Tips：可在 Windows 下载完成后，通过 FTP 或者 SSH 到发送到 Linux 上）</li>
-<li>  <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></li>
+<li>  <a href="https://repo.huaweicloud.com/java/jdk/">JDK 下载</a></li>
 </ul>
 <h3 id="指定目录"><a href="#指定目录" class="headerlink" title="指定目录"></a>指定目录</h3><pre><code>D:\JJDK\java\
 </code></pre>
@@ -1254,14 +1478,14 @@ mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -Darchetype
 </code></pre>
 <h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><pre><code>JAVA_HOME： D:\JJDK\java 
 PATH:  %JAVA_HOME%\bin
-CLASSPATH: .;%JAVA_HOME%\bin;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar
+CLASSPATH: .;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar;
 </code></pre>
 <h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><pre><code>java -version
     
 </code></pre>
 <h2 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux 安装</h2><h3 id="下载Jdk8-1"><a href="#下载Jdk8-1" class="headerlink" title="下载Jdk8"></a>下载 Jdk8</h3><ul>
 <li>选择对应 jdk 版本下载（Tips：可在 Windows 下载完成后，通过 FTP 或者 SSH 到发送到 Linux 上）</li>
-<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 下载</a></li>
+<li><a href="https://repo.huaweicloud.com/java/jdk/">JDK 下载</a></li>
 </ul>
 <h3 id="登录Linux，切换到root用户"><a href="#登录Linux，切换到root用户" class="headerlink" title="登录Linux，切换到root用户"></a>登录 Linux，切换到 root 用户</h3><pre><code>su root 获取root用户权限，当前工作目录不变(需要root密码)
 
@@ -1312,11 +1536,1015 @@ Java HotSpot(TM) Client VM (build 25.60-b23, mixed mode)
       </tags>
   </entry>
   <entry>
+    <title>事务相关</title>
+    <url>/2021/05/29/21-%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/21.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h2 id="dubbo-服务"><a href="#dubbo-服务" class="headerlink" title="dubbo 服务"></a>dubbo 服务</h2><blockquote>
+<p>（zookeeper） 注册中心</p>
+</blockquote>
+<pre><code>消费者              发布者
+
+1.发布者发布服务会通知消费者
+2.消费者连接发布者的地址去得到数据
+</code></pre>
+<h2 id="分布式事务数据一致性"><a href="#分布式事务数据一致性" class="headerlink" title="分布式事务数据一致性"></a>分布式事务数据一致性</h2><ul>
+<li>(1) 把事务 ABC 统一转成 D 的本地事务 - 把本来规划拆分好的业务，又耦合到了一起，业务职责不清晰，不利于维护。</li>
+<li>(2) eBay 模式 - 是将需要分布式处理的任务通过消息日志的方式来异步执行</li>
+</ul>
+<h2 id="数据库事务机制"><a href="#数据库事务机制" class="headerlink" title="数据库事务机制"></a>数据库事务机制</h2><h3 id="查看全局和本地的隔离级别"><a href="#查看全局和本地的隔离级别" class="headerlink" title="查看全局和本地的隔离级别"></a>查看全局和本地的隔离级别</h3><pre><code>select @@GLOBAL.tx_isolation, @@tx_isolation;
+</code></pre>
+<h3 id="数据库隔离级别"><a href="#数据库隔离级别" class="headerlink" title="数据库隔离级别"></a>数据库隔离级别</h3><blockquote>
+<p>（set SESSION TRANSACTION ISOLATION LEVEL XX ） </p>
+</blockquote>
+<ul>
+<li>可重复读（REPEATABLE READ ）  </li>
+</ul>
+<ul>
+<li><ul>
+<li>事务隔离性可以重复读即使另外一边已经修改了。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>脏读    （ READ UNCOMMITTED）    </li>
+</ul>
+<ul>
+<li><ul>
+<li>在这边事务中可以读到另一边事务未提交的数据</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li> READ COMMITTED             </li>
+</ul>
+<ul>
+<li><ul>
+<li>读已经提交了的，这边读可能数据会不同</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li> SERIALIZABLE             </li>
+</ul>
+<ul>
+<li><ul>
+<li>线性读，事务依次读</li>
+</ul>
+</li>
+</ul>
+<h3 id="表锁-行锁"><a href="#表锁-行锁" class="headerlink" title="表锁/行锁"></a>表锁 / 行锁</h3><ul>
+<li>等待上一个事务执行完成之后再查询结果，事务未完成一直锁住该条记录</li>
+<li>使用 for update 如果不加条件会锁住整个表 加上条件只会锁住一条记录</li>
+</ul>
+<ul>
+<li><ul>
+<li> select * from xx where id =2 for update</li>
+</ul>
+</li>
+</ul>
+<h2 id="Spring事务管理"><a href="#Spring事务管理" class="headerlink" title="Spring事务管理"></a>Spring 事务管理</h2><h3 id="Spring事务抽象接口"><a href="#Spring事务抽象接口" class="headerlink" title="Spring事务抽象接口"></a>Spring 事务抽象接口</h3><ul>
+<li>PlaformTransactionManager (事务管理器接口)    </li>
+</ul>
+<ul>
+<li>TransactionDefinition (事务的定义 事务的属性 - 传播属性等等)</li>
+<li>TransactionStatus (事务的运行状态)</li>
+</ul>
+<h3 id="TransactionDefinition的隔离机制"><a href="#TransactionDefinition的隔离机制" class="headerlink" title="TransactionDefinition的隔离机制"></a>TransactionDefinition 的隔离机制</h3><ul>
+<li>TransactionDefinition.ISOLATION_DEFAULT             </li>
+<li><ul>
+<li>与数据库隔离级别一致</li>
+</ul>
+</li>
+<li> TransactionDefinition.ISOLATION_READ_COMMITTED     </li>
+<li><ul>
+<li>事务可以读另一个提交事务的数据</li>
+</ul>
+</li>
+<li> TransactionDefinition.ISOLATION_READ_UNCOMMITTED     </li>
+<li><ul>
+<li>事务可以读另一个事务未提交的数据（脏读）</li>
+</ul>
+</li>
+<li>TransactionDefinition.ISOLATION_REPEATABLE_READ     </li>
+<li><ul>
+<li>事务读不到别的事务修改的数据（重复读）</li>
+</ul>
+</li>
+<li>TransactionDefinition.ISOLATION_SERIALIZABLE         </li>
+<li><ul>
+<li>线性读 等待上一个完成才执行下一个</li>
+</ul>
+</li>
+</ul>
+<h3 id="TransactionDefinition-传播机制"><a href="#TransactionDefinition-传播机制" class="headerlink" title="TransactionDefinition    传播机制"></a>TransactionDefinition    传播机制</h3><blockquote>
+<p>两个方法都有事务，相互调用 之间如何传播</p>
+</blockquote>
+<blockquote>
+<p>A 事务  B 事务 相互调用</p>
+</blockquote>
+<blockquote>
+<p>都是 B 设置传播机制    </p>
+</blockquote>
+<ul>
+<li>PROPAGATION_REQUIRED(default) </li>
+<li><ul>
+<li>B 要求 A 有事务，没有就创建事务</li>
+</ul>
+</li>
+<li> PROPAGATION_SUPPORTS         </li>
+<li><ul>
+<li>B 有事务，A 必须有，B 没有 A 乜没有</li>
+</ul>
+</li>
+<li> PROPAGATION_MANDATORY         </li>
+<li><ul>
+<li> A 必须有事务</li>
+</ul>
+</li>
+<li> PROPAGATION_REQUIRES_NEW     </li>
+<li><ul>
+<li>B 先暂停之前的事务，重新启事务</li>
+</ul>
+</li>
+<li> PROPAGATION_NOT_SUPPORTED     </li>
+<li><ul>
+<li>B 的这个方法不在事务执行</li>
+</ul>
+</li>
+<li> PROPAGATION_NEVER         </li>
+<li><ul>
+<li>B 不会在事务执行</li>
+</ul>
+</li>
+<li> PROPAGATION_NESTEDED         </li>
+<li><ul>
+<li>JDBC3.0 才能使用 嵌套事务 </li>
+</ul>
+</li>
+</ul>
+<h2 id="JPA事务管理"><a href="#JPA事务管理" class="headerlink" title="JPA事务管理"></a>JPA 事务管理</h2><h3 id="代码方式"><a href="#代码方式" class="headerlink" title="代码方式"></a>代码方式</h3><pre><code>@Autowire 
+PlaformTransactionManager txManager
+
+DefaultTransactionDefinition def = new DefaultTransactionDefinition ();
+def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+TransactionStatus.status = txManager.getTransaction(def);
+try{
+    ...业务代码
+    txManager.commit(status);
+}catch(){
+    txManager.rollback(status);
+}
+</code></pre>
+<h3 id="Transactional-声明式事务"><a href="#Transactional-声明式事务" class="headerlink" title="@Transactional 声明式事务"></a>@Transactional 声明式事务</h3><h2 id="JMS-session-事务管理-（activeMQ）"><a href="#JMS-session-事务管理-（activeMQ）" class="headerlink" title="JMS session 事务管理 （activeMQ）"></a>JMS session 事务管理 （activeMQ）</h2><blockquote>
+<p>发生错误默认重试 7 次</p>
+</blockquote>
+<blockquote>
+<p>listener 监听 事务是整个方法</p>
+</blockquote>
+<blockquote>
+<p>直接发送 事务是单行。convertAndSend 内部起作用</p>
+</blockquote>
+<h3 id="JMS-transactionManager-管理事务"><a href="#JMS-transactionManager-管理事务" class="headerlink" title="JMS transactionManager 管理事务"></a>JMS transactionManager 管理事务</h3><h4 id="创建JmsConfig-java-–事务的配置项"><a href="#创建JmsConfig-java-–事务的配置项" class="headerlink" title="创建JmsConfig.java –事务的配置项"></a>创建 JmsConfig.java –事务的配置项</h4><pre><code>@EnableJms
+@Configuration
+public class JmsConfig {
+    @Bean
+    PlatformTransactionManager transactionManager(ConnectionFactory factory){
+        return new JmsTransactionManager(factory);
+    }
+    @Bean
+    JmsTemplate jmsTemplate(ConnectionFactory factory){
+        JmsTemplate jmsTemplate =  new JmsTemplate();
+        jmsTemplate.setConnectionFactory(factory);
+        return  jmsTemplate;
+    }
+    @Bean
+    JmsListenerContainerFactory&lt;?&gt; msgFactory(ConnectionFactory cf, PlatformTransactionManager transactionManager,DefaultJmsListenerContainerFactoryConfigurer configurer){
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        configurer.configure(factory,cf);
+        factory.setReceiveTimeout(10000L);
+        factory.setTransactionManager(transactionManager);
+        return factory;
+    }
+}
+</code></pre>
+<h5 id="声明式事务（注解）"><a href="#声明式事务（注解）" class="headerlink" title="声明式事务（注解）"></a>声明式事务（注解）</h5><pre><code>@Transactional
+@JmsListener(destination = "customer:msg1:new",containerFactory = "msgFactory")
+</code></pre>
+<h5 id="代码方式-使用事务-同样使用-msgFactory作为事务配置"><a href="#代码方式-使用事务-同样使用-msgFactory作为事务配置" class="headerlink" title="代码方式 - 使用事务 同样使用 msgFactory作为事务配置"></a>代码方式 - 使用事务 同样使用 msgFactory 作为事务配置</h5><pre><code>@Autowired
+PlatformTransactionManager transactionManager;
+TransactionDefinition tx = new DefaultTransactionDefinition();
+TransactionStatus status = transactionManager.getTransaction(tx);
+try{
+    ...业务代码 
+    transactionManager.commit(status);
+}catch (Exception e){
+    e.printStackTrace();
+    transactionManager.rollback(status);
+}
+</code></pre>
+<h2 id="Spring-本地事务和外部事物-与-JTA"><a href="#Spring-本地事务和外部事物-与-JTA" class="headerlink" title="Spring 本地事务和外部事物 与 JTA"></a>Spring 本地事务和外部事物 与 JTA</h2><blockquote>
+<p>一个 java 服务访问多个数据源，保证数据一致性</p>
+</blockquote>
+<h3 id="XA规范的JAVA实现-JTA"><a href="#XA规范的JAVA实现-JTA" class="headerlink" title="XA规范的JAVA实现-JTA"></a>XA 规范的 JAVA 实现 - JTA</h3><ul>
+<li><p>3 个接口</p>
+</li>
+<li><ul>
+<li>TransactionManager</li>
+</ul>
+</li>
+<li><ul>
+<li>XAResource </li>
+</ul>
+</li>
+<li><ul>
+<li>XID</li>
+</ul>
+</li>
+<li><p> 弊端</p>
+</li>
+<li><ul>
+<li>两阶段提交</li>
+</ul>
+</li>
+<li><ul>
+<li>事务时间太长，锁数据时间太长</li>
+</ul>
+</li>
+<li><ul>
+<li>低性能，高吞吐量</li>
+</ul>
+</li>
+<li><p>单个数据库 </p>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jta-atomikos<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>自动创建 JTA 的事务</p>
+</li>
+<li><p>两个事务在入口 @Transactional</p>
+</li>
+</ul>
+<h2 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h2><h3 id="基本原则"><a href="#基本原则" class="headerlink" title="基本原则"></a>基本原则</h3><h4 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP 理论</h4><ul>
+<li>C 一致性</li>
+<li> A 可用性</li>
+<li> P 分区容错性</li>
+</ul>
+<h4 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE 理论</h4><ul>
+<li>基本可用（Basically Available）</li>
+<li>软状态（Soft State）</li>
+<li>最终一致性（Eventually Consistent）</li>
+</ul>
+<h4 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h4><ul>
+<li>强一致性            </li>
+<li>弱一致性</li>
+<li><ul>
+<li>一个服务一个服务去调用</li>
+</ul>
+</li>
+<li>最终一致性</li>
+<li><ul>
+<li>人工啊，定时任务去扫描</li>
+</ul>
+</li>
+</ul>
+<h3 id="几种分布式系统"><a href="#几种分布式系统" class="headerlink" title="几种分布式系统"></a>几种分布式系统</h3><ul>
+<li>多数据源</li>
+<li>多服务</li>
+<li> soa</li>
+<li> 微服务</li>
+</ul>
+<h3 id="分布式系统考虑问题"><a href="#分布式系统考虑问题" class="headerlink" title="分布式系统考虑问题"></a>分布式系统考虑问题</h3><ul>
+<li>服务分拆</li>
+<li>数据分拆</li>
+<li>计算拆分</li>
+<li>服务状态以及异常处理</li>
+</ul>
+<h3 id="微服务架构组成"><a href="#微服务架构组成" class="headerlink" title="微服务架构组成"></a>微服务架构组成</h3><ul>
+<li>服务发现与注册</li>
+<li>服务网关与负载均衡</li>
+<li>监控与熔断机制</li>
+<li>配置、消息等    </li>
+</ul>
+<h3 id="Spring-Cloud-微服务架构"><a href="#Spring-Cloud-微服务架构" class="headerlink" title="Spring Cloud 微服务架构"></a>Spring Cloud 微服务架构</h3><ul>
+<li>SpringCloud Netflix </li>
+<li>SpringCloud Config</li>
+<li>SpringCloud BUS</li>
+</ul>
+<h4 id="SpringCloud-Netflix"><a href="#SpringCloud-Netflix" class="headerlink" title="SpringCloud Netflix"></a>SpringCloud Netflix</h4><ul>
+<li>服务注册中心：Eureka</li>
+<li> 网关：ZUUL</li>
+<li> 声明式 Rest 调用接口：Feign Client</li>
+<li> 负载均衡：Ribbon</li>
+<li> 监控、熔断组件：Hystrix 与 Hystrix Dashboard    </li>
+</ul>
+<h4 id="Spring-Cloud-Config-配置服务"><a href="#Spring-Cloud-Config-配置服务" class="headerlink" title="Spring Cloud Config 配置服务"></a>Spring Cloud Config 配置服务</h4><ul>
+<li>配置：文件夹，GIT ，SVN，DB</li>
+<li> 配置服务器</li>
+<li>服务_&gt; 配置服务器_&gt; 配置</li>
+</ul>
+<h2 id="分布式事务实现方式"><a href="#分布式事务实现方式" class="headerlink" title="分布式事务实现方式"></a>分布式事务实现方式</h2><h3 id="XA与最后资源博弈"><a href="#XA与最后资源博弈" class="headerlink" title="XA与最后资源博弈"></a>XA 与最后资源博弈</h3><ul>
+<li>JTA 可分成两段提交</li>
+</ul>
+<h3 id="共享资源"><a href="#共享资源" class="headerlink" title="共享资源"></a>共享资源</h3><ul>
+<li>两个数据源共享一个底层资源</li>
+<li> ActiveMQ 使用 DB 作为存储</li>
+<li>使用 DB 上的 connection 控制事务提交</li>
+<li>需要数据源支持</li>
+</ul>
+<h3 id="最大努力一次提交-MQ方式的实现"><a href="#最大努力一次提交-MQ方式的实现" class="headerlink" title="最大努力一次提交 MQ方式的实现"></a>最大努力一次提交 MQ 方式的实现</h3><ul>
+<li>依次提交事务</li>
+<li>可能出错</li>
+<li>通过 AOP 或者 Listener 实现事务直接的同步</li>
+</ul>
+<h3 id="链式事务"><a href="#链式事务" class="headerlink" title="链式事务"></a>链式事务</h3><ul>
+<li>定义事务链</li>
+<li>多个事务在一个事务管理器依次次执行</li>
+<li>将不同的数据源的 datasource 放进链式 source 里面执行</li>
+</ul>
+<h3 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h3><ul>
+<li>强一致性事务：JTA（性能最差，只是用于单个服务内）Amokios</li>
+<li> 弱、最终一致性事务：最大努力一次提交、链式事务（设计相应的错误处理机制）</li>
+<li>MQ-DB: 最大努力一次提交 + 重试</li>
+<li>多个 DB：链式事务管理</li>
+<li>多个数据源：链式事务 / 或其他事务同步</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>事务</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jenkins 部署 Git 服务</title>
+    <url>/2021/05/29/23-Jenkins%E9%83%A8%E7%BD%B2Git%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/23.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="安装jenkins"><a href="#安装jenkins" class="headerlink" title="安装jenkins"></a>安装 jenkins</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ul>
+<li><a href="https://www.jenkins.io/zh/download/">jenkins</a></li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li>输入密码，创建用户，按照社区插件安装</li>
+</ul>
+<h2 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h2><ul>
+<li>Publish Over Ssh </li>
+<li>git </li>
+<li>Localization: Chinese (Simplified)  - 汉化软件</li>
+<li> PostBuildScript – 打包完成后执行 ssh</li>
+<li>Pipeline Maven Integration   - 创建 maven 项目</li>
+<li> Ssh </li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="Global-Tool-Configuration"><a href="#Global-Tool-Configuration" class="headerlink" title="Global Tool Configuration"></a>Global Tool Configuration</h2><ul>
+<li><p>配置 Jdk</p>
+</li>
+<li><ul>
+<li><img data-src="/images/jenkins/1.png"></li>
+</ul>
+</li>
+<li><p>配置 git</p>
+</li>
+<li><ul>
+<li><img data-src="/images/jenkins/2.png"></li>
+</ul>
+</li>
+<li><p>配置 maven</p>
+</li>
+<li><ul>
+<li><img data-src="/images/jenkins/3.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="Security-凭据"><a href="#Security-凭据" class="headerlink" title="Security - 凭据"></a>Security - 凭据</h2><blockquote>
+<p>添加服务器账号信息、git 账号地址</p>
+</blockquote>
+<ul>
+<li><ul>
+<li><img data-src="/images/jenkins/4.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="系统配置-配置ssh"><a href="#系统配置-配置ssh" class="headerlink" title="系统配置 - 配置ssh"></a>系统配置 - 配置 ssh</h2><ul>
+<li><img data-src="/images/jenkins/6.png"></li>
+</ul>
+<h2 id="系统配置-上传文件路径"><a href="#系统配置-上传文件路径" class="headerlink" title="系统配置 - 上传文件路径"></a>系统配置 - 上传文件路径</h2><ul>
+<li><img data-src="/images/jenkins/5.png"></li>
+</ul>
+<h1 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h1><h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><ul>
+<li><img data-src="/images/jenkins/7.png"></li>
+</ul>
+<h2 id="指定git"><a href="#指定git" class="headerlink" title="指定git"></a>指定 git</h2><ul>
+<li><img data-src="/images/jenkins/8.png"></li>
+</ul>
+<h2 id="打包之前操作-pre"><a href="#打包之前操作-pre" class="headerlink" title="打包之前操作 - pre"></a>打包之前操作 - pre</h2><blockquote>
+<p>删除服务器的文件</p>
+</blockquote>
+<ul>
+<li><img data-src="/images/jenkins/9.png"></li>
+</ul>
+<h2 id="打包命令"><a href="#打包命令" class="headerlink" title="打包命令"></a>打包命令</h2><blockquote>
+<p>如果需要增加本地 jar 包，</p>
+</blockquote>
+<figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line">mvn install:install-file <span class="attribute">-Dfile</span>=alipay-sdk-java-3.0.0.jar <span class="attribute">-DgroupId</span>=com.aliyun <span class="attribute">-DartifactId</span>=alipay-sdk-java <span class="attribute">-Dversion</span>=3.0.0 <span class="attribute">-Dpackaging</span>=jar</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><img data-src="/images/jenkins/10.png"></li>
+</ul>
+<h2 id="上传到服务器"><a href="#上传到服务器" class="headerlink" title="上传到服务器"></a>上传到服务器</h2><blockquote>
+<p>根据实际情况删减，这里做了配置外移打包</p>
+</blockquote>
+<ul>
+<li><img data-src="/images/jenkins/11.png"></li>
+</ul>
+<h2 id="上传之后执行脚本"><a href="#上传之后执行脚本" class="headerlink" title="上传之后执行脚本"></a>上传之后执行脚本</h2><ul>
+<li><img data-src="/images/jenkins/12.png"></li>
+</ul>
+<figure class="highlight gradle"><table><tbody><tr><td class="code"><pre><span class="line">jenkens 执行SSH脚本错误 #加上<span class="keyword">source</span> <span class="regexp">/etc/</span>profile</span><br><span class="line"><span class="keyword">source</span> <span class="regexp">/etc/</span>profile</span><br><span class="line">BUILD_ID=DONTKILLME </span><br><span class="line">kill -<span class="number">9</span> $(ps -ef|<span class="keyword">grep</span> cent-order|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">'{print $2}'</span>) </span><br><span class="line">nohup java -jar <span class="regexp">/home/u</span>ser<span class="regexp">/xx-0.0.1-SNAPSHOT.jar &gt;  /</span>home<span class="regexp">/user/</span>nohup.out <span class="number">2</span>&gt;&amp;<span class="number">1</span> &amp;</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><p>jenkens  编码 GBK 的不可映射字符</p>
+<blockquote>
+<p>pom.xml</p>
+</blockquote>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 文件拷贝时的编码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 编译时的编码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">maven.compiler.encoding</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>程序包 org.apache.commons.collections 不存在</p>
+<blockquote>
+<p>pom.xml 去掉</p>
+</blockquote>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h1 id="最后删除空间打包内容"><a href="#最后删除空间打包内容" class="headerlink" title="最后删除空间打包内容"></a>最后删除空间打包内容</h1><ul>
+<li><img data-src="/images/jenkins/13.png">  </li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Jenkins</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Yapi 结合 Idea 使用</title>
+    <url>/2021/05/29/24-Yapi%E7%BB%93%E5%90%88Idea%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/24.jpg"></p>
+</span>
+
+<span id="more"></span>
+<h1 id="Yapi-与-swagger"><a href="#Yapi-与-swagger" class="headerlink" title="Yapi 与 swagger"></a>Yapi 与 swagger</h1><p><img data-src="/images/yapi/1.png"></p>
+<h1 id="服务器安装部署Yapi"><a href="#服务器安装部署Yapi" class="headerlink" title="服务器安装部署Yapi"></a>服务器安装部署 Yapi</h1><blockquote>
+<p>省略…</p>
+</blockquote>
+<h1 id="IDEA安装YapiUpload插件"><a href="#IDEA安装YapiUpload插件" class="headerlink" title="IDEA安装YapiUpload插件"></a>IDEA 安装 YapiUpload 插件</h1><ul>
+<li><p>在 idea 中安装 YapiUpload 插件，在 marketplace 中搜索 YapiUpload</p>
+</li>
+<li><p><img data-src="/images/yapi/2.png"></p>
+</li>
+<li><p>确认安装成功</p>
+</li>
+<li><p><img data-src="/images/yapi/3.png"></p>
+</li>
+</ul>
+<h1 id="配置Yapi地址信息"><a href="#配置Yapi地址信息" class="headerlink" title="配置Yapi地址信息"></a>配置 Yapi 地址信息</h1><ul>
+<li><p>在项目中的.idea 文件中，找到 misc.xml 文件</p>
+</li>
+<li><p><img data-src="/images/yapi/4.png"></p>
+</li>
+<li><p>将项目在 Yapi 中的信息填写到其中</p>
+</li>
+<li><p><img data-src="/images/yapi/5.png"></p>
+</li>
+</ul>
+<h1 id="浏览器安装cross-request插件"><a href="#浏览器安装cross-request插件" class="headerlink" title="浏览器安装cross-request插件"></a>浏览器安装 cross-request 插件</h1><ul>
+<li><p><a href="/images/yapi/cross-request.zip">本地下载</a></p>
+</li>
+<li><p> cross-request 插件，赋予一个 html 页面跨域请求能力，浏览器必须安装该插件才可在 yapi 中调用各应用接口。（有提供安装包）</p>
+</li>
+<li><ul>
+<li> 解压</li>
+</ul>
+</li>
+<li><ul>
+<li> 进入到 Chrome 的【扩展程序】页面，首先开启【开发者模式】，一定要先开启开发者模式</li>
+</ul>
+</li>
+<li><ul>
+<li> “加载已解压的扩展程序”，选择步骤 1 解压的文件夹，即可</li>
+</ul>
+</li>
+</ul>
+<h1 id="上传接口"><a href="#上传接口" class="headerlink" title="上传接口"></a>上传接口</h1><blockquote>
+<p>结合注释，请配置注释模板</p>
+</blockquote>
+<ol>
+<li>   选中单个方法，上传，则是单个接口上传至平台，多次上传同一个接口，只要接口全类名未做更改，则会更新平台已有接口信息</li>
+<li>   Controller 层中直接右键上传，则是将该类下所有接口上传，平台中已有接口走更新逻辑</li>
+<li>   关于代码风格，请务必按标准编码风格进行，入参出参需把注释标全了，保证上传的接口可读性，互惠互利 </li>
+<li>   <a href="https://www.liangzl.com/get-article-detail-146070.html">IDE 配置参考链接</a></li>
+<li>样例</li>
+</ol>
+<ul>
+<li>控制层</li>
+<li><ul>
+<li><img data-src="/images/yapi/6.png"></li>
+</ul>
+</li>
+<li>实体类</li>
+<li><ul>
+<li><img data-src="/images/yapi/7.png"></li>
+</ul>
+</li>
+<li>结果</li>
+<li><ul>
+<li><img data-src="/images/yapi/8.png"></li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Yapi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭建 ftp</title>
+    <url>/2021/05/29/25-%E6%90%AD%E5%BB%BAftp/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/25.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><h2 id="apache-ftpserver-1-1-1"><a href="#apache-ftpserver-1-1-1" class="headerlink" title="apache-ftpserver-1.1.1"></a>apache-ftpserver-1.1.1</h2><p> <a href="http://mina.apache.org/ftpserver-project/download_1.1.1.html">下载</a></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="配置用户"><a href="#配置用户" class="headerlink" title="配置用户"></a>配置用户</h3><ul>
+<li><p>users.properties 创建两个访问账户</p>
+  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Password is "admin"</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.userpassword</span>=admin</span><br><span class="line"><span class="attr">ftpserver.user.admin.homedirectory</span>=E:/organic-ftp/</span><br><span class="line"><span class="attr">ftpserver.user.admin.enableflag</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.writepermission</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.maxloginnumber</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.maxloginperip</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.idletime</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.uploadrate</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">ftpserver.user.admin.downloadrate</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.userpassword=root</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.homedirectory=E:/Jproject/spring-organic-food/organic-file/ftp/</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.enableflag=true</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.writepermission=false</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.maxloginnumber=20</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.maxloginperip=2</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.idletime=300</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.uploadrate=4800</span></span><br><span class="line"><span class="comment"># ftpserver.user.anonymous.downloadrate=4800</span></span><br><span class="line"><span class="comment">#密码 配置新的用户(用户名:hlf 密码:hlf)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ftpserver.user.hlf.userpassword</span>=hlf</span><br><span class="line"><span class="comment">#主目录</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.homedirectory</span>=E:/Jproject/spring-organic-food/organic-file/</span><br><span class="line"><span class="comment">#当前用户可用</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.enableflag</span>=<span class="literal">true</span></span><br><span class="line"><span class="comment">#具有上传权限</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.writepermission</span>=<span class="literal">true</span></span><br><span class="line"><span class="comment">#最大登陆用户数为20</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.maxloginnumber</span>=<span class="number">20</span></span><br><span class="line"><span class="comment">#同IP登陆用户数为2</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.maxloginperip</span>=<span class="number">2</span></span><br><span class="line"><span class="comment">#空闲时间为300秒</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.idletime</span>=<span class="number">300</span></span><br><span class="line"><span class="comment">#上传速率限制为480000字节每秒</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.uploadrate</span>=<span class="number">48000000</span></span><br><span class="line"><span class="comment">#下载速率限制为480000字节每秒</span></span><br><span class="line"><span class="attr">ftpserver.user.hlf.downloadrate</span>=<span class="number">48000000</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>ftpd-typical.xml</p>
+  <figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">server</span> <span class="attr">xmlns</span>=<span class="string">"http://mina.apache.org/ftpserver/spring/v1"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://mina.apache.org/ftpserver/spring/v1 http://mina.apache.org/ftpserver/ftpserver-1.0.xsd	</span></span></span><br><span class="line"><span class="string"><span class="tag">       "</span></span></span><br><span class="line"><span class="tag">    <span class="attr">id</span>=<span class="string">"myServer"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listeners</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">nio-listener</span> <span class="attr">name</span>=<span class="string">"default"</span> <span class="attr">port</span>=<span class="string">"2121"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ssl</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">keystore</span> <span class="attr">file</span>=<span class="string">"./res/ftpserver.jks"</span> <span class="attr">password</span>=<span class="string">"password"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">ssl</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">data-connection</span> <span class="attr">idle-timeout</span>=<span class="string">"60"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">active</span> <span class="attr">local-port</span>=<span class="string">"8901"</span> /&gt;</span><span class="comment">&lt;!--主动端口--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">passive</span> <span class="attr">ports</span>=<span class="string">"8901"</span> /&gt;</span><span class="comment">&lt;!--被动端口--&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">data-connection</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">nio-listener</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">listeners</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">file-user-manager</span> <span class="attr">file</span>=<span class="string">"./res/conf/users.properties"</span> <span class="attr">encrypt-passwords</span>=<span class="string">"clear"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2>  <figure class="highlight awk"><table><tbody><tr><td class="code"><pre><span class="line">E:</span><br><span class="line">cd JJDK<span class="regexp">/apache-ftpserver-1.1.1/</span>bin</span><br><span class="line">ftpd.bat .<span class="regexp">/res/</span>conf/ftpd-typical.xml</span><br><span class="line">cmd</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="卸载vsftpd"><a href="#卸载vsftpd" class="headerlink" title="卸载vsftpd"></a>卸载 vsftpd</h2><pre><code>sudo yum remove vsftpd 
+</code></pre>
+<h2 id="安装vsftpd"><a href="#安装vsftpd" class="headerlink" title="安装vsftpd"></a>安装 vsftpd</h2><pre><code>sudo yum -y install vsftpd
+</code></pre>
+<h2 id="创建一个文件夹用来当作ftp得仓库"><a href="#创建一个文件夹用来当作ftp得仓库" class="headerlink" title="创建一个文件夹用来当作ftp得仓库"></a>创建一个文件夹用来当作 ftp 得仓库</h2><pre><code>cd /
+sudo mkdir ftpfile
+</code></pre>
+<h2 id="创建一个用户-仅对文件夹有上传权限-又没有登陆权限"><a href="#创建一个用户-仅对文件夹有上传权限-又没有登陆权限" class="headerlink" title="创建一个用户,仅对文件夹有上传权限,又没有登陆权限"></a>创建一个用户，仅对文件夹有上传权限，又没有登陆权限</h2><pre><code>sudo useradd ftpuser -d /ftpfile/ -s /sbin/nologin
+//赋值权限
+sudo chown -R ftpuser.ftpuser /ftpfile/
+//重置改用户的密码
+sudo passwd ftpuser
+</code></pre>
+<h2 id="配置ftp服务器"><a href="#配置ftp服务器" class="headerlink" title="配置ftp服务器"></a>配置 ftp 服务器</h2><h3 id="配置ftp服务器器指向文件夹-以及配置用户"><a href="#配置ftp服务器器指向文件夹-以及配置用户" class="headerlink" title="配置ftp服务器器指向文件夹,以及配置用户"></a>配置 ftp 服务器器指向文件夹，以及配置用户</h3><blockquote>
+<p>sudo vim /etc/vsftpd/vsftpd.conf</p>
+</blockquote>
+<pre><code>//放开  连接成功时的欢迎信息
+ftpd_banner=Welcome to blah FTP service.
+//新增仓库地址
+local_root=/ftpfile
+anon_root=/ftpfile
+//新增行 设置使用时间
+use_localtime=yes
+//新增行 设置被动传输接口的范围
+pasv_min_port=61000
+pasv_max_port=62000
+//修改行 匿名访问为NO
+anonymous_enable=NO
+//放开 
+chroot_list_enable=YES
+//放开
+chroot_list_file=/etc/vsftpd/chroot_list
+</code></pre>
+<h3 id="创建配置用户的chroot-list文件"><a href="#创建配置用户的chroot-list文件" class="headerlink" title="创建配置用户的chroot_list文件"></a>创建配置用户的 chroot_list 文件</h3><pre><code>cd /etc/vsftpd/
+sudo vim chroot_list
+//增加内容  上面配置的用户的用户名
+ftpuser
+</code></pre>
+<h3 id="重启vsftpd"><a href="#重启vsftpd" class="headerlink" title="重启vsftpd"></a>重启 vsftpd</h3><pre><code>sudo service vsftpd restart
+</code></pre>
+<h3 id="编辑防火墙"><a href="#编辑防火墙" class="headerlink" title="编辑防火墙"></a>编辑防火墙</h3><blockquote>
+<p>sudo vim /etc/sysconfig/iptables</p>
+</blockquote>
+<pre><code>//新增行
+#vsftpd
+-A INPUT -p TCP --dport 61001:62000 -j ACCEPT
+-A OUTPUT -p TCP --sport 61001:62000 -j ACCEPT
+-A INPUT -p TCP --dport 20 -j ACCEPT
+-A OUTPUT -p TCP --sport 20 -j ACCEPT
+-A INPUT -p TCP --dport 21 -j ACCEPT
+-A OUTPUT -p TCP --sport 21 -j ACCEPT
+</code></pre>
+<h3 id="重启防火墙"><a href="#重启防火墙" class="headerlink" title="重启防火墙"></a>重启防火墙</h3><pre><code>sudo service iptables restart
+</code></pre>
+<h3 id="重启vsftpd-1"><a href="#重启vsftpd-1" class="headerlink" title="重启vsftpd"></a>重启 vsftpd</h3><pre><code>sudo service vsftpd restart
+</code></pre>
+<h3 id="修改系统文件-以防匿名用户无法创建文件"><a href="#修改系统文件-以防匿名用户无法创建文件" class="headerlink" title="修改系统文件  以防匿名用户无法创建文件"></a>修改系统文件  以防匿名用户无法创建文件</h3><pre><code>sudo vim /etc/selinux/config 
+//修改
+SELINUX=disable
+//刷新生效
+sudo setenforce 0
+</code></pre>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>ftp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置 nginx</title>
+    <url>/2021/05/29/26-%E9%85%8D%E7%BD%AEnginx/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/26.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="搭建下载"><a href="#搭建下载" class="headerlink" title="搭建下载"></a>搭建下载</h1><blockquote>
+<p>省略。。。</p>
+</blockquote>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><blockquote>
+<p>nginx.conf</p>
+</blockquote>
+<figure class="highlight nginx"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#user  nobody;</span></span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="attribute">error_log</span>   E:/config/nginx_log/error.log;</span><br><span class="line"><span class="comment">#error_log  logs/error.log  notice;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  info;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#pid        logs/nginx.pid;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">events</span> {</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">http</span> {</span><br><span class="line">    <span class="attribute">include</span>       mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">log_format</span> main escape=json <span class="string">'{"timestamp":"$time_iso8601","token":"$http_X_PD_AUTH_TOKEN","request_method":"$request_method","request_uri":"$request_uri","content_type":"$content_type","args":"$args","query_string":"$query_string","request_body":"$request_body","cookie":"$http_cookie","remote_addr":"$remote_addr","uri":"$uri","remote_user":"$remote_user","request":"$request","ups_status":"$upstream_status","http_host":"$http_host","status":"$status","request_length":"$request_length","body_bytes_sent":"$body_bytes_sent","http_referer":"$http_referer","http_user_agent":"$http_user_agent","request_time":"$request_time","http_x_forwarded_for":"$http_x_forwarded_for","upstream_addr":"$upstream_addr","upstream_response_time":"$upstream_response_time"}'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">access_log</span>  E:/config/nginx_log/main.log;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="comment">#tcp_nopush     on;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">keepalive_timeout</span> <span class="number">120s</span>;</span><br><span class="line">    <span class="attribute">keepalive_requests</span> <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">gzip</span>  <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> {</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">9999</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  <span class="number">127.0.0.1</span>;</span><br><span class="line">        <span class="attribute">charset</span> utf-<span class="number">8</span>;</span><br><span class="line">        <span class="attribute">access_log</span>  E:/config/nginx_log/static.log ;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / {</span><br><span class="line">            <span class="attribute">alias</span>  E:/Jproject/webfFramework/code16sss-ShangChengMoBan-master/ShangChengMoBan/;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">404</span> <span class="number">403</span>           /50x.html;</span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html {</span><br><span class="line">           <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">500</span>.html;</span><br><span class="line">        }</span><br><span class="line">        <span class="attribute">location</span> = /<span class="number">404</span>.html {</span><br><span class="line">            <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">404</span>.html;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="attribute">upstream</span> admin_server{</span><br><span class="line">        <span class="attribute">server</span> <span class="number">127.0.0.1:8081</span> weight=<span class="number">1</span>;</span><br><span class="line">        <span class="comment">#server 127.0.0.1:8082 weight=1;</span></span><br><span class="line">        <span class="attribute">keepalive</span> <span class="number">500</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="section">server</span> {</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  <span class="number">127.0.0.1</span>;</span><br><span class="line">           </span><br><span class="line">        <span class="attribute">charset</span> utf-<span class="number">8</span>;</span><br><span class="line">        <span class="attribute">access_log</span>  E:/config/nginx_log/admin.log ;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> /system/ {</span><br><span class="line">            <span class="attribute">root</span>   html;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://admin_server;</span><br><span class="line">        </span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host $host:$server_port;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> REMOTE-HOST $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">            <span class="attribute">client_max_body_size</span>    <span class="number">2000m</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">proxy_send_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">proxy_read_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line">    </span><br><span class="line">        <span class="attribute">location</span> / {</span><br><span class="line">            <span class="attribute">alias</span>  E:/Jproject/spring-organic-product/organic-html/organic-system/;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">404</span> <span class="number">403</span>           /<span class="number">404</span>.html;</span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html {</span><br><span class="line">           <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">500</span>.html;</span><br><span class="line">        }</span><br><span class="line">        <span class="attribute">location</span> = /<span class="number">404</span>.html {</span><br><span class="line">            <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">404</span>.html;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> {</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  static.mx.com;</span><br><span class="line">        <span class="attribute">charset</span> utf-<span class="number">8</span>;</span><br><span class="line">        <span class="attribute">access_log</span>  E:/config/nginx_log/static.log ;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / {</span><br><span class="line">            <span class="attribute">alias</span>  E:/organic-ftp/;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">404</span> <span class="number">403</span>           /50x.html;</span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html {</span><br><span class="line">           <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">500</span>.html;</span><br><span class="line">        }</span><br><span class="line">        <span class="attribute">location</span> = /<span class="number">404</span>.html {</span><br><span class="line">            <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">404</span>.html;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> {</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  admin.mx.com;</span><br><span class="line">           </span><br><span class="line">        <span class="attribute">charset</span> utf-<span class="number">8</span>;</span><br><span class="line">        <span class="attribute">access_log</span>  E:/config/nginx_log/admin.log ;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> /system/ {</span><br><span class="line">            <span class="attribute">root</span>   html;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://admin_server;</span><br><span class="line">        </span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host $host:$server_port;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> REMOTE-HOST $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">            <span class="attribute">client_max_body_size</span>    <span class="number">2000m</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">proxy_send_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">proxy_read_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line">    </span><br><span class="line">        <span class="attribute">location</span> / {</span><br><span class="line">            <span class="attribute">alias</span>  E:/Jproject/spring-organic-product/organic-html/organic-system/;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">404</span> <span class="number">403</span>           /<span class="number">404</span>.html;</span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html {</span><br><span class="line">           <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">500</span>.html;</span><br><span class="line">        }</span><br><span class="line">        <span class="attribute">location</span> = /<span class="number">404</span>.html {</span><br><span class="line">            <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">404</span>.html;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> app_server{</span><br><span class="line">        <span class="attribute">server</span> <span class="number">127.0.0.1:8081</span> weight=<span class="number">1</span>;</span><br><span class="line">        <span class="comment">#server 127.0.0.1:8082 weight=1;</span></span><br><span class="line">        <span class="attribute">keepalive</span> <span class="number">500</span>;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> {</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  www.mx.com;</span><br><span class="line">        <span class="attribute">charset</span> utf-<span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">access_log</span>  E:/config/nginx_log/www.log ;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> /food/ {</span><br><span class="line">            <span class="attribute">root</span>   html;</span><br><span class="line">           </span><br><span class="line">            <span class="attribute">proxy_pass</span> http://app_server;</span><br><span class="line">        </span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host $host:$server_port;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> REMOTE-HOST $remote_addr;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">            <span class="attribute">client_max_body_size</span>    <span class="number">2000m</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">proxy_send_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">proxy_read_timeout</span> <span class="number">3600</span>;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line">         <span class="attribute">location</span> / {</span><br><span class="line">            <span class="attribute">alias</span>  E:/Jproject/spring-organic-product/organic-html/organic-app/;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>  <span class="number">404</span> <span class="number">403</span>           /<span class="number">404</span>.html;</span><br><span class="line">        <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html {</span><br><span class="line">           <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">500</span>.html;</span><br><span class="line">        }</span><br><span class="line">        <span class="attribute">location</span> = /<span class="number">404</span>.html {</span><br><span class="line">            <span class="attribute">alias</span>   E:/Jproject/spring-organic-product/organic-html/organic-error/<span class="number">404</span>.html;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Activiti6.0.0 安装脚手架</title>
+    <url>/2021/05/31/27-Activiti6.0.0%E5%AE%89%E8%A3%85%E8%84%9A%E6%89%8B%E6%9E%B6/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/27.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="下载activiti源码"><a href="#下载activiti源码" class="headerlink" title="下载activiti源码"></a>下载 activiti 源码</h1><ul>
+<li><a href="https://github.com/Activiti/Activiti">git</a></li>
+</ul>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ul>
+<li><p>脚手架就相当于是一个模板，若我们采用脚手架，则可以重用之前的代码快速开发。</p>
+</li>
+<li><p>在 Activiti 的目录结构（见下图）中，原本就是带有脚手架的，但默认不能使用，需要我们手动安装。</p>
+</li>
+</ul>
+<h1 id="一、创建默认脚手架"><a href="#一、创建默认脚手架" class="headerlink" title="一、创建默认脚手架"></a>一、创建默认脚手架</h1><ol>
+<li>切换分支</li>
+</ol>
+<ul>
+<li>我们打开一个终端，然后切换新建的分支，若没有，则自己创建</li>
+<li>切换分支：git checkout -b study6 activiti-6.0.0</li>
+<li><img data-src="/images/activiti/archetype/2.png"></li>
+</ul>
+<ol start="2">
+<li><p> 安装脚手架</p>
+<ol>
+<li>切换好分支后，进入 tooling/archetypes 目录，进行安装，提示安装成功。</li>
+<li>mvn clean install</li>
+<li><img data-src="/images/activiti/archetype/3.png"></li>
+</ol>
+</li>
+<li><p> 以上已经成功安装了默认的脚手架</p>
+</li>
+</ol>
+<h1 id="二、创建自定义脚手架"><a href="#二、创建自定义脚手架" class="headerlink" title="二、创建自定义脚手架"></a>二、创建自定义脚手架</h1><ol>
+<li>拷贝脚手架</li>
+</ol>
+<ul>
+<li>拷贝 activiti-archetype-unittest 目录，重命名为 activiti-archetype-unittest2，<br>并修改 pom.xml 中的内容为 activiti-archetype-unittest2</li>
+<li><img data-src="/images/activiti/archetype/4.png"></li>
+</ul>
+<ol start="2">
+<li><p> 修改 ACTIVITI-ARCHETYPE-UNITTEST2 内容</p>
+<ol>
+<li>在 archetype-resources/src 目录下<br>创建目录 man/java 和 main/resources（默认只有 test/java 和 test/resources 目录）  </li>
+</ol>
+<ul>
+<li><img data-src="/images/activiti/archetype/5.png"></li>
+</ul>
+<ol start="2">
+<li>将 Helloworld 项目中的内容拷贝过来</li>
+</ol>
+<ul>
+<li><a href="/images/activiti/archetype/archetype.zip">源码下载</a></li>
+<li> java 中的 DemoMain.java，并修改文件中的包名为 package ${package}; 并添加其他三个文件</li>
+<li><img data-src="/images/activiti/archetype/6.png"></li>
+</ul>
+<ol start="3">
+<li>修改 META-INF/maven/archetype-metadata.xml 文件的内容如下：</li>
+</ol>
+<ul>
+<li>filetered 是否过滤，packaged 是否经过包结构过滤，两个都是 true; 之前的包结构占位符能够替换 <figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">archetype-descriptor</span> <span class="attr">name</span>=<span class="string">"activiti-archetype-unittest2"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fileSets</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">"true"</span> <span class="attr">packaged</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">"false"</span> <span class="attr">packaged</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span>activiti.cfg.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span>logback.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span>second_approve.bpmn20.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">"true"</span> <span class="attr">packaged</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/test/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">"true"</span> <span class="attr">packaged</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/test/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span>my-process.bpmn20.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fileSets</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">archetype-descriptor</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<ol start="4">
+<li>删除不用的文件</li>
+</ol>
+<ul>
+<li>删除掉 test/resource 下的 activiti.cfg.xml 和 log4j.properties，因为我们采用 logback.xml。</li>
+<li>删除时把 search in comments and strings 前面的钩去掉。</li>
+</ul>
+<ol start="5">
+<li>安装自定义脚手架</li>
+</ol>
+<ul>
+<li>进入到本地的 activiti-archetype-unittest2 目录中进行安装 <figure class="highlight elm"><table><tbody><tr><td class="code"><pre><span class="line"><span class="title">cd</span> activiti-arche<span class="keyword">type</span>-unittest2</span><br><span class="line"><span class="title">mvn</span> clean install</span><br></pre></td></tr></tbody></table></figure></li>
+<li><img data-src="/images/activiti/archetype/7.png"></li>
+</ul>
+<ol start="6">
+<li>添加脚手架</li>
+</ol>
+<ul>
+<li><img data-src="/images/activiti/archetype/8.png"></li>
+</ul>
+<ol start="7">
+<li>显示添加成功</li>
+</ol>
+<ul>
+<li><img data-src="/images/activiti/archetype/10.png"></li>
+</ul>
+</li>
+</ol>
+<h1 id="三、使用脚手架"><a href="#三、使用脚手架" class="headerlink" title="三、使用脚手架"></a>三、使用脚手架</h1><ol>
+<li>创建项目</li>
+</ol>
+<ul>
+<li>重新建一个 maven 项目（建项目不用脚手架），</li>
+<li>可以取名为 activiti6-samples，GroupId 可取 com.syc.activiti，ArtifactId 可取 activiti6-samples。</li>
+<li>然后新建 module 模型，选择 Maven，并且从 archetype 创建，选择我们建好的 unittest2，模块名可取 config。</li>
+</ul>
+<ol start="2">
+<li>导入依赖</li>
+</ol>
+<blockquote>
+<p>在项目的 pom.xml 中修改 parent 为 springboot，因为 helloword 程序依赖的是 springboot。</p>
+</blockquote>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.syc.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti6-samples<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">module</span>&gt;</span>config<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">relativePath</span>&gt;</span><span class="tag">&lt;/<span class="name">relativePath</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>在 config 的 pom.xml 中添加 guava 依赖，不添加该依赖会报错，最好将原先的依赖全部导入</p>
+</blockquote>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.syc.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>6.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activation<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.activation<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ch.qos.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-classic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.guava<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guava<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>23.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.h2database<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>h2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.176<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.22<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<ol start="3">
+<li>maven 项目不能忽略</li>
+</ol>
+<ul>
+<li> Unignore Projects 后点击刷新</li>
+<li><img data-src="/images/activiti/archetype/9.png"></li>
+</ul>
+<ol start="4">
+<li><p>刷新项目后就是可运行状态</p>
+</li>
+<li><p>运行项目后提示警告：</p>
+</li>
+</ol>
+<ul>
+<li>WARNING: Illegal reflective access by org.apache.ibatis.reflection.Reflector (file:/D:/maven_repository/org/mybatis/mybatis/3.4.2/mybatis-3.4.2.jar) to method java.lang.Object.finalize() </li>
+<li>该问题是 jdk 的版本过高，我们将 project structure 中的 jdk 设置回 1.8 即可。</li>
+</ul>
+<h1 id="本文源地址来源"><a href="#本文源地址来源" class="headerlink" title="本文源地址来源"></a>本文源地址来源</h1><ul>
+<li><a href="https://www.freesion.com/article/9811943567/">灰信网</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Activiti</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Springboot2.0 兼容 Activiti6.0.0</title>
+    <url>/2021/06/01/28-Springboot2.0%E5%85%BC%E5%AE%B9Activiti6.0.0/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/28.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="下载activiti源码"><a href="#下载activiti源码" class="headerlink" title="下载activiti源码"></a>下载 activiti 源码</h1><ul>
+<li><a href="https://github.com/Activiti/Activiti">git</a></li>
+<li> 切换分支：git checkout -b study6 activiti-6.0.0</li>
+</ul>
+<h1 id="创建springboot-web项目"><a href="#创建springboot-web项目" class="headerlink" title="创建springboot-web项目"></a>创建 springboot-web 项目</h1><ul>
+<li><p><img data-src="/images/activiti/spring/1.jpg"></p>
+</li>
+<li><p><img data-src="/images/activiti/spring/2.jpg"></p>
+</li>
+<li><p>增加监控 (pom.xml)</p>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-hateoas<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>application.yml</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">management<span class="selector-class">.endpoints</span><span class="selector-class">.jmx</span><span class="selector-class">.exposure</span>.include=<span class="string">'*'</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>引入 activiti</p>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--activiti心跳监控--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--activiti--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-spring-boot-starter-basic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="修改activiti6-0-0源码"><a href="#修改activiti6-0-0源码" class="headerlink" title="修改activiti6.0.0源码"></a>修改 activiti6.0.0 源码</h1></li>
+<li><p>将 module 中的 activiti-spring-boot 添加为 maven 子模块</p>
+</li>
+<li><p>修改 activiti-spring-boot 的 pom.xml，修改 boot 版本 [2.0.0.RELEASE]</p>
+</li>
+<li><p><img data-src="/images/activiti/spring/3.png"></p>
+</li>
+<li><p>Reimport basic 项目</p>
+</li>
+</ul>
+<h1 id="修改报错信息"><a href="#修改报错信息" class="headerlink" title="修改报错信息"></a>修改报错信息</h1><h2 id="ProcessEngineEndpoint"><a href="#ProcessEngineEndpoint" class="headerlink" title="ProcessEngineEndpoint"></a>ProcessEngineEndpoint</h2><ul>
+<li>修改前</li>
+<li><img data-src="/images/activiti/spring/4.jpg"></li>
+<li>修改后</li>
+<li><img data-src="/images/activiti/spring/5.jpg"></li>
+</ul>
+<h2 id="ProcessEngineMvcEndpoint"><a href="#ProcessEngineMvcEndpoint" class="headerlink" title="ProcessEngineMvcEndpoint"></a>ProcessEngineMvcEndpoint</h2><ul>
+<li>修改前</li>
+<li><img data-src="/images/activiti/spring/6.jpg"></li>
+<li>修改后</li>
+<li><img data-src="/images/activiti/spring/7.jpg"></li>
+</ul>
+<h2 id="EndpointAutoConfiguration"><a href="#EndpointAutoConfiguration" class="headerlink" title="EndpointAutoConfiguration"></a>EndpointAutoConfiguration</h2><ul>
+<li>修改前</li>
+<li><img data-src="/images/activiti/spring/8.jpg"></li>
+<li>修改后</li>
+<li><img data-src="/images/activiti/spring/9.jpg"></li>
+</ul>
+<h2 id="DataSourceProcessEngineAutoConfiguration"><a href="#DataSourceProcessEngineAutoConfiguration" class="headerlink" title="DataSourceProcessEngineAutoConfiguration"></a>DataSourceProcessEngineAutoConfiguration</h2><ul>
+<li>修改前</li>
+<li><img data-src="/images/activiti/spring/10.jpg"></li>
+<li>修改后</li>
+<li><img data-src="/images/activiti/spring/11.jpg"><h2 id="SecurityAutoConfiguration"><a href="#SecurityAutoConfiguration" class="headerlink" title="SecurityAutoConfiguration"></a> SecurityAutoConfiguration</h2></li>
+<li> 修改前</li>
+<li><img data-src="/images/activiti/spring/12.jpg"></li>
+<li>修改后</li>
+<li><img data-src="/images/activiti/spring/13.jpg"></li>
+</ul>
+<p>## 编译 打包</p>
+<blockquote>
+<p>mvn clean test-compile</p>
+</blockquote>
+<blockquote>
+<p>修改发布版本</p>
+</blockquote>
+<ul>
+<li><img data-src="/images/activiti/spring/14.jpg"></li>
+</ul>
+<blockquote>
+<p>修改父工程对应版本</p>
+</blockquote>
+<ul>
+<li><img data-src="/images/activiti/spring/15.jpg"></li>
+</ul>
+<blockquote>
+<p>修改当前 pom 文件所有 activiti 相关的为 6.0.0</p>
+</blockquote>
+<ul>
+<li><img data-src="/images/activiti/spring/16.jpg"></li>
+</ul>
+<blockquote>
+<p>mvn clean install</p>
+</blockquote>
+<h1 id="引入项目activiti-6-0-0-boot2"><a href="#引入项目activiti-6-0-0-boot2" class="headerlink" title="引入项目activiti/6.0.0-boot2"></a>引入项目 activiti/6.0.0-boot2</h1><ul>
+<li><p>pom.xml</p>
+  <figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-spring-boot-starter-basic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.0.0-boot2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Druid依赖 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.25<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>添加数据库</p>
+  <figure class="highlight dts"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">spring:</span></span><br><span class="line"><span class="symbol">  datasource:</span></span><br><span class="line">    dirver-class-name: com.mysql.cj.jdbc.Driver'</span><br><span class="line"><span class="symbol">    url:</span> jdbc:mysql:<span class="comment">//127.0.0.1:3306/activiti6unit?useTimezone=true&amp;serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=true</span></span><br><span class="line"><span class="symbol">    username:</span> root</span><br><span class="line"><span class="symbol">    password:</span> root</span><br><span class="line">    <span class="meta">#druid连接池配置</span></span><br><span class="line"><span class="symbol">    type:</span> com.alibaba.druid.pool.DruidDataSource</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>增加 resource/processes 文件夹</p>
+</li>
+<li><ul>
+<li>my-process.bpmn20.xml<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">definitions</span> <span class="attr">xmlns</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/MODEL"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:activiti</span>=<span class="string">"http://activiti.org/bpmn"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:bpmndi</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/DI"</span> <span class="attr">xmlns:omgdc</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DC"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:omgdi</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DI"</span> <span class="attr">typeLanguage</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">expressionLanguage</span>=<span class="string">"http://www.w3.org/1999/XPath"</span> <span class="attr">targetNamespace</span>=<span class="string">"http://www.activiti.org/test"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">process</span> <span class="attr">id</span>=<span class="string">"my-process"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">startEvent</span> <span class="attr">id</span>=<span class="string">"start"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow1"</span> <span class="attr">sourceRef</span>=<span class="string">"start"</span> <span class="attr">targetRef</span>=<span class="string">"someTask"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"someTask"</span> <span class="attr">name</span>=<span class="string">"Activiti is awesome!"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow2"</span> <span class="attr">sourceRef</span>=<span class="string">"someTask"</span> <span class="attr">targetRef</span>=<span class="string">"end"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">endEvent</span> <span class="attr">id</span>=<span class="string">"end"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">process</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">definitions</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><p>测试</p>
+  <figure class="highlight typescript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">RuntimeService runtimeService;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">contextLoads</span>(<span class="params"></span>)</span> {</span><br><span class="line">    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(<span class="string">"my-process"</span>);</span><br><span class="line">    logger.info(<span class="string">"'''''{}"</span>,processInstance);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="activiti检测"><a href="#activiti检测" class="headerlink" title="activiti检测"></a>activiti 检测</h1>  <figure class="highlight dts"><table><tbody><tr><td class="code"><pre><span class="line"><span class="params">&lt;dependency&gt;</span></span><br><span class="line">    <span class="params">&lt;groupId&gt;</span>org.activiti<span class="params">&lt;/groupId&gt;</span></span><br><span class="line">    <span class="params">&lt;artifactId&gt;</span>activiti-spring-boot-starter-actuator<span class="params">&lt;/artifactId&gt;</span></span><br><span class="line">    <span class="params">&lt;version&gt;</span><span class="number">6.0</span><span class="number">.0</span><span class="params">&lt;/version&gt;</span></span><br><span class="line"><span class="params">&lt;/dependency&gt;</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">management:</span></span><br><span class="line"><span class="symbol">  endpoints:</span></span><br><span class="line"><span class="symbol">    web:</span></span><br><span class="line"><span class="symbol">      exposure:</span></span><br><span class="line"><span class="symbol">        include:</span> <span class="string">'*'</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p><a href="http://127.0.0.1:8080/actuator/activiti">http://127.0.0.1:8080/actuator/activiti</a></p>
+</li>
+<li><ul>
+<li><img data-src="/images/activiti/spring/17.jpg"></li>
+</ul>
+</li>
+</ul>
+<h1 id="idea编辑bpmn文件"><a href="#idea编辑bpmn文件" class="headerlink" title="idea编辑bpmn文件"></a>idea 编辑 bpmn 文件</h1><ul>
+<li>自带插件 Jboss jBPM</li>
+<li><ul>
+<li> 手写 xml 可提示节点名</li>
+</ul>
+</li>
+<li>画图工具 actiBPM</li>
+<li><ul>
+<li> 可画图</li>
+</ul>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>测试版本为 2.0.0-RELEASE!!!</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Activiti</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BPMN</title>
+    <url>/2021/06/02/29-BPMN/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/29.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="bpmn元素"><a href="#bpmn元素" class="headerlink" title="bpmn元素"></a>bpmn 元素</h1><p><img data-src="/images/activiti/1.jpg"></p>
+<h1 id="流程组织元素图"><a href="#流程组织元素图" class="headerlink" title="流程组织元素图"></a>流程组织元素图</h1><p><img data-src="/images/activiti/2.jpg"></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>BPMN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 相关</title>
+    <url>/2021/05/26/3-Maven%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/3.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven 安装</h3><blockquote>
+<p>  <a href="https://archive.apache.org/dist/maven/maven-3/">maven 下载</a></p>
+<blockquote>
+<p> 解压到指定目录即可</p>
+</blockquote>
+</blockquote>
+<h3 id="修改仓库地址"><a href="#修改仓库地址" class="headerlink" title="修改仓库地址"></a>修改仓库地址</h3><pre><code>&lt;localRepository&gt;D:\JJDK\repository&lt;/localRepository&gt;
+</code></pre>
+<h3 id="修改阿里云镜像"><a href="#修改阿里云镜像" class="headerlink" title="修改阿里云镜像"></a>修改阿里云镜像</h3><pre><code>&lt;mirror&gt;
+    &lt;id&gt;central&lt;/id&gt;
+    &lt;name&gt;central&lt;/name&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+
+仓库网址： https://maven.aliyun.com/mvn/search
+</code></pre>
+<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre><code>mvn -v 
+</code></pre>
+<h3 id="配置windows环境变量"><a href="#配置windows环境变量" class="headerlink" title="配置windows环境变量"></a>配置 windows 环境变量</h3><pre><code>MAVEN_HOME D:\JJDK\maven
+</code></pre>
+<h3 id="配置PATH"><a href="#配置PATH" class="headerlink" title="配置PATH"></a>配置 PATH</h3><pre><code>%MAVEN_HOME%\bin
+</code></pre>
+<h3 id="本地仓库强制更新"><a href="#本地仓库强制更新" class="headerlink" title="本地仓库强制更新"></a>本地仓库强制更新</h3><pre><code>mvn dependency:purge-local-repository
+mvn -Dmaven.test.skip=true clean install -U
+</code></pre>
+<h3 id="本地跳过test打包"><a href="#本地跳过test打包" class="headerlink" title="本地跳过test打包"></a>本地跳过 test 打包</h3><pre><code>mvn -Dmaven.test.skip=true clean install
+</code></pre>
+<h3 id="基于脚手架创建项目"><a href="#基于脚手架创建项目" class="headerlink" title="基于脚手架创建项目"></a>基于脚手架创建项目</h3><pre><code>---java项目的
+mvn archetype:generate -DgroupId=com.seckill -DartifactId=FirstApp or -DarchetypeArtifactId=maven -archetype-quickstart -DinteractiveMode=false
+
+在上述情况下，一个新的Java项目命名 FourApp 而整个项目的目录结构会自动创建。
+
+--java web项目
+mvn archetype:generate -DgroupId=com.seckill -DartifactId=seckillApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+</code></pre>
+<h3 id="其余命令"><a href="#其余命令" class="headerlink" title="其余命令"></a>其余命令</h3><figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#基于tomcat启动</span></span><br><span class="line">mvn tomcat7:<span class="builtin-name">run</span></span><br><span class="line"><span class="comment">#基于spring启动</span></span><br><span class="line">mvn spring-boot:<span class="builtin-name">run</span></span><br><span class="line"><span class="comment">#批量设置版本</span></span><br><span class="line">mvn versions:<span class="builtin-name">set</span> -DnewVersion = 6.0.0-boot2</span><br><span class="line"><span class="comment">#批量install</span></span><br><span class="line">mvn clean install source:jar -Dmaven.test.<span class="attribute">skip</span>=<span class="literal">true</span></span><br></pre></td></tr></tbody></table></figure>
+]]></content>
+      <categories>
+        <category>Maven</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows-Bat 脚本</title>
     <url>/2021/05/25/4-Windows-Bat%E8%84%9A%E6%9C%AC/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/4.jpg"></p>
+<p><img data-src="/images/banner/4.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -1351,6 +2579,13 @@ nginx.exe -c D:\JJDK\nginx\conf\nginx.conf
 pause
 exit
 /b
+
+#第二种
+taskkill /f /t /im nginx.exe
+E:
+cd /JJDK/nginx-1.19.8
+nginx.exe -c E:\JJDK\nginx-1.19.8\conf\nginx.conf
+cmd
 </code></pre>
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><pre><code>d:
 cd JJDK/redis
@@ -1361,7 +2596,32 @@ eg：安装服务
     #sc delete Redis
     
 </code></pre>
-<h1 id="Mongo"><a href="#Mongo" class="headerlink" title="Mongo"></a>Mongo</h1><pre><code>稍后补充...
+<h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><pre><code>@echo off
+%1(start /min cmd.exe /c %0 :$exit)
+cd E:/JJDK/kafka
+.\bin\windows\kafka-server-start.bat  .\config\server.properties
+pause
+</code></pre>
+<h1 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h1><pre><code>@echo off
+%1(start /min cmd.exe /c %0 :$exit)
+cd E:/JJDK/zookeeper-3.3.4/bin
+zkServer.cmd
+pause
+</code></pre>
+<h1 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h1><pre><code>E:
+cd /JJDK/mysql/bin
+mysqld.exe --defaults-file=E:\JJDK\mysql\my.ini --console
+cmd
+</code></pre>
+<h1 id="mysql-1"><a href="#mysql-1" class="headerlink" title="mysql"></a>mysql</h1><pre><code>E:
+cd /JJDK/mysql/bin
+mysqld.exe --defaults-file=E:\JJDK\mysql\my.ini --console
+cmd
+</code></pre>
+<h1 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h1><pre><code>E:
+cd JJDK/apache-ftpserver-1.1.1/bin
+ftpd.bat ./res/conf/ftpd-typical.xml
+cmd
 </code></pre>
 ]]></content>
       <categories>
@@ -1376,7 +2636,7 @@ eg：安装服务
     <url>/2021/05/25/5-Java%E6%96%87%E4%BB%B6%E9%87%8D%E5%91%BD%E5%90%8D/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/5.jpg"></p>
+<p><img data-src="/images/banner/5.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -1428,7 +2688,7 @@ private static boolean reName(File file, int i) {//文件重命名
     <url>/2021/05/27/6-Idea%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/6.jpg"></p>
+<p><img data-src="/images/banner/6.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -1715,46 +2975,11 @@ private static boolean reName(File file, int i) {//文件重命名
       </tags>
   </entry>
   <entry>
-    <title>Js 限制 input 输入框</title>
-    <url>/2021/05/27/7-Js%E9%99%90%E5%88%B6input%E8%BE%93%E5%85%A5%E6%A1%86/</url>
-    <content><![CDATA[<span id="delete">
-
-<p><img data-src="/banner/7.jpg"></p>
-</span>
-
-<span id="more"></span>
-
-<h1 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h1><ul>
-<li>只输入数字  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"this.value=this.value.replace(/[^0-9]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入数字、小数点  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"value=value.replace(/[^\0-9\.]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入英文  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入英文、数字  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入中文  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"value=value.replace(/[^\u4E00-\u9FA5]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入中文、英文、数字  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入中文、英文、数字、空格  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5<span class="symbol">\]</span>/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
-<li>只能输入中文、英文、数字、小数点  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5<span class="symbol">\.</span>]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
-<li>在 input 里输入  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"value=value.replace(/[^\X]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li>然后在 (/[\X]/g,’’) 里的 X 换成你想输入的代码就可以了，<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line">中文u4E00-u9FA5，数字<span class="number">0</span>-<span class="number">9</span>，英文<span class="selector-tag">a</span>-z\<span class="selector-tag">A</span>-Z，其它符号@、点或其它符号。</span><br></pre></td></tr></tbody></table></figure></li>
-<li>可以多个，用 \ 隔开就行了。 中英文 + 数字 + @符号 + 点符号   <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5<span class="symbol">\@</span><span class="symbol">\.</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li>想在文本框里不能右键弹出菜单和不能粘贴进复制的信息的话要在 input 里输入  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onpaste</span>=<span class="string">"return false"</span> <span class="literal">on</span>contextmenu=<span class="string">"return false;"</span></span><br></pre></td></tr></tbody></table></figure></li>
-<li>验证网站  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">http(s)?:<span class="symbol">\/</span><span class="symbol">\/</span>([<span class="symbol">\w</span>-]+<span class="symbol">\.</span>)+[<span class="symbol">\w</span>-]+(<span class="symbol">\/</span>[<span class="symbol">\w</span>- .<span class="symbol">\/</span>?<span class="variable">%&amp;=]*)?</span></span><br></pre></td></tr></tbody></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Js</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis 基础命令相关</title>
     <url>/2021/05/28/8-Redis%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E7%9B%B8%E5%85%B3/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/8.jpg"></p>
+<p><img data-src="/images/banner/8.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -1958,11 +3183,46 @@ discard         #回滚
       </tags>
   </entry>
   <entry>
+    <title>Js 限制 input 输入框</title>
+    <url>/2021/05/27/7-Js%E9%99%90%E5%88%B6input%E8%BE%93%E5%85%A5%E6%A1%86/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/7.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h1><ul>
+<li>只输入数字  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"this.value=this.value.replace(/[^0-9]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入数字、小数点  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"value=value.replace(/[^\0-9\.]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入英文  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入英文、数字  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入中文  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"value=value.replace(/[^\u4E00-\u9FA5]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入中文、英文、数字  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入中文、英文、数字、空格  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5<span class="symbol">\]</span>/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
+<li>只能输入中文、英文、数字、小数点  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">onkeyup="value=value.replace(/[^<span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5<span class="symbol">\.</span>]/g,'')"</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>在 input 里输入  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onkeyup</span>=<span class="string">"value=value.replace(/[^\X]/g,'')"</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>然后在 (/[\X]/g,’’) 里的 X 换成你想输入的代码就可以了，<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line">中文u4E00-u9FA5，数字<span class="number">0</span>-<span class="number">9</span>，英文<span class="selector-tag">a</span>-z\<span class="selector-tag">A</span>-Z，其它符号@、点或其它符号。</span><br></pre></td></tr></tbody></table></figure></li>
+<li>可以多个，用 \ 隔开就行了。 中英文 + 数字 + @符号 + 点符号   <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">\a</span>-<span class="symbol">\z</span><span class="symbol">\A</span>-<span class="symbol">\Z</span>0-9<span class="symbol">\u</span>4E00-<span class="symbol">\u</span>9FA5<span class="symbol">\@</span><span class="symbol">\.</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>想在文本框里不能右键弹出菜单和不能粘贴进复制的信息的话要在 input 里输入  <figure class="highlight ini"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">onpaste</span>=<span class="string">"return false"</span> <span class="literal">on</span>contextmenu=<span class="string">"return false;"</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>验证网站  <figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">http(s)?:<span class="symbol">\/</span><span class="symbol">\/</span>([<span class="symbol">\w</span>-]+<span class="symbol">\.</span>)+[<span class="symbol">\w</span>-]+(<span class="symbol">\/</span>[<span class="symbol">\w</span>- .<span class="symbol">\/</span>?<span class="variable">%&amp;=]*)?</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Js</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Aspeat</title>
     <url>/2021/05/28/9-Aspeat/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/9.jpg"></p>
+<p><img data-src="/images/banner/9.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -2007,7 +3267,7 @@ discard         #回滚
     <url>/2021/05/28/17-SpringBoot%E6%95%B4%E5%90%88%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<span id="delete">
 
-<p><img data-src="/banner/17.jpg"></p>
+<p><img data-src="/images/banner/17.jpg"></p>
 </span>
 
 <span id="more"></span>
@@ -2551,6 +3811,534 @@ OneInterceptor，TwoInterceptor 是实现 HandlerInterceptor 接口的里面的�
       </categories>
       <tags>
         <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>总结相关</title>
+    <url>/2021/05/29/22-%E6%80%BB%E7%BB%93%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/22.jpg"></p>
+</span>
+
+<span id="more"></span>
+<h1 id="spring外部配置文件"><a href="#spring外部配置文件" class="headerlink" title="spring外部配置文件"></a>spring 外部配置文件</h1><pre><code>java -jar  springboot_test-0.0.1-SNAPSHOT.jar --spring.config.location=D:\application2.properties
+</code></pre>
+<h1 id="docker-mysql"><a href="#docker-mysql" class="headerlink" title="docker-mysql"></a>docker-mysql</h1><figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">docker</span> run --name mysql<span class="number">1</span> --env MYSQL_ROOT_HOST=<span class="number">172</span>.<span class="number">17</span>.%.% --env MYSQL_ROOT_PASSWORD=root -v $PWD/mysql_data:/var/lib/mysql -p <span class="number">3333</span>:<span class="number">3306</span> -d mysql/mysql-server:<span class="number">5</span>.<span class="number">7</span></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="取模算法"><a href="#取模算法" class="headerlink" title="取模算法"></a>取模算法</h1><figure class="highlight livecodeserver"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">a</span>+(b-<span class="keyword">a</span>)/<span class="number">2</span> == (<span class="keyword">a</span>+b)/<span class="number">2</span></span><br><span class="line"><span class="keyword">a</span>%b = <span class="keyword">a</span> - （<span class="keyword">a</span>/b）*b</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h1><figure class="highlight matlab"><table><tbody><tr><td class="code"><pre><span class="line">$ uname -r 查看linux版本号</span><br><span class="line"><span class="built_in">find</span> . -<span class="built_in">type</span> f -<span class="built_in">size</span> +<span class="number">100</span>M 查找大文件</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h1><ul>
+<li>整页翻页 ctrl-f ctrl-b</li>
+<li><ul>
+<li>f 就是 forword b 就是 backward</li>
+</ul>
+</li>
+<li> 翻半页</li>
+<li><ul>
+<li> ctrl-d ctlr-u</li>
+</ul>
+</li>
+<li><ul>
+<li>d=down u=up</li>
+</ul>
+</li>
+<li> 滚一行</li>
+<li><ul>
+<li> ctrl-e ctrl-y</li>
+</ul>
+</li>
+<li>zz 让光标所杂的行居屏幕中央</li>
+<li> zt 让光标所杂的行居屏幕最上一行 t=top</li>
+<li>zb 让光标所杂的行居屏幕最下一行 b=bottom</li>
+</ul>
+<h1 id="window查看端口"><a href="#window查看端口" class="headerlink" title="window查看端口"></a>window 查看端口</h1><figure class="highlight 1c"><table><tbody><tr><td class="code"><pre><span class="line">netstat -ano 			</span><br><span class="line">netstat -ano <span class="string">|findstr "</span>端口号<span class="string">"</span></span><br><span class="line">netstat -na<span class="string">|grep 7070 查找端口</span></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="Linux查找进程"><a href="#Linux查找进程" class="headerlink" title="Linux查找进程"></a>Linux 查找进程</h1><figure class="highlight vim"><table><tbody><tr><td class="code"><pre><span class="line">losf -i:<span class="number">8080</span> 查看端口</span><br><span class="line"><span class="keyword">ps</span> -ef |<span class="keyword">grep</span> <span class="string">"linux"</span> 查找进程</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="遍历二叉树"><a href="#遍历二叉树" class="headerlink" title="遍历二叉树"></a>遍历二叉树</h1><pre><code>1. 前序：根节点 左子树 右子树
+2. 中序: 左子树 根节点 右子树
+3. 后序：左子树 右子树 根节点
+</code></pre>
+<h1 id="hashcode和equals"><a href="#hashcode和equals" class="headerlink" title="hashcode和equals"></a>hashcode 和 equals</h1><pre><code>1. equals 相等，hashcode必相等  效率低
+2. hashcode相等，不一定相等，因为不安全
+</code></pre>
+<h1 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h1><p><img data-src="/images/%E7%BA%BF%E7%A8%8B6%E5%A4%A7%E8%BD%AC%E6%8D%A2%E7%8A%B6%E6%80%81.png"> </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol start="3">
+<li><p>java 的理解</p>
+<ol>
+<li>平台无关性 - 一次编译导出运行</li>
+<li> GC - </li>
+<li>语言特性 - 泛型 反射 lmnada</li>
+<li> 面向对象</li>
+<li>类库</li>
+<li>异常处理</li>
+</ol>
+</li>
+<li><p>反射</p>
+<ol>
+<li>动态获取类的属性和方法</li>
+</ol>
+</li>
+<li><p> java 虚拟机    </p>
+<ol>
+<li>JVM 是内存虚拟机<ol>
+<li> Class Loader : 加载 class 文件到内存</li>
+<li> Runtime Data Area JVM 内存结构模型</li>
+<li> Execution Engine 对命令解析</li>
+<li> Native Interface 融合不同开发语言的原生库为 javasuoyong </li>
+</ol>
+</li>
+<li>Class Loader<ol>
+<li>BootStrapClassLoader :C++ 编写，加载核心库 java.*</li>
+<li>ExtClassLoader:java 编写 加载扩展库 javax.*</li>
+<li>AppClassLoader Java 编写  加载程序所在目录</li>
+<li>自定义 ClassLoader Java 编写 定制化加载</li>
+<li> findClass - defineClass (二进制数组流)</li>
+</ol>
+</li>
+<li> 双亲委派机制<ol>
+<li>自定义 ClassLoader 的父亲 AppClassLoader 的父亲是 ExtClassLoader:java 的父亲是 null</li>
+<li> 避免多份同样字节码的加载</li>
+</ol>
+</li>
+<li>类的加载方式<ol>
+<li>隐式加载 new</li>
+<li> 显式加载 loadClass forName</li>
+</ol>
+</li>
+<li> 类的装载过程<ol>
+<li>加载   生成字节码</li>
+<li>链接   校验 - 准备 - 解析</li>
+<li>初始化 分配静态空间等</li>
+</ol>
+</li>
+<li> forName 得到的 class 是已经初始化完成，会执行静态化 static        </li>
+<li>loadClass 是还没有链接的 只是一个字节码 - spring 延时加载</li>
+</ol>
+</li>
+<li><p> JAVA 内存模型 RUNTIME DATA AREA </p>
+<ol>
+<li>线程私有：<ol>
+<li>程序计数器<ol>
+<li>当前线程所执行的字节码行号指示器逻辑</li>
+<li>改变计数器的值来选取下一条需要执行的字节码指令</li>
+<li>和线程是一对一的关系即线程私有</li>
+<li>对 java 方法计数 如果是 Native 方法则计数器值为 UNdefine</li>
+<li> 不会发生内存泄露</li>
+</ol>
+</li>
+<li> java 虚拟机栈（Stack）- 大小是固定的<ol>
+<li> java 方法执行的内存模型</li>
+<li>包含多个栈帧</li>
+<li>局部变量表和操作数栈<ol>
+<li>包含方法执行过程中所有变量</li>
+<li>入栈出栈复制交换产生消费变量</li>
+<li>为什么递归会超过内存泄露？<ol>
+<li>递归过深，栈帧超过深度    </li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>本地方法栈 - 标注了 native</li>
+</ol>
+</li>
+<li> 线程共享：<ol>
+<li>MetaSpace 元空间 比 永久代 （PenGen）的优势<ol>
+<li>字符串常量池存在永久代中，容易出现性能问题和内存溢出</li>
+<li>类和方法的信息大小难以确定，给永久代的大小指定带来困难</li>
+<li>永久代会为 GC 带来不必要的复杂性</li>
+<li>方便 HotSpot 与其他 JVM 如 Jrockit 的集成</li>
+</ol>
+</li>
+<li> java 堆（Heap）<ol>
+<li>对象实例的分配区域</li>
+<li> GC 管理的主要区域（GC 管理堆）</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>JVM 三大性能调忧参数 -Xms -Xmx -Xss 的含义<ol>
+<li> java -Xms128m -Xmx128m -Xss256K -jar xxxx.jar</li>
+<li>-Xss：规定了每个线程虚拟机栈（堆栈）的大小</li>
+<li> -Xms: 堆的初始值</li>
+<li> -Xmx: 堆能达到的最大值</li>
+</ol>
+</li>
+<li>堆和栈有何区别？<ol>
+<li>内存分配策略<ol>
+<li>静态存储：编译是确定每个数据目标在运行时的存储空间需求</li>
+<li>栈式存储：数据区需求在编译时未知，运行时模块入口前确定</li>
+<li>堆式存储：编译时或运行时模块入口都无法确定。动态分配</li>
+<li>联系：引用对象，数组时，栈里定义变量保存堆中目标首地址</li>
+</ol>
+</li>
+<li>管理方式：栈自动释放 堆需要 GC</li>
+<li> 空间大小：栈比堆小</li>
+<li>碎片相关：栈产生的碎片小于堆</li>
+<li>分配方式：栈支持静态和动态分配，而堆仅支持动态分配</li>
+<li>效率：栈的效率比堆高</li>
+</ol>
+</li>
+<li> intren 方法 - 常量池 如果有就返回，没有就创建<ol>
+<li> jdk6 -    不能创建 - 如果有了就复制一个</li>
+<li> jdk6+ - 不仅引用还可以在栈里面创建引用对象 如果有了就引用一个 <figure class="highlight arduino"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">String</span> str1 = <span class="string">"aaa"</span>;</span><br><span class="line">      <span class="keyword">String</span> str2 = <span class="string">"bbb"</span>;</span><br><span class="line">      <span class="keyword">String</span> str3 = <span class="string">"aaabbb"</span>;</span><br><span class="line">      <span class="keyword">String</span> str4 = str1 + str2;</span><br><span class="line">      <span class="keyword">String</span> str5 = <span class="string">"aaa"</span> + <span class="string">"bbb"</span>;</span><br><span class="line">      System.out.<span class="built_in">println</span>(str3 == str4); <span class="comment">// false</span></span><br><span class="line">      System.out.<span class="built_in">println</span>(str3 == str4.<span class="built_in">intern</span>()); <span class="comment">// true</span></span><br><span class="line">      System.out.<span class="built_in">println</span>(str3 == str5);<span class="comment">// true</span></span><br><span class="line">str1、str2、str3、str5都是存在于常量池，</span><br><span class="line">str4由于表达式右半边有引用类型，所以str4存在于堆内存，</span><br><span class="line">而str5表达式右边没有引用类型，是纯字符串常量，就存放在了常量池里面</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>GC 垃圾回收机制</p>
+<ol>
+<li>什么是垃圾？<ol>
+<li>引用计数算法<ol>
+<li>判断对象的引用数量<ol>
+<li>通过判断对象的引用数量来决定对象是否可以被回收</li>
+<li>每个对象实例都有一个引用计数器，被引用则 + 1 完成引用则 - 1</li>
+<li> 每个引用计数为 0 的对象实例可以被当垃圾回收</li>
+<li>优点：执行效率高，程序执行受影响较小</li>
+<li>缺点：无法检测出循环引用的情况，导致内存泄露        </li>
+</ol>
+</li>
+</ol>
+</li>
+<li>可达性分析算法<ol>
+<li>通过判断对象的引用链是否可达来决定对象是否可以被回收</li>
+<li>可以作为 GC ROOT 的对象<ol>
+<li>虚拟机栈中引用的对象（栈帧中的本地变量表）</li>
+<li>方法区中的常量引用的对象</li>
+<li>方法区中的类静态属性引用对象</li>
+<li>本地方法栈中 JNI（native 方法）的引用对象</li>
+<li>活跃线程的引用对象</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>垃圾回收算法<ol>
+<li>标记 - 清除算法（Mark and Sweep）老年代<ol>
+<li>标记：从根集合进行扫描，对存活的对象进行标记</li>
+<li>清除：对堆内存从头到尾进行线性遍历，回收不可达对象内存</li>
+<li>问题：碎片化</li>
+</ol>
+</li>
+<li>复制算法（copying） - 年轻代<ol>
+<li>分为对象面和空闲面</li>
+<li>对象在对象面上创建</li>
+<li>存活的对象被从对象面复制到空闲面</li>
+<li>将对象面所有对象内存清除</li>
+<li>解决碎片化问题 - 顺序分配内存，简单高效 - 适用于对象存活率低的场景</li>
+</ol>
+</li>
+<li>标记 - 整理算法（Compacting）老年代<ol>
+<li>标记 - 清除算法改进</li>
+<li>避免内存的不连续行</li>
+<li>不用设置两块内存互换</li>
+<li>适用于存活率高的场景</li>
+</ol>
+</li>
+<li>分代收集算法（Generational Collector）<ol>
+<li>垃圾回收算法的组合拳</li>
+<li>按照对象生命周期的不同划分区域以采用不同的垃圾回收算法</li>
+<li>目的：提高 JVM 垃圾回收效率</li>
+</ol>
+</li>
+<li> GC 分类<ol>
+<li> minor GC 年轻代（早生熄灭）</li>
+<li>full GC - Major GC 老年代     </li>
+</ol>
+</li>
+<li>年轻代：8:1:1</li>
+<li>Eden 区 </li>
+<li>2 个 Survivor（存活）区</li>
+<li>年轻代进入老年代<ol>
+<li>大对象直接进入年老代</li>
+<li>长期存活的对象将进入年老代</li>
+<li>动态对象年龄判定 年龄大就进入老年代</li>
+<li>空间分配担保</li>
+</ol>
+</li>
+<li>常用调忧参数<ol>
+<li> -XX：SurvivorRatio:Eden 和 Survivor 的比值，默认 8：1</li>
+<li>-XX:NewRatio: 老年代和年轻代内存大小比例 大小有 - XMS 决定</li>
+<li> -XX:MaxTenuringThreshold <br>对象从年轻代到老年代经过 GC 次数的最大瘸值</li>
+</ol>
+</li>
+<li>触发 FULL GC<ol>
+<li> 老年代空间不足</li>
+<li>永久代空间不足</li>
+<li> CMS GC 时出现 promotion failed,concurrent mode failure</li>
+<li>minor gc 晋升到老年代的平均大小大于老年代剩余空间</li>
+<li> systen.gc () - 提醒，不能绝对控制</li>
+<li>使用 RMI 来进行 PRC 或管理 - </li>
+</ol>
+</li>
+<li>Stop -the-World<ol>
+<li>JVM 由于要执行 GC 而停止引用程序的执行</li>
+<li>任何一种 GC 算法都会发生</li>
+<li> GC 优化通过减少 Stop -the-World </li>
+</ol>
+</li>
+<li>Safepoint<ol>
+<li> 分析过程中对象引用关系不会发生变化的点</li>
+<li>产生 Safepoint 的地方：方法调用 循环跳转 异常跳转 等</li>
+<li>安全点数量得适中</li>
+</ol>
+</li>
+<li> JVM 运行模式<ol>
+<li> Server - 启动慢，稳定后 - 速度快</li>
+<li> Client - 启动快</li>
+</ol>
+</li>
+<li>年轻代收集器<ol>
+<li> Serial 收集器（-XX:+UseSerialGC ，复制算法）<ol>
+<li>单线程手机，进行垃圾收集时，必须暂停所有工作线程</li>
+<li>简单高效，Client 模式下年轻代收集器</li>
+</ol>
+</li>
+<li> ParNew 收集器（-XX:+UseParNewGC, 复制算法）<ol>
+<li>多线程收集，其余的行为，特点和 Serial 收集器一样</li>
+<li>单核执行效率不如 Serial, 在多核下执行才有优势</li>
+</ol>
+</li>
+<li> Parallel Scavenge 收集器（-XX:+UseParallelGC ，复制算法）<ol>
+<li>比起关注用户线程挺多时间，更关注系统的吞吐量</li>
+<li>在多核下执行才有优势，Server 模式下默认的年轻代收集器</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>老年代收集器<ol>
+<li> Serial Old 收集器 <br>（-XX:+UseSerialOldGC ，标记整理算法）<ol>
+<li>单线程手机，进行垃圾收集时，必须暂停所有工作线程</li>
+<li>简单高效，Client 模式下老年代收集器</li>
+</ol>
+</li>
+<li> Parallel old 收集器（-XX:+UseParallelOldGC, 标记整理算法）<ol>
+<li>多线程，吞吐量优先</li>
+</ol>
+</li>
+<li> CMS 收集器 <br>（-XX:+UseConcMarkSweepGC, 标记清除算法）<ol>
+<li>初始化标记：stop-the-world</li>
+<li> 并发标记 - 并打追索标记，程序不会停顿</li>
+<li>并发预清理：查找执行并发标记阶段从年轻代晋升到老年代的对象</li>
+<li>重新标记：暂停虚拟机，扫描 CMS 堆中的剩余对象</li>
+<li>并发清理：清理垃圾对象，程序不会停顿</li>
+<li>并发重置，重置 CMS 收集器的数据接口</li>
+</ol>
+</li>
+</ol>
+</li>
+<li> G1 收集器 <br>（-XX:+UseG1GC, 复制 + 标记整理算法）- 适用于年轻代和老年代<ol>
+<li>特点：并发和并行 分代收集 空间整合 可预测的停顿</li>
+<li>将整个 Java 堆内存划分成多个代销相等的 Region</li>
+<li> 年轻代和老年代不再物理隔离</li>
+</ol>
+</li>
+<li> finalize<ol>
+<li> 当执行 system.gc 提醒系统垃圾回收的时候 会执行到 finalize 的方法</li>
+<li>但是不是同步的。对象需要等待才能被赋值</li>
+<li> finalize 垃圾收集器将对象从内存中清除出去之前做必要的清理工作</li>
+</ol>
+</li>
+<li>强引用 软引用 弱引用 虚引用<ol>
+<li>强引用 - JVM 停止运行时被终止<ol>
+<li>最普遍的引用  new</li>
+<li> 抛出 outofmemoryerror 终止程序乜不会回收具有强引用的对象</li>
+<li>通过将对象设置为 null 来弱化引用，使其被回收</li>
+</ol>
+</li>
+<li>软引用 - 内存空间不足时终止<ol>
+<li>对象处在有用单非必须得状态</li>
+<li>只有当内存空间不足时，GC 会回收该引用的对象的内存</li>
+<li>可以用来实现高速缓存 <figure class="highlight processing"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">String</span> <span class="built_in">str</span> = <span class="keyword">new</span> <span class="keyword">String</span>(<span class="string">"abc"</span>);</span><br><span class="line">SoftReference&lt;<span class="keyword">String</span>&gt; softRef = <span class="keyword">new</span> SoftReference&lt;<span class="keyword">String</span>&gt;(<span class="built_in">str</span>);</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+</li>
+<li>弱引用 -GC 运行后终止<ol>
+<li>非必须的对象，比软引用更弱一些</li>
+<li> GC 时会被回收</li>
+<li>被回收的概率乜不大，因为 GC 线程优先级比较低</li>
+<li>适用于引用偶尔被使用且不影响垃圾收集的对象 <figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">String</span> str = <span class="keyword">new</span> <span class="keyword">String</span>(<span class="string">"abc"</span>);</span><br><span class="line"><span class="built_in">WeakReference</span>&lt;<span class="keyword">String</span>&gt; abcWeakRef = <span class="keyword">new</span> <span class="built_in">WeakReference</span>&lt;<span class="keyword">String</span>&gt;(str);</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+</li>
+<li>虚引用 - 未知<ol>
+<li>不会决定对象的生命周期</li>
+<li>任何时候都可能被回收</li>
+<li>跟踪对象被垃圾回收器回收的活动，起哨兵的作用</li>
+<li>必须和引用队列 ReferenceQueue 联合使用 <figure class="highlight arduino"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">String</span> str = <span class="keyword">new</span> <span class="built_in"><span class="keyword">String</span></span>(<span class="string">"abc"</span>);</span><br><span class="line">ReferenceQueue queue = <span class="keyword">new</span> <span class="built_in">ReferenceQueue</span>();</span><br><span class="line">PhantomReference&lt;<span class="keyword">String</span>&gt; abcWeakRef = <span class="keyword">new</span> PhantomReference&lt;<span class="keyword">String</span>&gt; (str,queue);</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>进程是资源分配的最小单位  线程是 CPU 调度的最小单位</p>
+<ol>
+<li><p>进程有独立的地址空间</p>
+</li>
+<li><p>线程在进程里面</p>
+</li>
+<li><p>start 创建一个子线程去执行</p>
+</li>
+<li><p>run 是 main 的主线程</p>
+</li>
+<li><p>Thread 是类 实现了 Runable 的接口</p>
+</li>
+<li><p>Thread 多线程 </p>
+<ol>
+<li>继承 Thread，开启使用 start </li>
+<li>runable 使用多线程 <figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">myrunable impent 接口runable	</span><br><span class="line">Thred t1 = <span class="keyword">new</span> <span class="constructor">Thread(<span class="params">myrunable</span>)</span></span><br><span class="line">t1.start<span class="literal">()</span>;</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+</li>
+<li><p>给 run 传参</p>
+<ol>
+<li>构造函数传参</li>
+<li>成员变量传参</li>
+<li>回调函数传参    </li>
+</ol>
+</li>
+<li><p>如何实现处理线程的返回值</p>
+<ol>
+<li>c 主线程等待   <figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>){</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>currentThread.sleep(<span class="number">100</span>);</span><br><span class="line">}	</span><br></pre></td></tr></tbody></table></figure></li>
+<li>使用 Thread 类的 join () 阻塞当前线程以等待子线程处理完毕 <figure class="highlight abnf"><table><tbody><tr><td class="code"><pre><span class="line">t.join()<span class="comment">;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>通过 Callable 接口实现，通过 FutureTask Or 线程池获取    </li>
+</ol>
+</li>
+<li><p>Thread 状态    </p>
+<ol>
+<li>新建（new）创建后尚未启动的线程状态</li>
+<li>运行（runable）包含 Runing 和 ready</li>
+<li> 无限等待（waiting）：不会被分配 CPU 执行时间，需要显式被唤醒<ol>
+<li>没有设置 Timeout 参数的 Object.wait () 方法</li>
+<li>没有设置 Timeout 参数的 Thread.join () 方法</li>
+<li> LockSupport.park () 方法</li>
+</ol>
+</li>
+<li>限期等待（Timed waiting） 在一定时间后会由系统自动唤醒<ol>
+<li> Thread.sleep () 方法</li>
+<li>设置 Timeout 参数的 Object.wait () 方法</li>
+<li>设置 Timeout 参数的 Thread.join () 方法</li>
+<li> LockSupport.parkNanos () 方法</li>
+<li> LockSupport.parkUntil () 方法</li>
+</ol>
+</li>
+<li>阻塞（Blocked）等待获取排它锁 </li>
+<li>结束（Terminated）已终止线程状态，线程已经结束执行</li>
+</ol>
+</li>
+<li><p> sleep 和 wait 的区别</p>
+<ol>
+<li>sleep 是 Thread 的方法，wait 是 Object 类中定义的方法</li>
+<li> sleep 方法可以在任何地方使用</li>
+<li> wait 只能在 synchronized 方法或者块中使用</li>
+<li>最本质的区别：<ol>
+<li>Thread.sllep 只会让出 cpu, 不会导致行为的改变</li>
+<li> Object.wait 不仅让出 CPU，还会释放已经占有的同步资源锁</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p> lock.notify notifyall 通知    释放已经占有的同步资源锁    </p>
+<ol>
+<li>notifyall 通知所有的处于等待池的线程全部进入锁池去竞争获取锁的机会</li>
+<li> notify 随机选取一个处于等待池的线程进入锁池去竞争获取锁的机会</li>
+</ol>
+</li>
+<li><p> yield 当前线程暗示线程调度器愿意让出 CPU 的使用权  不会影响锁    </p>
+</li>
+<li><p>中断线程</p>
+<ol>
+<li>通过调用 interrupt (), 通知线程应该中断了。<ol>
+<li>如果线程处于被阻塞状态，那么线程将立即退出被阻塞的状态，并抛出一个异常</li>
+<li>如果线程处于正常活动状态，那么会将该线程中断标志设置为 true，<br> 被设置中断标志的将继续正常运行，不受影响</li>
+</ol>
+</li>
+<li>需要被调用的线程配合中断<ol>
+<li>在正常运行任务时，经常检查本线程的中断标志位，<br> 如果被设置了中断标志就自行停止线程 - 处理异常</li>
+<li>如果线程处于正常活动状态，那么根据 true 来修改逻辑</li>
+<li>使用 thread.interrupt () 通知该结束线程了。 <figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>{</span><br><span class="line">    <span class="keyword">while</span>(!<span class="module-access"><span class="module"><span class="identifier">Thred</span>.</span></span>current<span class="constructor">Thread()</span>.is<span class="constructor">Interrupted()</span>){</span><br><span class="line"></span><br><span class="line">    }</span><br><span class="line">    。。。结束线程</span><br><span class="line">}catch(InterruptedException e){</span><br><span class="line">    。。结束线程</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>线程安全（synchronized）</p>
+<ol>
+<li>存在共享数据（临街资源）</li>
+<li>存在多条线程共同操作这些数据</li>
+<li>解决问题的根本方法<ol>
+<li>同一时刻有且仅有一个线程在操作共享数据，<br>其他线程必须等到该线程处理完数据后再对共享数据进行操作</li>
+</ol>
+</li>
+<li>互斥锁<ol>
+<li>互斥性：在同一时间只允许一个线程持有某个对象锁</li>
+<li>可见性    </li>
+</ol>
+</li>
+<li>synchronized 所的都是对象，不是代码</li>
+<li>获取对象锁： <br> - 不同对象的锁是异步的 -  同一个类的不同对象的对象锁互不干扰<ol>
+<li>同步代码块 <figure class="highlight aspectj"><table><tbody><tr><td class="code"><pre><span class="line">（  syncchronized(<span class="keyword">this</span>),</span><br><span class="line">    <span class="keyword">synchronized</span>(类实例对象)，</span><br><span class="line">    <span class="keyword">synchronized</span>()锁是小括号中的实例对象</span><br><span class="line"> ）</span><br></pre></td></tr></tbody></table></figure></li>
+<li>同步非静态方法<ol>
+<li> sysnchronized method 锁是当前对象的实例对象</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>获取类锁 - 不管 new 多个类都是同步的<ol>
+<li>同步代码块（synchronized (类.class)）, 锁是小括号中的类对象</li>
+<li>同步静态方法（synchronized static method ） 锁是当前对象的类对象</li>
+</ol>
+</li>
+<li>类锁和对象锁 互不干扰</li>
+</ol>
+</li>
+<li><p>实现 synchronized </p>
+<ol>
+<li>java 对象头<ol>
+<li> Mark world</li>
+<li>Class Metadata Address</li>
+</ol>
+</li>
+<li>Monitor</li>
+</ol>
+</li>
+<li><p>ReentrantLock 重入锁 -  设置公平性等 1.5 之后引入</p>
+<ol>
+<li>位于 java.util.concurrent.locks 包</li>
+<li>和 CountDownLatch/FutureTask/Semaphore 一样基于 AQS 实现</li>
+<li>能够实现比 synchronized 更细的粒度控制，如控制公平性，设置成 true </li>
+<li>调用 lock () 之后，必须调用 unlock () 解锁</li>
+</ol>
+</li>
+<li><p> synchronized 和 ReentrantLock 区别</p>
+<ol>
+<li>ReentrantLock 将锁对象化<ol>
+<li>判断是否有线程、或者某个特定的线程在排队等待获取锁</li>
+<li>带超时的获取锁的尝试</li>
+<li>感知到有没有成功获取锁</li>
+</ol>
+</li>
+<li> synchronized 是关键字，reentrantLock 是类</li>
+<li> reentrantlock 可以获取锁等待时间进行设置</li>
+<li> reentrantlock 可以获取各种锁的信息</li>
+<li> reentrantlock 可以灵活实现多路通知</li>
+<li>机制：sync 操作 Mark Word LOCK 调用 Unsafe 类的 park () 方法        </li>
+</ol>
+</li>
+<li><p>volitile</p>
+<ol>
+<li>只能定义在变量上 ，告诉系统变量可见性</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>总结</tag>
       </tags>
   </entry>
 </search>
