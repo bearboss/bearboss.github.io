@@ -213,7 +213,8 @@ chkconfig  --list                                                       #查看�
 </span>
 
 <span id="more"></span>
-
+<h1 id="jdbc-时差问题"><a href="#jdbc-时差问题" class="headerlink" title="jdbc 时差问题"></a>jdbc 时差问题</h1><pre><code>jdbc:mysql://127.0.0.1:3306/order?useTimezone=true&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8&amp;nullCatalogMeansCurrent=true&amp;useSSL=true
+</code></pre>
 <h1 id="设置时间默认值"><a href="#设置时间默认值" class="headerlink" title="设置时间默认值"></a>设置时间默认值</h1><pre><code>ALTER TABLE `matter_public_area`
 MODIFY COLUMN `created_at`  datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' ,
 MODIFY COLUMN `updated_at`  datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间' ,
@@ -2507,6 +2508,8 @@ sudo setenforce 0
 </blockquote>
 <p><img data-src="/images/activiti/activiti7/8.jpg"></p>
 <h1 id="动态表单"><a href="#动态表单" class="headerlink" title="动态表单"></a>动态表单</h1><p><img data-src="/images/activiti/activiti7/check.jpg"><br><img data-src="/images/activiti/activiti7/check_save.jpg"><br><img data-src="/images/activiti/activiti7/%E5%8A%A8%E6%80%81%E7%94%A8%E6%88%B7.jpg"></p>
+<pre><code><figure class="highlight maxima"><table><tbody><tr><td class="code"><pre><span class="line">FormProperty_0nsq3on-<span class="symbol">_</span>!<span class="built_in">string</span>-<span class="symbol">_</span>!姓名-<span class="symbol">_</span>!请填写姓名-<span class="symbol">_</span>!f</span><br><span class="line">FormProperty_3elor37-<span class="symbol">_</span>!long-<span class="symbol">_</span>!年龄-<span class="symbol">_</span>!无-<span class="symbol">_</span>!s</span><br><span class="line"></span><br><span class="line">FormProperty_0nsq3on-<span class="symbol">_</span>!我是八戒-<span class="symbol">_</span>!f!<span class="symbol">_</span>!FormProperty_3elor37-<span class="symbol">_</span>!男-<span class="symbol">_</span>!f</span><br><span class="line"></span><br><span class="line">FormProperty_3ei84q8-<span class="symbol">_</span>!<span class="built_in">string</span>-<span class="symbol">_</span>!悟空写死姓名-<span class="symbol">_</span>!悟空写死姓名-<span class="symbol">_</span>!f</span><br><span class="line">FormProperty_21nbr6a-<span class="symbol">_</span>!<span class="built_in">string</span>-<span class="symbol">_</span>!性别A-<span class="symbol">_</span>!FormProperty_3elor37-<span class="symbol">_</span>!f</span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
 <h1 id="高级事件"><a href="#高级事件" class="headerlink" title="高级事件"></a>高级事件</h1><p><img data-src="/images/activiti/activiti7/%E4%BA%8B%E4%BB%B6.jpg"></p>
 <p><img data-src="/images/activiti/activiti7/%E4%BA%8B%E4%BB%B62.jpg"></p>
 <p><img data-src="/images/activiti/activiti7/%E4%BB%BB%E5%8A%A1.jpg"></p>
@@ -5625,6 +5628,99 @@ OneInterceptor，TwoInterceptor 是实现 HandlerInterceptor 接口的里面的�
 </ul>
 <h1 id="来源地址"><a href="#来源地址" class="headerlink" title="来源地址"></a>来源地址</h1><blockquote>
 <p><a href="https://blog.csdn.net/qq_39188676/article/details/105346227">魅魍魉</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Activti5</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Activiti5 之整合 Activiti-UI</title>
+    <url>/2021/06/10/46-Activiti5%E4%B9%8B%E6%95%B4%E5%90%88Activiti-UI/</url>
+    <content><![CDATA[<span id="delete">
+
+<p><img data-src="/images/banner/46.jpg"></p>
+</span>
+
+<span id="more"></span>
+
+<h1 id="Activiti5之整合Activiti-UI"><a href="#Activiti5之整合Activiti-UI" class="headerlink" title="Activiti5之整合Activiti-UI"></a>Activiti5 之整合 Activiti-UI</h1><blockquote>
+<p>在上一节整合了 springboot 之后</p>
+</blockquote>
+<blockquote>
+<p>pom.xml</p>
+</blockquote>
+<pre><code><figure class="highlight dust"><table><tbody><tr><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- Activiti 流程图 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-diagram-rest<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$</span><span class="template-variable">{activiti.version}</span><span class="xml"><span class="tag">&lt;/<span class="name">version</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- Activiti 在线设计 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.activiti<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activiti-modeler<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$</span><span class="template-variable">{activiti.version}</span><span class="xml"><span class="tag">&lt;/<span class="name">version</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span></span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
+<blockquote>
+<p>拷贝 Activiti-activiti-5.22.0\modules\activiti-webapp-explorer2\src\main\webapp,<br>Activiti-activiti-5.22.0\modules\activiti-webapp-explorer2\src\main\resources\stencilset.json<br>到项目 /resources/activiti-ui </p>
+</blockquote>
+<ul>
+<li>diagram-viewer</li>
+<li>editor-app </li>
+<li>modeler.html </li>
+<li>stencilset.json</li>
+</ul>
+<blockquote>
+<p>Activiti-activiti-5.22.0\modules\activiti-modeler\src\main\java\org\activiti\rest\edit 进行拷贝</p>
+</blockquote>
+<ul>
+<li>ModelEditorJsonRestResource #渲染页面查询模型 id 相关的数据；</li>
+<li>ModelSaveRestResource #保存模型 (并不会部署);</li>
+<li>StencilsetRestResource #寻找页面汉化字体；</li>
+</ul>
+<blockquote>
+<p>修改访问路径</p>
+</blockquote>
+<pre><code><figure class="highlight tp"><table><tbody><tr><td class="code"><pre><span class="line">app-cfg.js</span><br><span class="line"></span><br><span class="line">ACTIVITI.<span class="keyword">CONFIG</span> = {</span><br><span class="line">    <span class="string">'contextRoot'</span> : <span class="string">'activiti-webapp-explorer2/service'</span>,</span><br><span class="line">};</span><br><span class="line"> </span><br><span class="line">改为 </span><br><span class="line"> </span><br><span class="line">ACTIVITI.<span class="keyword">CONFIG</span> = {</span><br><span class="line">    <span class="string">'contextRoot'</span> : <span class="string">'service'</span>,</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
+<blockquote>
+<p>拷贝的文件统一增加访问前缀 @RequestMapping (“/service”)</p>
+</blockquote>
+<blockquote>
+<p>增加入口访问 - 建一个控制器</p>
+</blockquote>
+<pre><code><figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@<span class="constructor">RequestMapping(<span class="string">"/activiti"</span>)</span></span><br><span class="line">public <span class="keyword">class</span> ActivitiController {</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建模型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    @<span class="constructor">RequestMapping(<span class="string">"/create"</span>)</span></span><br><span class="line">    public void create(HttpServletRequest request, HttpServletResponse response) {</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            ProcessEngine processEngine = <span class="module-access"><span class="module"><span class="identifier">ProcessEngines</span>.</span></span>get<span class="constructor">DefaultProcessEngine()</span>;</span><br><span class="line"></span><br><span class="line">            RepositoryService repositoryService = processEngine.get<span class="constructor">RepositoryService()</span>;</span><br><span class="line"></span><br><span class="line">            ObjectMapper objectMapper = <span class="keyword">new</span> <span class="constructor">ObjectMapper()</span>;</span><br><span class="line">            ObjectNode editorNode = objectMapper.create<span class="constructor">ObjectNode()</span>;</span><br><span class="line">            editorNode.put(<span class="string">"id"</span>, <span class="string">"canvas"</span>);</span><br><span class="line">            editorNode.put(<span class="string">"resourceId"</span>, <span class="string">"canvas"</span>);</span><br><span class="line">            ObjectNode stencilSetNode = objectMapper.create<span class="constructor">ObjectNode()</span>;</span><br><span class="line">            stencilSetNode.put(<span class="string">"namespace"</span>, <span class="string">"http://b3mn.org/stencilset/bpmn2.0#"</span>);</span><br><span class="line">            editorNode.put(<span class="string">"stencilset"</span>, stencilSetNode);</span><br><span class="line">            Model modelData = repositoryService.<span class="keyword">new</span><span class="constructor">Model()</span>;</span><br><span class="line">            </span><br><span class="line">            ObjectNode modelObjectNode = objectMapper.create<span class="constructor">ObjectNode()</span>;</span><br><span class="line">            modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, <span class="string">"创建模型"</span>);</span><br><span class="line">            modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, <span class="number">1</span>);</span><br><span class="line">            String description = <span class="string">"创建模型"</span>;</span><br><span class="line">            modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);</span><br><span class="line">            modelData.set<span class="constructor">MetaInfo(<span class="params">modelObjectNode</span>.<span class="params">toString</span>()</span>);</span><br><span class="line">            modelData.set<span class="constructor">Name(<span class="string">"创建模型"</span>)</span>;</span><br><span class="line">            modelData.set<span class="constructor">Key(<span class="string">"创建模型"</span>)</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//跳转模型前端界面</span></span><br><span class="line">            repositoryService.save<span class="constructor">Model(<span class="params">modelData</span>)</span>;</span><br><span class="line">            repositoryService.add<span class="constructor">ModelEditorSource(<span class="params">modelData</span>.<span class="params">getId</span>()</span>, editorNode.<span class="keyword">to</span><span class="constructor">String()</span>.get<span class="constructor">Bytes(<span class="string">"utf-8"</span>)</span>);</span><br><span class="line">            response.send<span class="constructor">Redirect(<span class="params">request</span>.<span class="params">getContextPath</span>()</span> + <span class="string">"/activiti-ui/modeler.html?modelId="</span> + modelData.get<span class="constructor">Id()</span>);</span><br><span class="line">        } catch (Exception e) {</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">"创建模型失败："</span>);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
+<blockquote>
+<p>如果不想用权限 </p>
+</blockquote>
+<pre><code><figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">@SpringBootApplication(exclude = {SecurityAutoConfiguration<span class="selector-class">.class</span>,</span><br><span class="line">        org<span class="selector-class">.springframework</span><span class="selector-class">.boot</span><span class="selector-class">.autoconfigure</span><span class="selector-class">.security</span><span class="selector-class">.servlet</span><span class="selector-class">.SecurityAutoConfiguration</span><span class="selector-class">.class</span></span><br><span class="line">})</span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
+<blockquote>
+<p>增加内存用户权限</p>
+</blockquote>
+<pre><code><figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public <span class="keyword">class</span> SpringSecuityConfiguration {</span><br><span class="line">    <span class="keyword">private</span> Logger logger = <span class="module-access"><span class="module"><span class="identifier">LoggerFactory</span>.</span></span>get<span class="constructor">Logger(SpringSecuityConfiguration.<span class="params">class</span>)</span>;</span><br><span class="line">    @Bean</span><br><span class="line">    public UserDetailsService my<span class="constructor">UserDetailsService()</span> {</span><br><span class="line">        InMemoryUserDetailsManager inMemoryUserDetailsManager = <span class="keyword">new</span> <span class="constructor">InMemoryUserDetailsManager()</span>;</span><br><span class="line">        String<span class="literal">[]</span><span class="literal">[]</span> usersGroupsAndRoles = {</span><br><span class="line">                {<span class="string">"bob"</span>, <span class="string">"test"</span>, <span class="string">"ROLE_ACTIVITI_USER"</span>, <span class="string">"GROUP_activitiTeam"</span>},</span><br><span class="line">                {<span class="string">"bajie"</span>, <span class="string">"test"</span>, <span class="string">"ROLE_ACTIVITI_USER"</span>, <span class="string">"GROUP_activitiTeam"</span>},</span><br><span class="line">                {<span class="string">"wukong"</span>, <span class="string">"test"</span>, <span class="string">"ROLE_ACTIVITI_USER"</span>, <span class="string">"GROUP_activitiTeam"</span>},</span><br><span class="line">                {<span class="string">"other"</span>, <span class="string">"test"</span>, <span class="string">"ROLE_ACTIVITI_USER"</span>, <span class="string">"GROUP_otherTeam"</span>},</span><br><span class="line">                {<span class="string">"system"</span>, <span class="string">"test"</span>, <span class="string">"ROLE_ACTIVITI_USER"</span>},</span><br><span class="line">                {<span class="string">"admin"</span>, <span class="string">"test"</span>, <span class="string">"ROLE_ACTIVITI_ADMIN"</span>},</span><br><span class="line">        };</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String<span class="literal">[]</span> user : usersGroupsAndRoles) {</span><br><span class="line">            List&lt;String&gt; authoritiesStrings = <span class="keyword">as</span><span class="constructor">List(Arrays.<span class="params">copyOfRange</span>(<span class="params">user</span>, 2, <span class="params">user</span>.<span class="params">length</span>)</span>);</span><br><span class="line">            logger.info(<span class="string">"&gt; Registering new user: "</span> + user<span class="literal">[<span class="number">0</span>]</span> + <span class="string">" with the following Authorities["</span> + authoritiesStrings + <span class="string">"]"</span>);</span><br><span class="line">            inMemoryUserDetailsManager.create<span class="constructor">User(<span class="params">new</span> User(<span class="params">user</span>[0], <span class="params">passwordEncoder</span>()</span>.encode(user<span class="literal">[<span class="number">1</span>]</span>),</span><br><span class="line">                    authoritiesStrings.stream<span class="literal">()</span>.map(s -&gt; <span class="keyword">new</span> <span class="constructor">SimpleGrantedAuthority(<span class="params">s</span>)</span>).collect(<span class="module-access"><span class="module"><span class="identifier">Collectors</span>.</span></span><span class="keyword">to</span><span class="constructor">List()</span>)));</span><br><span class="line">        }</span><br><span class="line">        return inMemoryUserDetailsManager;</span><br><span class="line">    }</span><br><span class="line">    @Bean</span><br><span class="line">    public PasswordEncoder password<span class="constructor">Encoder()</span> {</span><br><span class="line">        return <span class="keyword">new</span> <span class="constructor">BCryptPasswordEncoder()</span>;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
+<blockquote>
+<p>增加数据库用户权限</p>
+</blockquote>
+<pre><code><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUserDetailsService</span> <span class="keyword">implements</span> <span class="title">UserDetailsService</span> </span>{</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    UserInfoBeanMapper userInfoBeanMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDetails <span class="title">loadUserByUsername</span><span class="params">(String username)</span> <span class="keyword">throws</span> UsernameNotFoundException </span>{</span><br><span class="line"><span class="comment">//      String password = passwordEncoder().encode("test");</span></span><br><span class="line"><span class="comment">//      return new User(username, password,</span></span><br><span class="line"><span class="comment">//      AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ACTIVITI_USER"));</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//读取数据库判断用户</span></span><br><span class="line">        UserInfoBean userInfoBean = userInfoBeanMapper.selectByUserName(username);</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(userInfoBean)) {</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UsernameNotFoundException(<span class="string">"数据库中无此用户"</span>);</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//如果用户是null抛出异常</span></span><br><span class="line">        <span class="comment">//返回异常</span></span><br><span class="line">        <span class="keyword">return</span> userInfoBean;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PasswordEncoder <span class="title">passwordEncoder</span><span class="params">()</span> </span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BCryptPasswordEncoder();</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</code></pre>
+<blockquote>
+<p>增加额外的功能 - 比如自动保存模型并发布</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>在 ModelSaveRestResource 方法中进行改造，前端传来标识，只保存还是保存并发布</p>
+</blockquote>
+</blockquote>
+<figure class="highlight reasonml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="string">"true"</span>.equals(check)){</span><br><span class="line">       <span class="comment">//发布模型</span></span><br><span class="line">       ObjectNode modelNode = (ObjectNode) <span class="keyword">new</span> <span class="constructor">ObjectMapper()</span></span><br><span class="line">               .read<span class="constructor">Tree(<span class="params">repositoryService</span>.<span class="params">getModelEditorSource</span>(<span class="params">model</span>.<span class="params">getId</span>()</span>));</span><br><span class="line">       byte<span class="literal">[]</span> bpmnBytes = null;</span><br><span class="line"></span><br><span class="line">       BpmnModel bpmnModel = <span class="keyword">new</span> <span class="constructor">BpmnJsonConverter()</span>.convert<span class="constructor">ToBpmnModel(<span class="params">modelNode</span>)</span>;</span><br><span class="line">       bpmnBytes = <span class="keyword">new</span> <span class="constructor">BpmnXMLConverter()</span>.convert<span class="constructor">ToXML(<span class="params">bpmnModel</span>)</span>;</span><br><span class="line">       String processName = model.get<span class="constructor">Name()</span> + <span class="string">".bpmn"</span>;</span><br><span class="line">       Deployment deployment = repositoryService.create<span class="constructor">Deployment()</span></span><br><span class="line">               .name(model.get<span class="constructor">Name()</span>).add<span class="constructor">String(<span class="params">processName</span>, <span class="params">new</span> String(<span class="params">bpmnBytes</span>,<span class="string">"UTF-8"</span>)</span>)</span><br><span class="line">               .deploy<span class="literal">()</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>typeError: Cannot read property ‘namespace’ of undefined 分析：可能是如下原因引起的</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>spring boot 默认使用 jackson 作为解析 json 框架，如果配置使用阿里的 fastjson 的话，Activiti modoler 会显示出问题</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>解决方案：使用默认的 jackson 即可</p>
+</blockquote>
 </blockquote>
 ]]></content>
       <categories>
